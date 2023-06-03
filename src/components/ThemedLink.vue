@@ -2,7 +2,6 @@
   <a
     :href="href"
     target="_blank"
-    rel="noopener"
     class="themed-link"
     :class="external ? 'd-flex align-center' : null"
   >

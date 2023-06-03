@@ -20,7 +20,7 @@
       />
 
       <v-divider vertical inset />
-      <a href="https://www.facebook.com/aclyra" class="mx-4">
+      <a href="https://www.facebook.com/aclyra" target="_blank" class="mx-4">
         <v-icon>mdi-facebook</v-icon>
       </a>
     </template>
