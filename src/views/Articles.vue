@@ -1,15 +1,13 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col
-        :cols="cols"
-        v-for="blogArticle in blogArticles"
-        :key="blogArticle.id"
-      >
-        <article-intro v-bind="blogArticle" />
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-row>
+    <v-col
+      :cols="cols"
+      v-for="blogArticle in blogArticles"
+      :key="blogArticle.id"
+    >
+      <article-intro v-bind="blogArticle" />
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts" setup>

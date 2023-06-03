@@ -44,7 +44,12 @@
           Registratie door club
         </div>
         <v-list-item-action class="mt-2">
-          <v-btn variant="outlined" color="primary" :href="upcomingEvent.link">
+          <v-btn
+            variant="outlined"
+            color="primary"
+            block
+            :href="upcomingEvent.link"
+          >
             {{ upcomingEvent.linkText }}
           </v-btn>
         </v-list-item-action>
