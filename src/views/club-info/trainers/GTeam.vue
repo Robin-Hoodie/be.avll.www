@@ -1,0 +1,1 @@
+<template>G-team</template>
