@@ -49,3 +49,9 @@ export interface Contest extends StrapiModel {
   scheduleLink?: string;
   websiteLink?: string;
 }
+
+export interface Result extends StrapiModel {
+  title: string;
+  date: string;
+  link: string;
+}

@@ -9,6 +9,7 @@ import {
   Sponsor,
   UpcomingEvent,
   Contest,
+  Result,
 } from "@/types";
 
 function responseInterceptorStrapi(response: AxiosResponse) {
@@ -117,4 +118,8 @@ export function getUpcomingEvents() {
 
 export function getContests() {
   return axiosInstanceStrapi.get<Contest[], Contest[]>("/contests?sort=date");
+}
+
+export function getResults() {
+  return axiosInstanceStrapi.get<Result[], Result[]>("/results?sort=date");
 }
