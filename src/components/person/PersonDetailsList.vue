@@ -12,7 +12,7 @@
 import { computed } from "vue";
 import { useDisplay } from "vuetify";
 import { Person } from "@/types";
-import PersonDetails from "@/components/PersonDetails.vue";
+import PersonDetails from "@/components/person/PersonDetails.vue";
 
 defineProps<{ people: Person[] }>();
 

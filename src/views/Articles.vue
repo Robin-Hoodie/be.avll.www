@@ -17,7 +17,7 @@ import { onMounted, ref, computed } from "vue";
 import { useDisplay } from "vuetify";
 import { getBlogArticles } from "@/strapi";
 import { Article } from "@/types";
-import ArticleIntro from "@/components/ArticleIntro.vue";
+import ArticleIntro from "@/components/article/ArticleIntro.vue";
 
 const blogArticles = ref<Article[]>([]);
 

@@ -6,7 +6,7 @@
 import { getContests } from "@/strapi";
 import { Contest } from "@/types";
 import { onMounted, ref } from "vue";
-import ContestTable from "@/components/ContestTable.vue";
+import ContestTable from "@/components/contest/ContestTable.vue";
 
 const contests = ref<Contest[]>([]);
 
