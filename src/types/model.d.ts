@@ -41,3 +41,11 @@ export interface UpcomingEvent extends StrapiModel {
   registrationFinalDate?: string;
   registrationByClub: boolean;
 }
+
+export interface Contest extends StrapiModel {
+  title: string;
+  date: string;
+  registrationLink?: string;
+  scheduleLink?: string;
+  websiteLink?: string;
+}

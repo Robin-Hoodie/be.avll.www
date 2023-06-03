@@ -7,7 +7,7 @@
     />
     <v-app-bar-title
       ><router-link to="/" class="home-link font-weight-bold"
-        >AC Lyra
+        >AV Lyra-Lierse
       </router-link>
     </v-app-bar-title>
     <template v-if="!smAndDown" #append>
@@ -123,20 +123,20 @@ const links = [
     children: [
       {
         title: "Jeugd",
-        to: "/athletes/jeugd",
+        to: "/atleten/jeugd",
       },
       {
         title: "Vanaf Cadet",
-        to: "/athletes/vanaf-cadet",
+        to: "/atleten/vanaf-cadet",
       },
       {
         title: "G-team",
-        to: "/athletes/g-team"
+        to: "/atleten/g-team",
       },
       {
         title: "Records",
-        to: "/athletes/records"
-      }
+        to: "/atleten/records",
+      },
     ],
   },
 ];

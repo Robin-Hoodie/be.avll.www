@@ -35,19 +35,19 @@
         </div>
         <div v-if="mobilePhone">
           <v-icon class="pr-2">mdi-phone</v-icon>
-          <a :href="`tel:${mobilePhone}`" class="primary-link">
-            {{ formatPhone(mobilePhone, "mobile") }}</a
+          <themed-link :href="`tel:${mobilePhone}`">
+            {{ formatPhone(mobilePhone, "mobile") }}</themed-link
           >
         </div>
         <div v-if="landlinePhone">
           <v-icon class="pr-2">mdi-phone</v-icon>
-          <a :href="`tel:${landlinePhone}`" class="primary-link">{{
+          <themed-link :href="`tel:${landlinePhone}`">{{
             formatPhone(landlinePhone, "home")
-          }}</a>
+          }}</themed-link>
         </div>
         <div v-if="email">
           <v-icon class="pr-2">mdi-email</v-icon>
-          <a :href="`mailto:${email}`" class="primary-link">{{ email }}</a>
+          <themed-link :href="`mailto:${email}`">{{ email }}</themed-link>
         </div>
       </div>
     </v-card-text>
@@ -56,6 +56,7 @@
 
 <script setup lang="ts">
 import { Person } from "@/types";
+import ThemedLink from "@/components/ThemedLink.vue";
 
 defineProps<Person>();
 
@@ -78,9 +79,3 @@ function formatPhone(phone: string, type: "mobile" | "home") {
   return phone;
 }
 </script>
-
-<style scoped>
-.primary-link {
-  color: rgb(var(--v-theme-primary));
-}
-</style>

@@ -8,6 +8,7 @@ import {
   StrapiSingleResponse,
   Sponsor,
   UpcomingEvent,
+  Contest,
 } from "@/types";
 
 function responseInterceptorStrapi(response: AxiosResponse) {
@@ -104,12 +105,16 @@ export function getBlogArticle(id: number | string) {
 
 export function getSponsors() {
   return axiosInstanceStrapi.get<Sponsor[], Sponsor[]>(
-    `/sponsors?populate[0]=picture`
+    "/sponsors?populate[0]=picture"
   );
 }
 
 export function getUpcomingEvents() {
   return axiosInstanceStrapi.get<UpcomingEvent[], UpcomingEvent[]>(
-    `/upcoming-events?sort=date`
+    "/upcoming-events?sort=date"
   );
+}
+
+export function getContests() {
+  return axiosInstanceStrapi.get<Contest[], Contest[]>("/contests?sort=date");
 }
