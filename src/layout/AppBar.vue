@@ -116,6 +116,29 @@ const links = [
       },
     ],
   },
+  {
+    title: "Atleten",
+    value: "athletes",
+    icon: "mdi-torch",
+    children: [
+      {
+        title: "Jeugd",
+        to: "/athletes/jeugd",
+      },
+      {
+        title: "Vanaf Cadet",
+        to: "/athletes/vanaf-cadet",
+      },
+      {
+        title: "G-team",
+        to: "/athletes/g-team"
+      },
+      {
+        title: "Records",
+        to: "/athletes/records"
+      }
+    ],
+  },
 ];
 </script>
 

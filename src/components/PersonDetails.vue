@@ -2,7 +2,7 @@
   <v-card :elevation="5" rounded>
     <v-card-title class="d-flex align-center">
       <v-avatar color="primary" size="x-small" class="mr-2">
-        <v-icon size="xs">mdi-face-man-profile</v-icon>
+        <v-icon size="x-small">mdi-account-tie</v-icon>
       </v-avatar>
       <span>
         {{ name }}
@@ -28,6 +28,7 @@
             </div>
             <div v-if="addressPlace">
               <span v-if="addressZip">{{ addressZip }}</span>
+              {{ " " }}
               <span>{{ addressPlace }}</span>
             </div>
           </div>

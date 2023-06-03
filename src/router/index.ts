@@ -125,6 +125,43 @@ const routes: Readonly<RouteRecordRaw[]> = [
       },
     ],
   },
+  {
+    path: "/atleten",
+    children: [
+      {
+        path: "",
+        redirect: "/atleten/jeugd",
+      },
+      {
+        path: "jeugd",
+        component: () =>
+          import(
+            /* webpackChunkName: "athletes" */ "@/views/athletes/Youth.vue"
+          ),
+      },
+      {
+        path: "vanaf-cadet",
+        component: () =>
+          import(
+            /* webpackChunkName: "athletes" */ "@/views/athletes/Cadets.vue"
+          ),
+      },
+      {
+        path: "g-team",
+        component: () =>
+          import(
+            /* webpackChunkName: "athletes" */ "@/views/athletes/GTeam.vue"
+          ),
+      },
+      {
+        path: "records",
+        component: () =>
+          import(
+            /* webpackChunkName: "athletes" */ "@/views/athletes/Records.vue"
+          ),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({
