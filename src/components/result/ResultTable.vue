@@ -12,7 +12,9 @@
         <td>{{ formatDateFull(result.date) }}</td>
         <td>{{ result.title }}</td>
         <td>
-          <themed-link :href="result.link" external>Resultaat</themed-link>
+          <themed-link :href="result.link" external>{{
+            result.link
+          }}</themed-link>
         </td>
       </tr>
     </tbody>

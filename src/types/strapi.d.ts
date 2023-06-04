@@ -6,7 +6,7 @@ export interface StrapiSingleResponse<T = any> {
   data: StrapiEntry<T>;
 }
 
-export interface Image {
+export interface File {
   alternativeText: string | null;
   caption: string | null;
   createdAt: string;
@@ -25,8 +25,8 @@ export interface Image {
   width: number;
 }
 
-export interface StrapiImage {
-  data: StrapiEntry<Image>;
+export interface StrapiFile {
+  data: StrapiEntry<File>;
 }
 
 interface StrapiEntry<T> {

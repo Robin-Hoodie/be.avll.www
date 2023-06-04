@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup generic="T extends {date: string}">
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import dayjs from "dayjs";
 
 const props = defineProps<{ list: T[] }>();
@@ -36,7 +36,6 @@ const years = computed(() =>
     .sort((yearOne, yearTwo) => Number(yearTwo) - Number(yearOne))
     .map(Number)
 );
-const activeTab = ref<number | null>(null);
 
-watch(years, (yearsNew) => (activeTab.value = yearsNew[0]));
+const activeTab = ref<number | null>(years.value[0]);
 </script>

@@ -19,5 +19,8 @@ withDefaults(defineProps<{ href: string; external?: boolean }>(), {
 <style scoped>
 .themed-link {
   color: rgb(var(--v-theme-primary));
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 </style>

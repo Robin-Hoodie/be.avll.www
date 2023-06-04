@@ -1,4 +1,4 @@
-import { Image } from "./strapi";
+import { File } from "./strapi";
 
 interface StrapiModel {
   id: number;
@@ -11,25 +11,25 @@ interface StrapiModel {
 export interface Person extends StrapiModel {
   title: string;
   name: string;
-  mobilePhone?: string;
-  landlinePhone?: string;
-  email?: string;
-  portraitPhoto?: Image;
-  addressStreet?: string;
-  addressZip?: string;
-  addressPlace?: string;
+  mobilePhone: string | null;
+  landlinePhone: string | null;
+  email: string | null;
+  portraitPhoto: File | null;
+  addressStreet: string | null;
+  addressZip: string | null;
+  addressPlace: string | null;
 }
 
 export interface Article extends StrapiModel {
   title: string;
   content: string;
-  location?: string;
-  coverPhoto?: Image;
+  location: string | null;
+  coverPhoto: File | null;
 }
 
 export interface Sponsor extends StrapiModel {
   link: string;
-  picture: Image;
+  picture: File;
 }
 
 export interface UpcomingEvent extends StrapiModel {
@@ -38,20 +38,26 @@ export interface UpcomingEvent extends StrapiModel {
   title: string;
   date: string;
   location: String;
-  registrationFinalDate?: string;
+  registrationFinalDate: string | null;
   registrationByClub: boolean;
 }
 
 export interface Contest extends StrapiModel {
   title: string;
   date: string;
-  registrationLink?: string;
-  scheduleLink?: string;
-  websiteLink?: string;
+  registrationLink: string | null;
+  scheduleLink: string | null;
+  websiteLink: string | null;
 }
 
 export interface Result extends StrapiModel {
   title: string;
   date: string;
   link: string;
+}
+
+export interface CalendarLink extends StrapiModel {
+  description: string;
+  link: string | null;
+  file: File | null;
 }

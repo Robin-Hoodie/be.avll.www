@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { BASE_URL_STRAPI } from "@/env";
 import {
-  StrapiImage,
+  StrapiFile,
   Person,
   StrapiCollectionResponse,
   Article,
@@ -10,13 +10,14 @@ import {
   UpcomingEvent,
   Contest,
   Result,
+  CalendarLink,
 } from "@/types";
 
 function responseInterceptorStrapi(response: AxiosResponse) {
   return response.data;
 }
 
-function isImageAttribute(value: unknown): value is StrapiImage {
+function isFileAttribute(value: unknown): value is StrapiFile {
   return typeof value === "object" && value !== null && "data" in value;
 }
 
@@ -27,18 +28,21 @@ function isRichContentAttribute(value: unknown): value is string {
 function processAttributes(attributes: Record<string, unknown>) {
   return Object.entries(attributes).reduce(
     (processedAttributesAcc, [key, value]) => {
-      if (isImageAttribute(value)) {
-        if (value.data) {
-          const { url, ...imageAttributes } = value.data.attributes;
+      if (isFileAttribute(value)) {
+        if (value.data === null) {
           return {
             ...processedAttributesAcc,
-            [key]: {
-              ...imageAttributes,
-              url: `${BASE_URL_STRAPI}${url}`,
-            },
+            [key]: null,
           };
         }
-        return processedAttributesAcc;
+        const { url, ...imageAttributes } = value.data.attributes;
+        return {
+          ...processedAttributesAcc,
+          [key]: {
+            ...imageAttributes,
+            url: `${BASE_URL_STRAPI}${url}`,
+          },
+        };
       }
       if (isRichContentAttribute(value)) {
         return {
@@ -122,4 +126,10 @@ export function getContests() {
 
 export function getResults() {
   return axiosInstanceStrapi.get<Result[], Result[]>("/results?sort=date");
+}
+
+export function getCalendarLinks() {
+  return axiosInstanceStrapi.get<CalendarLink[], CalendarLink[]>(
+    "/calendar-links?populate[0]=file"
+  );
 }
