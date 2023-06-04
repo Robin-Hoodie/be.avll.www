@@ -13,6 +13,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
   },
   {
     path: "/artikels/:id",
+    props: true,
     component: () =>
       import(/* webpackChunkName: "articles" */ "@/views/articles/Article.vue"),
   },

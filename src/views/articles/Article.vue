@@ -3,16 +3,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { ref } from "vue";
 import { getBlogArticle } from "@/strapi";
 import { Article } from "@/types";
 import ArticleFull from "@/components/article/ArticleFull.vue";
+import { useLoading } from "@/composables/useLoading";
 
-const route = useRoute();
+const props = defineProps<{ id: string }>();
 const article = ref<Article | null>(null);
 
-onMounted(async () => {
-  article.value = await getBlogArticle(route.params.id as string);
-});
+useLoading(async () => (article.value = await getBlogArticle(props.id)));
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row v-if="blogArticles">
     <v-col
       :cols="cols"
       v-for="blogArticle in blogArticles"
@@ -11,15 +11,16 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, computed } from "vue";
+import { computed, ref } from "vue";
 import { useDisplay } from "vuetify";
 import { getBlogArticles } from "@/strapi";
-import { Article } from "@/types";
 import ArticleIntro from "@/components/article/ArticleIntro.vue";
+import { useLoading } from "@/composables/useLoading";
+import { Article } from "@/types";
 
-const blogArticles = ref<Article[]>([]);
+const blogArticles = ref<Article[] | null>(null);
 
-onMounted(async () => (blogArticles.value = await getBlogArticles()));
+useLoading(async () => (blogArticles.value = await getBlogArticles()));
 
 const { mdAndDown, xxl } = useDisplay();
 

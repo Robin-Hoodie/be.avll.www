@@ -1,17 +1,18 @@
 <template>
-  <tabs-per-year :list="contests" v-slot="slotProps">
+  <tabs-per-year v-if="contests" :list="contests" v-slot="slotProps">
     <contest-table :contests="slotProps.listForYear" />
   </tabs-per-year>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { getContests } from "@/strapi";
 import { Contest } from "@/types";
 import TabsPerYear from "@/components/TabsPerYear.vue";
 import ContestTable from "@/components/contest/ContestTable.vue";
+import { useLoading } from "@/composables/useLoading";
 
-const contests = ref<Contest[]>([]);
+const contests = ref<Contest[] | null>(null);
 
-onMounted(async () => (contests.value = await getContests()));
+useLoading(async () => (contests.value = await getContests()));
 </script>
