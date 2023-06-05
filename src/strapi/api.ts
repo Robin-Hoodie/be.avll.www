@@ -11,6 +11,7 @@ import {
   Contest,
   Result,
   CalendarLink,
+  BlogLink,
 } from "@/types";
 
 function responseInterceptorStrapi(response: AxiosResponse) {
@@ -132,4 +133,8 @@ export function getCalendarLinks() {
   return axiosInstanceStrapi.get<CalendarLink[], CalendarLink[]>(
     "/calendar-links?populate[0]=file"
   );
+}
+
+export function getBlogLink() {
+  return axiosInstanceStrapi.get<BlogLink, BlogLink>("/blog-link");
 }

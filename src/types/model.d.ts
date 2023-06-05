@@ -61,3 +61,8 @@ export interface CalendarLink extends StrapiModel {
   link: string | null;
   file: File | null;
 }
+
+export interface BlogLink extends StrapiModel {
+  description: string;
+  link: string;
+}
