@@ -6,7 +6,7 @@
       @click="toggleNavigationDrawer"
     />
     <v-app-bar-title
-      ><router-link to="/" class="home-link font-weight-bold"
+      ><router-link to="/" class="home-link text-primary font-weight-bold"
         >AV Lyra-Lierse
       </router-link>
     </v-app-bar-title>
@@ -144,7 +144,6 @@ const links = [
 
 <style scoped>
 .home-link {
-  color: rgb(var(--v-theme-primary));
   text-decoration-line: none;
 }
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <page-header>Artikels</page-header>
   <v-row v-if="blogArticles">
     <v-col
       :cols="cols"
@@ -15,6 +16,7 @@ import { computed, ref } from "vue";
 import { useDisplay } from "vuetify";
 import { getBlogArticles } from "@/strapi";
 import ArticleIntro from "@/components/article/ArticleIntro.vue";
+import PageHeader from "@/components/PageHeader.vue";
 import { useLoading } from "@/composables/useLoading";
 import { Article } from "@/types";
 

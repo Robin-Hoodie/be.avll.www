@@ -2,7 +2,7 @@
   <a
     :href="href"
     target="_blank"
-    class="themed-link"
+    class="text-primary themed-link"
     :class="external ? 'd-flex align-center' : null"
   >
     <slot />
@@ -18,7 +18,6 @@ withDefaults(defineProps<{ href: string; external?: boolean }>(), {
 
 <style scoped>
 .themed-link {
-  color: rgb(var(--v-theme-primary));
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;

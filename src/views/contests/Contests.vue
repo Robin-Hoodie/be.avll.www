@@ -1,4 +1,5 @@
 <template>
+  <page-header>Onze organisaties</page-header>
   <tabs-per-year v-if="contests" :list="contests" v-slot="slotProps">
     <contest-table :contests="slotProps.listForYear" />
   </tabs-per-year>
@@ -10,6 +11,7 @@ import { getContests } from "@/strapi";
 import { Contest } from "@/types";
 import TabsPerYear from "@/components/TabsPerYear.vue";
 import ContestTable from "@/components/contest/ContestTable.vue";
+import PageHeader from "@/components/PageHeader.vue";
 import { useLoading } from "@/composables/useLoading";
 
 const contests = ref<Contest[] | null>(null);

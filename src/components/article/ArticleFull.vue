@@ -1,7 +1,7 @@
 <template>
-  <v-sheet class="ma-16 pa-8" rounded :elevation="3">
+  <page-header>{{ article.title }}</page-header>
+  <v-sheet class="pa-8" rounded :elevation="3">
     <article>
-      <h1>{{ article.title }}</h1>
       <v-img
         v-if="article.coverPhoto"
         :src="article.coverPhoto.url"
@@ -30,6 +30,7 @@
 import VueMarkdown from "vue-markdown-render";
 import { Article } from "@/types";
 import { formatDateFull } from "@/utils";
+import PageHeader from "@/components/PageHeader.vue";
 
 const props = withDefaults(
   defineProps<{ article: Article; hideSubtitle?: boolean }>(),
