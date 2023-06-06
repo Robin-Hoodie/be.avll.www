@@ -56,15 +56,11 @@ export interface Result extends StrapiModel {
   link: string;
 }
 
-export interface CalendarLink extends StrapiModel {
+export interface FooterLink extends StrapiModel {
   description: string;
   link: string | null;
   file: File | null;
-}
-
-export interface BlogLink extends StrapiModel {
-  description: string;
-  link: string;
+  icon: string | null;
 }
 
 export interface RegistrationPage extends StrapiModel {

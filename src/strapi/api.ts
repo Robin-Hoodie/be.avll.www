@@ -10,8 +10,7 @@ import {
   UpcomingEvent,
   Contest,
   Result,
-  CalendarLink,
-  BlogLink,
+  FooterLink,
   RegistrationPage,
 } from "@/types";
 
@@ -130,14 +129,10 @@ export function getResults() {
   return axiosInstanceStrapi.get<Result[], Result[]>("/results?sort=date");
 }
 
-export function getCalendarLinks() {
-  return axiosInstanceStrapi.get<CalendarLink[], CalendarLink[]>(
-    "/calendar-links?populate[0]=file"
+export function getFooterLinks() {
+  return axiosInstanceStrapi.get<FooterLink[], FooterLink[]>(
+    "/footer-links?populate[0]=file"
   );
-}
-
-export function getBlogLink() {
-  return axiosInstanceStrapi.get<BlogLink, BlogLink>("/blog-link");
 }
 
 export function getRegistrationPage() {
