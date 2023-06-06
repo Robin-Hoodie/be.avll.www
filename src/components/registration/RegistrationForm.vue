@@ -72,9 +72,11 @@
     <v-btn type="submit" color="primary" class="mt-2">Registreren</v-btn>
   </v-form>
   <v-snackbar v-model="isFormSubmittedMessageVisible">
-    Het formulier is succesvol verzonden
+    {{ registrationSubmittedMessage }}
     <template #actions>
-      <v-btn variant="text" @click="closeFormSubmittedMessage">Sluit</v-btn>
+      <v-btn variant="text" @click="closeFormSubmittedMessage">{{
+        registrationSubmittedCloseButtonText
+      }}</v-btn>
     </template>
   </v-snackbar>
 </template>
@@ -82,7 +84,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { SubmitEventPromise } from "vuetify";
-import { RegistrationInitial } from "@/types";
+import { RegistrationInitial, RegistrationPage } from "@/types";
 import { categoryOptions } from "@/components/registration/registration-options";
 import RequiredLabel from "@/components/form/RequiredLabel.vue";
 import {
@@ -97,6 +99,8 @@ import {
   bestPerformanceRules,
 } from "@/components/registration/registration-rules";
 
+defineProps<RegistrationPage>();
+
 const registration = reactive<RegistrationInitial>({
   event: "",
   name: "",
@@ -110,7 +114,7 @@ const registration = reactive<RegistrationInitial>({
   comment: "",
 });
 
-const isFormSubmittedMessageVisible = ref(true);
+const isFormSubmittedMessageVisible = ref(false);
 
 function closeFormSubmittedMessage() {
   isFormSubmittedMessageVisible.value = false;

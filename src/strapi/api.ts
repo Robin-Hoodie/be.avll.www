@@ -12,6 +12,7 @@ import {
   Result,
   CalendarLink,
   BlogLink,
+  RegistrationPage,
 } from "@/types";
 
 function responseInterceptorStrapi(response: AxiosResponse) {
@@ -137,4 +138,10 @@ export function getCalendarLinks() {
 
 export function getBlogLink() {
   return axiosInstanceStrapi.get<BlogLink, BlogLink>("/blog-link");
+}
+
+export function getRegistrationPage() {
+  return axiosInstanceStrapi.get<RegistrationPage, RegistrationPage>(
+    "/registration-page"
+  );
 }

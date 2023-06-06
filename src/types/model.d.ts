@@ -67,6 +67,13 @@ export interface BlogLink extends StrapiModel {
   link: string;
 }
 
+export interface RegistrationPage extends StrapiModel {
+  introText: string;
+  privacyStatement: string;
+  registrationSubmittedMessage: string;
+  registrationSubmittedCloseButtonText: string;
+}
+
 export type Category =
   | "Benjamins"
   | "Pupillen"
