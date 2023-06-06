@@ -66,3 +66,32 @@ export interface BlogLink extends StrapiModel {
   description: string;
   link: string;
 }
+
+export type Category =
+  | "Benjamins"
+  | "Pupillen"
+  | "Miniemen"
+  | "Kadetten"
+  | "Scholieren"
+  | "Juniors"
+  | "Seniors"
+  | "Masters";
+
+export interface Registration {
+  event: string;
+  name: string;
+  email: string;
+  gender: "male" | "female";
+  birthYear: string;
+  category: Category;
+  valNumber: string;
+  discipline: string;
+  bestPerformance: string;
+  comment: string;
+}
+
+export interface RegistrationInitial
+  extends Omit<Registration, "gender" | "category"> {
+  gender: null;
+  category: null;
+}
