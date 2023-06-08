@@ -23,6 +23,9 @@
       <a href="https://www.facebook.com/aclyra" target="_blank" class="mx-4">
         <v-icon>mdi-facebook</v-icon>
       </a>
+      <a href="http://178.128.240.121:1337/admin" target="_blank" class="mr-4">
+        <v-icon>mdi-shield-crown</v-icon>
+      </a>
     </template>
   </v-app-bar>
   <v-navigation-drawer v-if="smAndDown" v-model="isDrawerOpen">
