@@ -70,6 +70,22 @@ export interface RegistrationPage extends StrapiModel {
   registrationSubmittedCloseButtonText: string;
 }
 
+export interface Training extends StrapiModel {
+  day:
+    | "Maandag"
+    | "Dinsdag"
+    | "Woensdag"
+    | "Donderdag"
+    | "Vrijdag"
+    | "Zaterdag"
+    | "Zondag";
+  startTime: string;
+  endTime: string;
+  place: string;
+  type: "youth" | "fromCadet" | "gTeam" | "joggers";
+  comment: string | null;
+}
+
 export type Category =
   | "Benjamins"
   | "Pupillen"

@@ -37,5 +37,5 @@ const years = computed(() =>
     .map(Number)
 );
 
-const activeTab = ref<number | null>(years.value[0]);
+const activeTab = ref(years.value[0]);
 </script>

@@ -98,6 +98,14 @@ const links = [
         title: "Officiëlen",
         to: "/club-info/officielen",
       },
+      {
+        title: "Trainers",
+        to: "/club-info/trainers",
+      },
+      {
+        title: "Trainingen",
+        to: "/club-info/trainingen",
+      },
     ],
   },
   {

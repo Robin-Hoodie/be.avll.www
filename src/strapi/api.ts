@@ -12,6 +12,7 @@ import {
   Result,
   FooterLink,
   RegistrationPage,
+  Training,
 } from "@/types";
 
 function responseInterceptorStrapi(response: AxiosResponse) {
@@ -139,4 +140,8 @@ export function getRegistrationPage() {
   return axiosInstanceStrapi.get<RegistrationPage, RegistrationPage>(
     "/registration-page"
   );
+}
+
+export function getTrainings() {
+  return axiosInstanceStrapi.get<Training[], Training[]>("/trainings");
 }
