@@ -2,8 +2,9 @@
   <v-footer
     :elevation="4"
     class="pa-4 d-flex flex-column flex-wrap align-start"
+    :style="maxHeight"
   >
-    <v-row>
+    <v-row dense>
       <v-col
         v-for="footerLink in footerLinks"
         :key="footerLink.id"
@@ -17,7 +18,6 @@
           :href="getResolvedLink(footerLink)"
           :target="isLinkExternal(footerLink) ? '_blank' : null"
           size="small"
-          class="my-1"
         >
           <template v-if="footerLink.icon" #prepend>
             <v-icon color="primary">{{ `mdi-${footerLink.icon}` }}</v-icon>
@@ -33,12 +33,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useLoading } from "@/composables/useLoading";
 import { getFooterLinks } from "@/strapi";
 import { FooterLink } from "@/types";
+import { useDisplay } from "vuetify/lib/framework.mjs";
 
 const footerLinks = ref<FooterLink[]>([]);
+
+const { lgAndUp, xlAndUp } = useDisplay();
 
 useLoading(async () => {
   footerLinks.value = (await getFooterLinks()).filter(
@@ -53,4 +56,18 @@ function isLinkExternal(footerLink: FooterLink) {
 function getResolvedLink(footerLink: FooterLink) {
   return (footerLink.file?.url || footerLink.link)!;
 }
+
+const maxHeight = computed(() => {
+  if (xlAndUp.value) {
+    return {
+      maxHeight: "150px",
+    };
+  }
+  if (lgAndUp.value) {
+    return {
+      maxHeight: "300px",
+    };
+  }
+  return undefined;
+});
 </script>
