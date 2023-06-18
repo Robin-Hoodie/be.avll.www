@@ -1,9 +1,6 @@
 import type { HandlerEvent, HandlerContext } from "@netlify/functions";
 
-export function handler(
-  event: HandlerEvent,
-  context: HandlerContext
-) {
+export async function handler(event: HandlerEvent, context: HandlerContext) {
   return {
     statusCode: 200,
     body: JSON.stringify({
