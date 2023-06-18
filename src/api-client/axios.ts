@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { BASE_URL_STRAPI } from "@/env";
+import { BASE_URL_CONTENT } from "@/env";
 import {
   StrapiCollectionResponse,
   StrapiSingleResponse,
@@ -29,7 +29,7 @@ function processAttributes(attributes: Record<string, unknown>) {
           ...processedAttributesAcc,
           [key]: {
             ...imageAttributes,
-            url: `${BASE_URL_STRAPI}${url}`,
+            url: `${BASE_URL_CONTENT}${url}`,
           },
         };
       }
@@ -75,11 +75,11 @@ function responseInterceptor(response: AxiosResponse) {
   return response.data;
 }
 
-export const axiosInstanceStrapi = axios.create({
-  baseURL: `${BASE_URL_STRAPI}/api`,
+export const axiosInstanceContent = axios.create({
+  baseURL: `${BASE_URL_CONTENT}/api`,
   transformResponse: responseTransformerStrapi,
 });
-axiosInstanceStrapi.interceptors.response.use(responseInterceptor);
+axiosInstanceContent.interceptors.response.use(responseInterceptor);
 
 export const axiosInstanceNetlifyFunctions = axios.create({
   baseURL: "/.netlify/functions",

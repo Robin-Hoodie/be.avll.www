@@ -18,6 +18,7 @@ export interface Person extends StrapiModel {
   addressStreet: string | null;
   addressZip: string | null;
   addressPlace: string | null;
+  roles: Array<"management" | "partyManagement" | "confidant" | ""> 
 }
 
 export interface Article extends StrapiModel {

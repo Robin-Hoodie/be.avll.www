@@ -9,62 +9,62 @@ import {
   RegistrationPage,
   Training,
 } from "@/types";
-import { axiosInstanceStrapi } from "./axios";
+import { axiosInstanceContent } from "./axios";
 
 export function getManagementMembers() {
-  return axiosInstanceStrapi.get<Person[], Person[]>(
+  return axiosInstanceContent.get<Person[], Person[]>(
     "/management-members?populate[0]=portraitPhoto"
   );
 }
 
 export function getWelcomeArticle() {
-  return axiosInstanceStrapi.get<Article, Article>("/welcome-article");
+  return axiosInstanceContent.get<Article, Article>("/welcome-article");
 }
 
 export function getBlogArticles() {
-  return axiosInstanceStrapi.get<Article[], Article[]>(
+  return axiosInstanceContent.get<Article[], Article[]>(
     "/blog-articles?populate[0]=coverPhoto"
   );
 }
 
 export function getBlogArticle(id: number | string) {
-  return axiosInstanceStrapi.get<Article, Article>(
+  return axiosInstanceContent.get<Article, Article>(
     `/blog-articles/${id}?populate[0]=coverPhoto`
   );
 }
 
 export function getSponsors() {
-  return axiosInstanceStrapi.get<Sponsor[], Sponsor[]>(
+  return axiosInstanceContent.get<Sponsor[], Sponsor[]>(
     "/sponsors?populate[0]=picture"
   );
 }
 
 export function getUpcomingEvents() {
-  return axiosInstanceStrapi.get<UpcomingEvent[], UpcomingEvent[]>(
+  return axiosInstanceContent.get<UpcomingEvent[], UpcomingEvent[]>(
     "/upcoming-events?sort=date"
   );
 }
 
 export function getContests() {
-  return axiosInstanceStrapi.get<Contest[], Contest[]>("/contests?sort=date");
+  return axiosInstanceContent.get<Contest[], Contest[]>("/contests?sort=date");
 }
 
 export function getResults() {
-  return axiosInstanceStrapi.get<Result[], Result[]>("/results?sort=date");
+  return axiosInstanceContent.get<Result[], Result[]>("/results?sort=date");
 }
 
 export function getFooterLinks() {
-  return axiosInstanceStrapi.get<FooterLink[], FooterLink[]>(
+  return axiosInstanceContent.get<FooterLink[], FooterLink[]>(
     "/footer-links?populate[0]=file"
   );
 }
 
 export function getRegistrationPage() {
-  return axiosInstanceStrapi.get<RegistrationPage, RegistrationPage>(
+  return axiosInstanceContent.get<RegistrationPage, RegistrationPage>(
     "/registration-page"
   );
 }
 
 export function getTrainings() {
-  return axiosInstanceStrapi.get<Training[], Training[]>("/trainings");
+  return axiosInstanceContent.get<Training[], Training[]>("/trainings");
 }
