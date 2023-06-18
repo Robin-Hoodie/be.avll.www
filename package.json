@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "netlify dev",
-    "build": "vue-tsc --noEmit && vite build",
+    "typecheck": "vue-tsc --noEmit",
+    "build": "yarn typecheck && yarn functions:typecheck && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --fix --ignore-path .gitignore"
+    "lint": "eslint . --fix --ignore-path .gitignore",
+    "functions:typecheck": "yarn --cwd netlify/functions tsc --noEmit"
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
@@ -22,6 +24,8 @@
   },
   "devDependencies": {
     "@babel/types": "^7.21.4",
+    "@netlify/functions": "^1.6.0",
+    "@tsconfig/node18": "^2.0.1",
     "@types/node": "^18.15.0",
     "@types/webfontloader": "^1.6.35",
     "@vitejs/plugin-vue": "^3.0.3",
