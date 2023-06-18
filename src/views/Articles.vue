@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue";
 import { useDisplay } from "vuetify";
-import { getBlogArticles } from "@/strapi";
+import { getBlogArticles } from "@/api-client";
 import ArticleIntro from "@/components/article/ArticleIntro.vue";
 import PageHeader from "@/components/PageHeader.vue";
 import { useLoading } from "@/composables/useLoading";

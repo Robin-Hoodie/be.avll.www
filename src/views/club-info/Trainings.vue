@@ -7,7 +7,7 @@ import { ref } from "vue";
 import TrainingsPerType from "@/components/training/TrainingsPerType.vue";
 import { useLoading } from "@/composables/useLoading";
 import { Training } from "@/types";
-import { getTrainings } from "@/strapi";
+import { getTrainings } from "@/api-client";
 
 const trainings = ref<Training[] | null>(null);
 

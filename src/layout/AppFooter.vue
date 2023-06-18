@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import { useLoading } from "@/composables/useLoading";
-import { getFooterLinks } from "@/strapi";
+import { getFooterLinks } from "@/api-client";
 import { FooterLink } from "@/types";
 import { useDisplay } from "vuetify/lib/framework.mjs";
 

@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { getWelcomeArticle } from "@/strapi";
+import { getWelcomeArticle } from "@/api-client";
 import { Article } from "@/types";
 import ArticleFull from "@/components/article/ArticleFull.vue";
 import { useLoading } from "@/composables/useLoading";

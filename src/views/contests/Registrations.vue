@@ -23,7 +23,7 @@ import PageHeader from "@/components/PageHeader.vue";
 import { RegistrationPage } from "@/types";
 import RegistrationForm from "@/components/registration/RegistrationForm.vue";
 import { useLoading } from "@/composables/useLoading";
-import { getRegistrationPage } from "@/strapi";
+import { getRegistrationPage } from "@/api-client";
 
 const registrationPage = ref<RegistrationPage | null>(null);
 

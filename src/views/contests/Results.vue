@@ -8,7 +8,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { Result } from "@/types";
-import { getResults } from "@/strapi";
+import { getResults } from "@/api-client";
 import TabsPerYear from "@/components/TabsPerYear.vue";
 import ResultTable from "@/components/result/ResultTable.vue";
 import PageHeader from "@/components/PageHeader.vue";

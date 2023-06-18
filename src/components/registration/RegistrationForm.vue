@@ -98,6 +98,7 @@ import {
   disciplineRules,
   bestPerformanceRules,
 } from "@/components/registration/registration-rules";
+import { sendRegistrationEmails } from "@/api-client";
 
 defineProps<RegistrationPage>();
 
@@ -127,6 +128,7 @@ function openFormSubmittedMessage() {
 async function handleSubmit(eventPromise: SubmitEventPromise) {
   const { valid } = await eventPromise;
   if (valid) {
+    // await sendRegistrationEmails();
     openFormSubmittedMessage();
   }
 }

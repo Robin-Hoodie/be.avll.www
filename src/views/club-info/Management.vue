@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { getManagementMembers } from "@/strapi";
+import { getManagementMembers } from "@/api-client";
 import { Person } from "@/types";
 import PersonDetailsList from "@/components/person/PersonDetailsList.vue";
 import { useLoading } from "@/composables/useLoading";

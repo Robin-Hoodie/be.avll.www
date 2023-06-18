@@ -7,7 +7,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { getContests } from "@/strapi";
+import { getContests } from "@/api-client";
 import { Contest } from "@/types";
 import TabsPerYear from "@/components/TabsPerYear.vue";
 import ContestTable from "@/components/contest/ContestTable.vue";

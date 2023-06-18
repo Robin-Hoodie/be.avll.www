@@ -61,7 +61,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { Sponsor, UpcomingEvent } from "@/types";
-import { getSponsors, getUpcomingEvents } from "@/strapi";
+import { getSponsors, getUpcomingEvents } from "@/api-client";
 import { formatDateFull } from "@/utils";
 
 const sponsors = ref<Sponsor[]>([]);
