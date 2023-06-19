@@ -8,17 +8,28 @@ interface StrapiModel {
   updatedAt: string;
 }
 
+export type Role =
+  | "management"
+  | "partyManagement"
+  | "confidant"
+  | "official"
+  | "confidant"
+  | "trainerYouth"
+  | "trainerFromCadet"
+  | "trainerGTeam"
+  | "trainerJoggers";
+
 export interface Person extends StrapiModel {
   title: string;
   name: string;
   mobilePhone: string | null;
   landlinePhone: string | null;
   email: string | null;
-  portraitPhoto: File | null;
+  profilePhoto: File | null;
   addressStreet: string | null;
   addressZip: string | null;
   addressPlace: string | null;
-  roles: Array<"management" | "partyManagement" | "confidant" | ""> 
+  roles: Role[];
 }
 
 export interface Article extends StrapiModel {

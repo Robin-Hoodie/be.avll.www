@@ -8,13 +8,25 @@ import {
   FooterLink,
   RegistrationPage,
   Training,
+  StrapiEntry,
+  Role,
 } from "@/types";
 import { axiosInstanceContent } from "./axios";
 
-export function getManagementMembers() {
-  return axiosInstanceContent.get<Person[], Person[]>(
-    "/management-members?populate[0]=portraitPhoto"
+interface PersonRaw extends Omit<Person, "roles"> {
+  roles: {
+    data: Array<StrapiEntry<{ name: string }>>;
+  };
+}
+
+export async function getPeople(): Promise<Person[]> {
+  const peopleRaw = await axiosInstanceContent.get<PersonRaw[], PersonRaw[]>(
+    "/people?populate[0]=profilePhoto&populate[1]=roles"
   );
+  return peopleRaw.map((person) => ({
+    ...person,
+    roles: person.roles.data.map((role) => role.attributes.name as Role),
+  }));
 }
 
 export function getWelcomeArticle() {
