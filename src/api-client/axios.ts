@@ -7,7 +7,17 @@ import {
 } from "@/types";
 
 function isFileAttribute(value: unknown): value is StrapiFile {
-  return typeof value === "object" && value !== null && "data" in value;
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "data" in value &&
+    typeof value.data === "object" &&
+    value.data !== null &&
+    "attributes" in value.data &&
+    typeof value.data.attributes === "object" &&
+    value.data.attributes !== null &&
+    "url" in value.data.attributes
+  );
 }
 
 function isRichContentAttribute(value: unknown): value is string {
