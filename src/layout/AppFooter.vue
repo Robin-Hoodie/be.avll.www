@@ -34,20 +34,13 @@
 
 <script lang="ts" setup>
 import { ref, computed } from "vue";
-import { useLoading } from "@/composables/useLoading";
 import { getFooterLinks } from "@/api-client";
 import { FooterLink } from "@/types";
 import { useDisplay } from "vuetify/lib/framework.mjs";
 
-const footerLinks = ref<FooterLink[]>([]);
-
 const { lgAndUp, xlAndUp } = useDisplay();
 
-useLoading(async () => {
-  footerLinks.value = (await getFooterLinks()).filter(
-    (footerLink) => footerLink.file !== null || footerLink.link !== null
-  );
-});
+const footerLinks = ref(await getFooterLinks());
 
 function isLinkExternal(footerLink: FooterLink) {
   return footerLink.link !== null;

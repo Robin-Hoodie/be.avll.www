@@ -1,14 +1,12 @@
 <template>
   <page-header>Registratie</page-header>
   <vue-markdown
-    v-if="registrationPage"
     :source="registrationPage.introText"
     :options="{ break: true, linkify: true }"
     class="text-body-1 mb-2"
   />
 
   <vue-markdown
-    v-if="registrationPage"
     :source="registrationPage.privacyStatement"
     :options="{ break: true, linkify: true }"
     class="text-body-1 mb-2"
@@ -20,12 +18,8 @@
 import { ref } from "vue";
 import VueMarkdown from "vue-markdown-render";
 import PageHeader from "@/components/PageHeader.vue";
-import { RegistrationPage } from "@/types";
 import RegistrationForm from "@/components/registration/RegistrationForm.vue";
-import { useLoading } from "@/composables/useLoading";
 import { getRegistrationPage } from "@/api-client";
 
-const registrationPage = ref<RegistrationPage | null>(null);
-
-useLoading(async () => (registrationPage.value = await getRegistrationPage()));
+const registrationPage = ref(await getRegistrationPage());
 </script>

@@ -4,16 +4,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { getManagementMembers } from "@/api-client";
-import { Person } from "@/types";
+import { inject } from "vue";
 import PersonDetailsList from "@/components/person/PersonDetailsList.vue";
-import { useLoading } from "@/composables/useLoading";
 import PageHeader from "@/components/PageHeader.vue";
+import { managementMembersKey } from "@/providers/injection-keys";
+import { Person } from "@/types";
 
-const managementMembers = ref<Person[] | null>(null);
-
-useLoading(
-  async () => (managementMembers.value = await getManagementMembers())
-);
+const managementMembers = inject<Person[]>(managementMembersKey);
 </script>

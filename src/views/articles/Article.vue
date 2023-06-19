@@ -1,16 +1,13 @@
 <template>
-  <article-full v-if="article" :article="article" />
+  <article-full :article="article" />
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import { getBlogArticle } from "@/api-client";
-import { Article } from "@/types";
 import ArticleFull from "@/components/article/ArticleFull.vue";
-import { useLoading } from "@/composables/useLoading";
 
 const props = defineProps<{ id: string }>();
-const article = ref<Article | null>(null);
 
-useLoading(async () => (article.value = await getBlogArticle(props.id)));
+const article = ref(await getBlogArticle(props.id));
 </script>
