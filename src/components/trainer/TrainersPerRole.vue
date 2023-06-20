@@ -24,15 +24,11 @@ const props = defineProps<{
   trainersPerRole: Record<TrainerRole, Person[]>;
 }>();
 
-console.log("trainersPerRole", props.trainersPerRole);
-
 const roles = computed(
   () => Object.keys(props.trainersPerRole) as TrainerRole[]
 );
 
 const activeTab = ref(roles.value[0]);
-
-console.log("activeTab", activeTab.value);
 
 function formatRole(role: TrainerRole) {
   switch (role) {

@@ -12,13 +12,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useDisplay } from "vuetify";
 import { getBlogArticles } from "@/api-client";
 import ArticleIntro from "@/components/article/ArticleIntro.vue";
 import PageHeader from "@/components/PageHeader.vue";
 
-const blogArticles = ref(await getBlogArticles());
+const blogArticles = await getBlogArticles();
 
 const { mdAndDown, xxl } = useDisplay();
 

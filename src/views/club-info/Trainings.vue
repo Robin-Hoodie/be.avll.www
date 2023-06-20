@@ -3,9 +3,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
 import TrainingsPerType from "@/components/training/TrainingsPerType.vue";
 import { getTrainings } from "@/api-client";
 
-const trainings = ref(await getTrainings());
+const trainings = await getTrainings();
 </script>

@@ -27,11 +27,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { getFooterLinks } from "@/api-client";
 import { FooterLink } from "@/types";
 
-const footerLinks = ref(await getFooterLinks());
+const footerLinks = await getFooterLinks();
 
 function isLinkExternal(footerLink: FooterLink) {
   return footerLink.link !== null;
