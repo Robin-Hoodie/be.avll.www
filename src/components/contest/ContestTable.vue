@@ -1,5 +1,5 @@
 <template>
-  <v-table>
+  <VTable>
     <thead>
       <tr>
         <th>Datum</th>
@@ -14,35 +14,35 @@
         <td>{{ formatDateFull(contest.date) }}</td>
         <td>{{ contest.title }}</td>
         <td>
-          <themed-link
+          <ThemedLink
             v-if="contest.registrationLink"
             :href="contest.registrationLink"
             external
           >
             Aanmelden
-          </themed-link>
+          </ThemedLink>
         </td>
         <td>
-          <themed-link
+          <ThemedLink
             v-if="contest.scheduleLink"
             :href="contest.scheduleLink"
             external
           >
             Schema
-          </themed-link>
+          </ThemedLink>
         </td>
         <td>
-          <themed-link
+          <ThemedLink
             v-if="contest.websiteLink"
             :href="contest.websiteLink"
             external
           >
             Website
-          </themed-link>
+          </ThemedLink>
         </td>
       </tr>
     </tbody>
-  </v-table>
+  </VTable>
 </template>
 
 <script lang="ts" setup>

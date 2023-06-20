@@ -1,5 +1,5 @@
 <template>
-  <article-full :article="article" />
+  <ArticleFull :article="article" />
 </template>
 
 <script setup lang="ts">

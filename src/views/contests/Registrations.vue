@@ -1,17 +1,17 @@
 <template>
-  <page-header>Registratie</page-header>
-  <vue-markdown
+  <PageHeader>Registratie</PageHeader>
+  <VueMarkdown
     :source="registrationPage.introText"
     :options="{ break: true, linkify: true }"
     class="text-body-1 mb-2"
   />
 
-  <vue-markdown
+  <VueMarkdown
     :source="registrationPage.privacyStatement"
     :options="{ break: true, linkify: true }"
     class="text-body-1 mb-2"
   />
-  <registration-form v-bind="registrationPage" />
+  <RegistrationForm v-bind="registrationPage" />
 </template>
 
 <script lang="ts" setup>

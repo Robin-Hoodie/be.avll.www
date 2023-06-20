@@ -1,18 +1,18 @@
 <template>
-  <v-menu open-on-hover>
+  <VMenu open-on-hover>
     <template #activator="{ props }">
-      <v-btn v-bind="props" append-icon="mdi-menu-down"
+      <VBtn v-bind="props" append-icon="mdi-menu-down"
         ><template #prepend
-          ><v-icon color="primary">{{ icon }}</v-icon></template
-        >{{ title }}</v-btn
+          ><VIcon color="primary">{{ icon }}</VIcon></template
+        >{{ title }}</VBtn
       >
     </template>
     <template #default>
-      <v-list>
-        <v-list-item v-for="child in children" :key="child.to" v-bind="child" />
-      </v-list>
+      <VList>
+        <VListItem v-for="child in children" :key="child.to" v-bind="child" />
+      </VList>
     </template>
-  </v-menu>
+  </VMenu>
 </template>
 
 <script lang="ts" setup>

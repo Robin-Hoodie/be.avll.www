@@ -1,8 +1,8 @@
 <template>
-  <page-header>Onze organisaties</page-header>
-  <tabs-per-year :list="contests" v-slot="slotProps">
-    <contest-table :contests="slotProps.listForYear" />
-  </tabs-per-year>
+  <PageHeader>Onze organisaties</PageHeader>
+  <TabsPerYear :list="contests" v-slot="slotProps">
+    <ContestTable :contests="slotProps.listForYear" />
+  </TabsPerYear>
 </template>
 
 <script lang="ts" setup>

@@ -1,23 +1,23 @@
 <template>
-  <v-tabs v-model="activeTab" align-tabs="center" center-active>
-    <v-tab
+  <VTabs v-model="activeTab" align-tabs="center" center-active>
+    <VTab
       v-for="trainingType in trainingTypes"
       :value="trainingType"
       :key="trainingType"
       color="primary"
     >
       {{ formatTrainingType(trainingType) }}
-    </v-tab>
-  </v-tabs>
-  <v-window v-model="activeTab">
-    <v-window-item
+    </VTab>
+  </VTabs>
+  <VWindow v-model="activeTab">
+    <VWindowItem
       v-for="(trainingsForType, trainingType) in trainingsPerType"
       :key="trainingType"
       :value="trainingType"
     >
-      <training-table :trainings="trainingsForType" />
-    </v-window-item>
-  </v-window>
+      <TrainingTable :trainings="trainingsForType" />
+    </VWindowItem>
+  </VWindow>
 </template>
 
 <script lang="ts" setup>

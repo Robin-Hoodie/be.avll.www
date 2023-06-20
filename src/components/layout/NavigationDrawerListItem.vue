@@ -1,9 +1,9 @@
 <template>
-  <v-list-item :title="title" :to="to">
+  <VListItem :title="title" :to="to">
     <template #prepend>
-      <v-icon color="primary">{{ icon }}</v-icon>
+      <VIcon color="primary">{{ icon }}</VIcon>
     </template>
-  </v-list-item>
+  </VListItem>
 </template>
 
 <script lang="ts" setup>

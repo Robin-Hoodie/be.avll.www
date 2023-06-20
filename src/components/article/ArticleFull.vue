@@ -1,8 +1,8 @@
 <template>
-  <page-header>{{ article.title }}</page-header>
-  <v-sheet class="pa-8" rounded :elevation="3">
+  <PageHeader>{{ article.title }}</PageHeader>
+  <VSheet class="pa-8" rounded :elevation="3">
     <article>
-      <v-img
+      <VImg
         v-if="article.coverPhoto"
         :src="article.coverPhoto.url"
         :width="article.coverPhoto.width"
@@ -10,20 +10,20 @@
       />
       <div v-if="!hideSubtitle" class="text-subtitle-2 my-2">
         <div class="d-flex align-center">
-          <v-icon color="primary">mdi-clock</v-icon>
+          <VIcon color="primary">mdi-clock</VIcon>
           <span class="pl-1">{{ dateFormatted }}</span>
         </div>
         <div v-if="article.location" class="d-flex align-center">
-          <v-icon color="primary">mdi-map-marker-outline</v-icon>
+          <VIcon color="primary">mdi-map-marker-outline</VIcon>
           <span class="pl-1">{{ article.location }}</span>
         </div>
       </div>
-      <vue-markdown
+      <VueMarkdown
         :source="article.content"
         :options="{ breaks: true, linkify: true }"
       />
     </article>
-  </v-sheet>
+  </VSheet>
 </template>
 
 <script setup lang="ts">

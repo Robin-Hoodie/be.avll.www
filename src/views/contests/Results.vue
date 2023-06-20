@@ -1,8 +1,8 @@
 <template>
-  <page-header>Resultaten</page-header>
-  <tabs-per-year :list="results" v-slot="slotProps">
-    <result-table :results="slotProps.listForYear" />
-  </tabs-per-year>
+  <PageHeader>Resultaten</PageHeader>
+  <TabsPerYear :list="results" v-slot="slotProps">
+    <ResultTable :results="slotProps.listForYear" />
+  </TabsPerYear>
 </template>
 
 <script lang="ts" setup>

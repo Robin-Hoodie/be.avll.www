@@ -1,5 +1,5 @@
 <template>
-  <v-table>
+  <VTable>
     <thead>
       <tr>
         <th>Datum</th>
@@ -12,13 +12,13 @@
         <td>{{ formatDateFull(result.date) }}</td>
         <td>{{ result.title }}</td>
         <td>
-          <themed-link :href="result.link" external>{{
+          <ThemedLink :href="result.link" external>{{
             result.link
-          }}</themed-link>
+          }}</ThemedLink>
         </td>
       </tr>
     </tbody>
-  </v-table>
+  </VTable>
 </template>
 
 <script lang="ts" setup>

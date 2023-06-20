@@ -1,19 +1,19 @@
 <template>
-  <v-card :elevation="5" rounded>
-    <v-card-title class="d-flex align-center">
-      <v-avatar color="primary" size="x-small" class="mr-2">
-        <v-icon size="x-small">mdi-account-tie</v-icon>
-      </v-avatar>
+  <VCard :elevation="5" rounded>
+    <VCardTitle class="d-flex align-center">
+      <VAvatar color="primary" size="x-small" class="mr-2">
+        <VIcon size="x-small">mdi-account-tie</VIcon>
+      </VAvatar>
       <span>
         {{ name }}
       </span>
-    </v-card-title>
-    <v-card-subtitle :title="title">
+    </VCardTitle>
+    <VCardSubtitle :title="title">
       {{ title }}
-    </v-card-subtitle>
-    <v-card-text class="d-flex">
+    </VCardSubtitle>
+    <VCardText class="d-flex">
       <div class="mr-4" v-if="profilePhoto">
-        <v-img
+        <VImg
           :src="profilePhoto.url"
           :height="profilePhoto?.height"
           :width="profilePhoto?.width"
@@ -21,7 +21,7 @@
       </div>
       <div>
         <div v-if="addressStreet || addressPlace" class="d-flex align-center">
-          <v-icon class="pr-2">mdi-home</v-icon>
+          <VIcon class="pr-2">mdi-home</VIcon>
           <div>
             <div v-if="addressStreet">
               {{ addressStreet }}
@@ -34,24 +34,24 @@
           </div>
         </div>
         <div v-if="phoneMobile">
-          <v-icon class="pr-2">mdi-phone</v-icon>
-          <themed-link :href="`tel:${phoneMobile}`">
-            {{ formatPhone(phoneMobile, "mobile") }}</themed-link
+          <VIcon class="pr-2">mdi-phone</VIcon>
+          <ThemedLink :href="`tel:${phoneMobile}`">
+            {{ formatPhone(phoneMobile, "mobile") }}</ThemedLink
           >
         </div>
         <div v-if="phoneLandLine">
-          <v-icon class="pr-2">mdi-phone</v-icon>
-          <themed-link :href="`tel:${phoneLandLine}`">{{
+          <VIcon class="pr-2">mdi-phone</VIcon>
+          <ThemedLink :href="`tel:${phoneLandLine}`">{{
             formatPhone(phoneLandLine, "home")
-          }}</themed-link>
+          }}</ThemedLink>
         </div>
         <div v-if="email">
-          <v-icon class="pr-2">mdi-email</v-icon>
-          <themed-link :href="`mailto:${email}`">{{ email }}</themed-link>
+          <VIcon class="pr-2">mdi-email</VIcon>
+          <ThemedLink :href="`mailto:${email}`">{{ email }}</ThemedLink>
         </div>
       </div>
-    </v-card-text>
-  </v-card>
+    </VCardText>
+  </VCard>
 </template>
 
 <script setup lang="ts">

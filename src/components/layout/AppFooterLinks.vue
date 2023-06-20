@@ -1,6 +1,6 @@
 <template>
-  <v-row dense>
-    <v-col
+  <VRow dense>
+    <VCol
       v-for="footerLink in footerLinks"
       :key="footerLink.id"
       :cols="12"
@@ -8,22 +8,22 @@
       :lg="6"
       :xl="3"
     >
-      <v-btn
+      <VBtn
         variant="text"
         :href="getResolvedLink(footerLink)"
         :target="isLinkExternal(footerLink) ? '_blank' : null"
         size="small"
       >
         <template v-if="footerLink.icon" #prepend>
-          <v-icon color="primary">{{ `mdi-${footerLink.icon}` }}</v-icon>
+          <VIcon color="primary">{{ `mdi-${footerLink.icon}` }}</VIcon>
         </template>
         {{ footerLink.description }}
         <template v-if="isLinkExternal(footerLink)" #append>
-          <v-icon color="primary">mdi-open-in-new</v-icon>
+          <VIcon color="primary">mdi-open-in-new</VIcon>
         </template>
-      </v-btn></v-col
+      </VBtn></VCol
     >
-  </v-row>
+  </VRow>
 </template>
 
 <script setup lang="ts">

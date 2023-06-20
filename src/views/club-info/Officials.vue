@@ -1,6 +1,6 @@
 <template>
-  <page-header>Officiëlen</page-header>
-  <person-details-list :people="officials" />
+  <PageHeader>Officiëlen</PageHeader>
+  <PersonDetailsList :people="officials" />
 </template>
 
 <script setup lang="ts">

@@ -1,6 +1,6 @@
 <template>
   <div class="loader-container">
-    <v-progress-circular
+    <VProgressCircular
       color="primary"
       :size="size === 'medium' ? 30 : 50"
       indeterminate

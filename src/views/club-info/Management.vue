@@ -1,6 +1,6 @@
 <template>
-  <page-header>Bestuur</page-header>
-  <person-details-list :people="managementMembers" />
+  <PageHeader>Bestuur</PageHeader>
+  <PersonDetailsList :people="managementMembers" />
 </template>
 
 <script setup lang="ts">

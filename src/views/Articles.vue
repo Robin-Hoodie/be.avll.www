@@ -1,14 +1,14 @@
 <template>
-  <page-header>Artikels</page-header>
-  <v-row>
-    <v-col
+  <PageHeader>Artikels</PageHeader>
+  <VRow>
+    <VCol
       :cols="cols"
       v-for="blogArticle in blogArticles"
       :key="blogArticle.id"
     >
-      <article-intro v-bind="blogArticle" />
-    </v-col>
-  </v-row>
+      <ArticleIntro v-bind="blogArticle" />
+    </VCol>
+  </VRow>
 </template>
 
 <script lang="ts" setup>

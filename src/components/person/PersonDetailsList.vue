@@ -1,11 +1,11 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col :cols="cols" v-for="person in people" :key="person.id">
-        <person-details v-bind="person"
-      /></v-col>
-    </v-row>
-  </v-container>
+  <VContainer>
+    <VRow>
+      <VCol :cols="cols" v-for="person in people" :key="person.id">
+        <PersonDetails v-bind="person"
+      /></VCol>
+    </VRow>
+  </VContainer>
 </template>
 
 <script setup lang="ts">

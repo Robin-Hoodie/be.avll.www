@@ -1,84 +1,84 @@
 <template>
-  <v-form :onSubmit="handleSubmit" validateOn="lazy blur">
-    <v-text-field v-model="registration.event" :rules="eventRules" required>
+  <VForm :onSubmit="handleSubmit" validateOn="lazy blur">
+    <VTextField v-model="registration.event" :rules="eventRules" required>
       <template #label>
-        <required-label>Kampioenschap of meeting</required-label>
+        <RequiredLabel>Kampioenschap of meeting</RequiredLabel>
       </template>
-    </v-text-field>
-    <v-text-field v-model="registration.name" :rules="nameRules" required>
-      <template #label><required-label>Naam</required-label></template>
-    </v-text-field>
-    <v-text-field
+    </VTextField>
+    <VTextField v-model="registration.name" :rules="nameRules" required>
+      <template #label><RequiredLabel>Naam</RequiredLabel></template>
+    </VTextField>
+    <VTextField
       v-model="registration.email"
       :rules="emailRules"
       type="email"
       required
     >
       <template #label>
-        <required-label>Email</required-label>
+        <RequiredLabel>Email</RequiredLabel>
       </template>
-    </v-text-field>
-    <v-radio-group v-model="registration.gender" :rules="genderRules" inline>
+    </VTextField>
+    <VRadioGroup v-model="registration.gender" :rules="genderRules" inline>
       <template #label>
-        <required-label>Geslacht</required-label>
+        <RequiredLabel>Geslacht</RequiredLabel>
       </template>
-      <v-radio value="male" label="Man" />
-      <v-radio value="female" label="Vrouw" />
-    </v-radio-group>
-    <v-text-field
+      <VRadio value="male" label="Man" />
+      <VRadio value="female" label="Vrouw" />
+    </VRadioGroup>
+    <VTextField
       v-model="registration.birthYear"
       :rules="birthYearRules"
       required
     >
-      <template #label><required-label>Geboortejaar</required-label></template>
-    </v-text-field>
-    <v-select
+      <template #label><RequiredLabel>Geboortejaar</RequiredLabel></template>
+    </VTextField>
+    <VSelect
       v-model="registration.category"
       :rules="categoryRules"
       :items="categoryOptions"
       required
     >
-      <template #label><required-label>Categorie</required-label></template>
-    </v-select>
-    <v-text-field
+      <template #label><RequiredLabel>Categorie</RequiredLabel></template>
+    </VSelect>
+    <VTextField
       v-model="registration.valNumber"
       label="VAL nummer *"
       :rules="valNumberRules"
       required
     >
       <template #label>
-        <required-label>VAL nummer</required-label>
+        <RequiredLabel>VAL nummer</RequiredLabel>
       </template>
-    </v-text-field>
-    <v-text-field
+    </VTextField>
+    <VTextField
       v-model="registration.discipline"
       :rules="disciplineRules"
       required
     >
       <template #label>
-        <required-label>Discipline</required-label>
+        <RequiredLabel>Discipline</RequiredLabel>
       </template>
-    </v-text-field>
-    <v-text-field
+    </VTextField>
+    <VTextField
       v-model="registration.bestPerformance"
       :rules="bestPerformanceRules"
       required
     >
       <template #label>
-        <required-label>Beste prestatie</required-label>
+        <RequiredLabel>Beste prestatie</RequiredLabel>
       </template>
-    </v-text-field>
-    <v-textarea v-model="registration.comment" label="Opmerking" />
-    <v-btn type="submit" color="primary" class="mt-2">Registreren</v-btn>
-  </v-form>
-  <v-snackbar v-model="isFormSubmittedMessageVisible">
+    </VTextField>
+    <VTextarea v-model="registration.comment" label="Opmerking" />
+    <VBtn type="submit" color="primary" class="mt-2">Registreren</VBtn>
+  </VForm>
+  <VSnackbar v-model="isFormSubmittedMessageVisible">
     {{ registrationSubmittedMessage }}
     <template #actions>
-      <v-btn variant="text" @click="closeFormSubmittedMessage">{{
+      <VBtn variant="text" @click="closeFormSubmittedMessage">{{
         registrationSubmittedCloseButtonText
-      }}</v-btn>
+      }}</VBtn>
     </template>
-  </v-snackbar>
+  </VSnackbar>
 </template>
 
 <script lang="ts" setup>

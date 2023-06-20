@@ -1,22 +1,22 @@
 <template>
-  <app-bar />
-  <app-side-bar />
+  <AppBar />
+  <AppSideBar />
 
-  <v-main>
-    <v-container>
-      <router-view v-slot="{ Component }">
+  <VMain>
+    <VContainer>
+      <RouterView v-slot="{ Component }">
         <template v-if="Component">
           <suspense>
             <template #default>
               <component :is="Component" />
             </template>
-            <template #fallback><circular-loader size="large" /></template>
+            <template #fallback><CircularLoader size="large" /></template>
           </suspense>
         </template>
-      </router-view>
-    </v-container>
-  </v-main>
-  <app-footer />
+      </RouterView>
+    </VContainer>
+  </VMain>
+  <AppFooter />
 </template>
 
 <script lang="ts" setup>

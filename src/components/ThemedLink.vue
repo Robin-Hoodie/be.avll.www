@@ -6,7 +6,7 @@
     :class="external ? 'd-flex align-center' : null"
   >
     <slot />
-    <v-icon v-if="external" class="ml-1" size="x-small">mdi-open-in-new</v-icon>
+    <VIcon v-if="external" class="ml-1" size="x-small">mdi-open-in-new</VIcon>
   </a>
 </template>
 

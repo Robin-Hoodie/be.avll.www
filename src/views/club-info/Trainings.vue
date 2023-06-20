@@ -1,5 +1,5 @@
 <template>
-  <trainings-per-type :trainings="trainings" />
+  <TrainingsPerType :trainings="trainings" />
 </template>
 
 <script lang="ts" setup>

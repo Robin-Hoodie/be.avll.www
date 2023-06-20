@@ -1,10 +1,10 @@
 <template>
-  <v-btn :to="to">
+  <VBtn :to="to">
     <template #prepend>
-      <v-icon color="primary">{{ icon }}</v-icon>
+      <VIcon color="primary">{{ icon }}</VIcon>
     </template>
     {{ title }}
-  </v-btn>
+  </VBtn>
 </template>
 
 <script lang="ts" setup>

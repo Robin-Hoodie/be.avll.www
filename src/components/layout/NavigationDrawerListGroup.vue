@@ -1,14 +1,14 @@
 <template>
-  <v-list-group :value="value">
+  <VListGroup :value="value">
     <template #activator="{ props }">
-      <v-list-item v-bind="props" :title="title">
+      <VListItem v-bind="props" :title="title">
         <template #prepend>
-          <v-icon color="primary">{{ icon }}</v-icon>
+          <VIcon color="primary">{{ icon }}</VIcon>
         </template>
-      </v-list-item>
+      </VListItem>
     </template>
-    <v-list-item v-for="child in children" :key="child.to" v-bind="child" />
-  </v-list-group>
+    <VListItem v-for="child in children" :key="child.to" v-bind="child" />
+  </VListGroup>
 </template>
 
 <script lang="ts" setup>

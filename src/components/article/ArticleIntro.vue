@@ -1,25 +1,25 @@
 <template>
-  <v-card :title="title" :elevation="5" class="ma-2">
-    <v-card-subtitle class="d-flex justify-space-between">
+  <VCard :title="title" :elevation="5" class="ma-2">
+    <VCardSubtitle class="d-flex justify-space-between">
       <div class="d-flex align-center">
-        <v-icon color="primary" size="small">mdi-calendar</v-icon>
+        <VIcon color="primary" size="small">mdi-calendar</VIcon>
         <span class="pl-1">{{ dateCreatedFormatted }}</span>
       </div>
       <div v-if="location" class="d-flex align-center">
-        <v-icon color="primary" size="small">mdi-map-marker-outline</v-icon>
+        <VIcon color="primary" size="small">mdi-map-marker-outline</VIcon>
         <span class="pl-1">{{ location }}</span>
       </div>
-    </v-card-subtitle>
-    <v-card-text>
-      <vue-markdown
+    </VCardSubtitle>
+    <VCardText>
+      <VueMarkdown
         :source="contentShortened"
         :options="{ breaks: true, linkify: true }"
       />
-    </v-card-text>
-    <v-card-actions>
-      <v-btn :to="linkArticle" color="primary">Lees meer</v-btn>
-    </v-card-actions>
-  </v-card>
+    </VCardText>
+    <VCardActions>
+      <VBtn :to="linkArticle" color="primary">Lees meer</VBtn>
+    </VCardActions>
+  </VCard>
 </template>
 
 <script setup lang="ts">

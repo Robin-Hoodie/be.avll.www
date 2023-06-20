@@ -1,18 +1,18 @@
 <template>
-  <v-footer
+  <VFooter
     :elevation="4"
     class="pa-4 d-flex flex-column flex-wrap align-start"
     :style="maxHeight"
   >
     <suspense>
       <template #default>
-        <app-footer-links />
+        <AppFooterLinks />
       </template>
       <template #fallback>
-        <circular-loader />
+        <CircularLoader />
       </template>
     </suspense>
-  </v-footer>
+  </VFooter>
 </template>
 
 <script lang="ts" setup>

@@ -1,15 +1,15 @@
 <template>
-  <v-app-bar>
-    <v-app-bar-nav-icon
+  <VAppBar>
+    <VAppBarNavIcon
       v-if="smAndDown"
       color="primary"
       @click="toggleNavigationDrawer"
     />
-    <v-app-bar-title
-      ><router-link to="/" class="home-link text-primary font-weight-bold"
+    <VAppBarTitle
+      ><RouterLink to="/" class="home-link text-primary font-weight-bold"
         >AV Lyra-Lierse
-      </router-link>
-    </v-app-bar-title>
+      </RouterLink>
+    </VAppBarTitle>
     <template v-if="!smAndDown" #append>
       <component
         :is="getAppBarLinkComponent(link)"
@@ -19,17 +19,17 @@
         class="mx-1"
       />
 
-      <v-divider vertical inset />
+      <VDivider vertical inset />
       <a href="https://www.facebook.com/aclyra" target="_blank" class="mx-4">
-        <v-icon>mdi-facebook</v-icon>
+        <VIcon>mdi-facebook</VIcon>
       </a>
       <a :href="adminLink" target="_blank" class="mr-4">
-        <v-icon>mdi-shield-crown</v-icon>
+        <VIcon>mdi-shield-crown</VIcon>
       </a>
     </template>
-  </v-app-bar>
-  <v-navigation-drawer v-if="smAndDown" v-model="isDrawerOpen">
-    <v-list>
+  </VAppBar>
+  <VNavigationDrawer v-if="smAndDown" v-model="isDrawerOpen">
+    <VList>
       <component
         v-for="link in links"
         :key="link.to"
@@ -37,8 +37,8 @@
         v-bind="link"
         class="my-1"
       />
-    </v-list>
-  </v-navigation-drawer>
+    </VList>
+  </VNavigationDrawer>
 </template>
 
 <script setup lang="ts">

@@ -1,6 +1,6 @@
 <template>
-  <page-header>Trainers</page-header
-  ><trainers-per-role
+  <PageHeader>Trainers</PageHeader
+  ><TrainersPerRole
     :trainers-per-role="{
       trainerYouth: trainersYouth,
       trainerFromCadet: trainersFromCadet,

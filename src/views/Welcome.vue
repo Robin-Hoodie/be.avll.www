@@ -1,5 +1,5 @@
 <template>
-  <article-full hide-subtitle :article="welcomeArticle" />
+  <ArticleFull hide-subtitle :article="welcomeArticle" />
 </template>
 
 <script lang="ts" setup>

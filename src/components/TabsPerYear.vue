@@ -1,18 +1,18 @@
 <template>
-  <v-tabs v-model="activeTab" align-tabs="center" center-active>
-    <v-tab v-for="year in years" :value="year" :key="year" color="primary">
+  <VTabs v-model="activeTab" align-tabs="center" center-active>
+    <VTab v-for="year in years" :value="year" :key="year" color="primary">
       {{ year }}
-    </v-tab>
-  </v-tabs>
-  <v-window v-model="activeTab">
-    <v-window-item
+    </VTab>
+  </VTabs>
+  <VWindow v-model="activeTab">
+    <VWindowItem
       v-for="(listForYear, year) in listPerYear"
       :key="Number(year)"
       :value="Number(year)"
     >
       <slot v-bind="{ listForYear }" />
-    </v-window-item>
-  </v-window>
+    </VWindowItem>
+  </VWindow>
 </template>
 
 <script lang="ts" setup generic="T extends {date: string}">

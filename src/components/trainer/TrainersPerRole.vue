@@ -1,18 +1,18 @@
 <template>
-  <v-tabs align-tabs="center" center-active v-model="activeTab"
-    ><v-tab v-for="role in roles" :value="role" :key="role" color="primary">
+  <VTabs align-tabs="center" center-active v-model="activeTab"
+    ><VTab v-for="role in roles" :value="role" :key="role" color="primary">
       {{ formatRole(role) }}
-    </v-tab></v-tabs
+    </VTab></VTabs
   >
-  <v-window v-model="activeTab">
-    <v-window-item
+  <VWindow v-model="activeTab">
+    <VWindowItem
       v-for="(trainersForRole, role) in trainersPerRole"
       :key="role"
       :value="role"
     >
-      <person-details-list :people="trainersForRole" />
-    </v-window-item>
-  </v-window>
+      <PersonDetailsList :people="trainersForRole" />
+    </VWindowItem>
+  </VWindow>
 </template>
 
 <script setup lang="ts">
