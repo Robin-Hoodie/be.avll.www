@@ -1,1 +1,0 @@
-<template>Cadets</template>

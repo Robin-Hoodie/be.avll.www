@@ -1,6 +1,6 @@
 <template>
   <page-header>Bestuur</page-header>
-  <person-details-list v-if="managementMembers" :people="managementMembers" />
+  <person-details-list :people="managementMembers" />
 </template>
 
 <script setup lang="ts">

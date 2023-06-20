@@ -6,11 +6,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
 import { getContests } from "@/api-client";
 import TabsPerYear from "@/components/TabsPerYear.vue";
 import ContestTable from "@/components/contest/ContestTable.vue";
 import PageHeader from "@/components/PageHeader.vue";
 
-const contests = ref(await getContests());
+const contests = await getContests();
 </script>

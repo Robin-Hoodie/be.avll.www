@@ -18,12 +18,17 @@ export type Role =
   | "trainerFromCadet"
   | "trainerGTeam"
   | "trainerJoggers";
+  
+export type TrainerRole = Extract<
+  Role,
+  "trainerYouth" | "trainerFromCadet" | "trainerGTeam" | "trainerJoggers"
+>;
 
 export interface Person extends StrapiModel {
   title: string;
   name: string;
-  mobilePhone: string | null;
-  landlinePhone: string | null;
+  phoneMobile: string | null;
+  phoneLandLine: string | null;
   email: string | null;
   profilePhoto: File | null;
   addressStreet: string | null;

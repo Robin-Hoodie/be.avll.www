@@ -12,11 +12,11 @@
       {{ title }}
     </v-card-subtitle>
     <v-card-text class="d-flex">
-      <div class="mr-4" v-if="portraitPhoto">
+      <div class="mr-4" v-if="profilePhoto">
         <v-img
-          :src="portraitPhoto.url"
-          :height="portraitPhoto?.height"
-          :width="portraitPhoto?.width"
+          :src="profilePhoto.url"
+          :height="profilePhoto?.height"
+          :width="profilePhoto?.width"
         />
       </div>
       <div>
@@ -33,16 +33,16 @@
             </div>
           </div>
         </div>
-        <div v-if="mobilePhone">
+        <div v-if="phoneMobile">
           <v-icon class="pr-2">mdi-phone</v-icon>
-          <themed-link :href="`tel:${mobilePhone}`">
-            {{ formatPhone(mobilePhone, "mobile") }}</themed-link
+          <themed-link :href="`tel:${phoneMobile}`">
+            {{ formatPhone(phoneMobile, "mobile") }}</themed-link
           >
         </div>
-        <div v-if="landlinePhone">
+        <div v-if="phoneLandLine">
           <v-icon class="pr-2">mdi-phone</v-icon>
-          <themed-link :href="`tel:${landlinePhone}`">{{
-            formatPhone(landlinePhone, "home")
+          <themed-link :href="`tel:${phoneLandLine}`">{{
+            formatPhone(phoneLandLine, "home")
           }}</themed-link>
         </div>
         <div v-if="email">

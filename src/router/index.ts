@@ -59,40 +59,10 @@ const routes: Readonly<RouteRecordRaw[]> = [
       },
       {
         path: "trainers",
-        children: [
-          {
-            path: "",
-            redirect: "/club-info/trainers/jeugd",
-          },
-          {
-            path: "jeugd",
-            component: () =>
-              import(
-                /* webpackChunkName: "clubInfo" */ "@/views/club-info/trainers/Youth.vue"
-              ),
-          },
-          {
-            path: "vanaf-cadet",
-            component: () =>
-              import(
-                /* webpackChunkName: "clubInfo" */ "@/views/club-info/trainers/Cadets.vue"
-              ),
-          },
-          {
-            path: "g-team",
-            component: () =>
-              import(
-                /* webpackChunkName: "clubInfo" */ "@/views/club-info/trainers/GTeam.vue"
-              ),
-          },
-          {
-            path: "joggers",
-            component: () =>
-              import(
-                /* webpackChunkName: "clubInfo" */ "@/views/club-info/trainers/Joggers.vue"
-              ),
-          },
-        ],
+        component: () =>
+          import(
+            /* webpackChunkName: "clubInfo" */ "@/views/club-info/Trainers.vue"
+          ),
       },
       {
         path: "trainingen",
