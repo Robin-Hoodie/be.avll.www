@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(defineProps<{ size: "medium" | "large" }>(), {
+withDefaults(defineProps<{ size?: "medium" | "large" }>(), {
   size: "medium",
 });
 </script>
