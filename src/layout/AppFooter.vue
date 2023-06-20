@@ -4,51 +4,24 @@
     class="pa-4 d-flex flex-column flex-wrap align-start"
     :style="maxHeight"
   >
-    <v-row dense>
-      <v-col
-        v-for="footerLink in footerLinks"
-        :key="footerLink.id"
-        :cols="12"
-        :sm="12"
-        :lg="6"
-        :xl="3"
-      >
-        <v-btn
-          variant="text"
-          :href="getResolvedLink(footerLink)"
-          :target="isLinkExternal(footerLink) ? '_blank' : null"
-          size="small"
-        >
-          <template v-if="footerLink.icon" #prepend>
-            <v-icon color="primary">{{ `mdi-${footerLink.icon}` }}</v-icon>
-          </template>
-          {{ footerLink.description }}
-          <template v-if="isLinkExternal(footerLink)" #append>
-            <v-icon color="primary">mdi-open-in-new</v-icon>
-          </template>
-        </v-btn></v-col
-      >
-    </v-row>
+    <suspense>
+      <template #default>
+        <app-footer-links />
+      </template>
+      <template #fallback>
+        <circular-loader />
+      </template>
+    </suspense>
   </v-footer>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
-import { getFooterLinks } from "@/api-client";
-import { FooterLink } from "@/types";
-import { useDisplay } from "vuetify/lib/framework.mjs";
+import { computed } from "vue";
+import AppFooterLinks from "@/components/layout/AppFooterLinks.vue";
+import { useDisplay } from "vuetify";
+import CircularLoader from "@/components/CircularLoader.vue";
 
 const { lgAndUp, xlAndUp } = useDisplay();
-
-const footerLinks = ref(await getFooterLinks());
-
-function isLinkExternal(footerLink: FooterLink) {
-  return footerLink.link !== null;
-}
-
-function getResolvedLink(footerLink: FooterLink) {
-  return (footerLink.file?.url || footerLink.link)!;
-}
 
 const maxHeight = computed(() => {
   if (xlAndUp.value) {

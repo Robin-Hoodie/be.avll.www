@@ -23,7 +23,7 @@
       <a href="https://www.facebook.com/aclyra" target="_blank" class="mx-4">
         <v-icon>mdi-facebook</v-icon>
       </a>
-      <a href="http://178.128.240.121:1337/admin" target="_blank" class="mr-4">
+      <a :href="adminLink" target="_blank" class="mr-4">
         <v-icon>mdi-shield-crown</v-icon>
       </a>
     </template>
@@ -48,9 +48,11 @@ import AppBarLinkButton from "@/components/layout/AppBarLinkButton.vue";
 import AppBarMenu from "@/components/layout/AppBarMenu.vue";
 import NavigationDrawerListGroup from "@/components/layout/NavigationDrawerListGroup.vue";
 import NavigationDrawerListItem from "@/components/layout/NavigationDrawerListItem.vue";
+import { BASE_URL_CONTENT } from "@/env";
 
 const isDrawerOpen = ref(false);
 const { smAndDown } = useDisplay();
+const adminLink = `${BASE_URL_CONTENT}/admin`;
 
 function toggleNavigationDrawer() {
   isDrawerOpen.value = !isDrawerOpen.value;

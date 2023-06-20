@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "netlify dev",
+    "dev": "vite dev",
+    "dev:netlify": "netlify dev",
     "typecheck": "vue-tsc --noEmit",
     "build": "yarn typecheck && yarn functions:typecheck && vite build",
     "preview": "vite preview",

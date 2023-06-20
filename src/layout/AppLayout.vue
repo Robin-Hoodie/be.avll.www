@@ -10,7 +10,7 @@
             <template #default>
               <component :is="Component" />
             </template>
-            <template #fallback><app-loader /></template>
+            <template #fallback><circular-loader size="large" /></template>
           </suspense>
         </template>
       </router-view>
@@ -23,7 +23,7 @@
 import AppBar from "./AppBar.vue";
 import AppSideBar from "./AppSideBar.vue";
 import AppFooter from "./AppFooter.vue";
-import AppLoader from "@/components/AppLoader.vue";
+import CircularLoader from "@/components/CircularLoader.vue";
 </script>
 
 <style scoped>
