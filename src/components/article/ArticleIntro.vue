@@ -34,7 +34,7 @@ const CUTOFF_LENGTH = 200;
 
 const contentShortened = computed(() => {
   if (props.content.length < CUTOFF_LENGTH) {
-    return props.content.length;
+    return props.content;
   }
   return `${props.content.slice(0, CUTOFF_LENGTH - 3)}...`;
 });

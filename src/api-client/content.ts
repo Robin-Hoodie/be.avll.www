@@ -12,6 +12,7 @@ import {
   Role,
 } from "@/types";
 import { axiosInstanceContent } from "./axios";
+import dayjs from "dayjs";
 
 interface PersonRaw extends Omit<Person, "roles"> {
   roles: {
@@ -34,8 +35,9 @@ export function getWelcomeArticle() {
 }
 
 export function getBlogArticles() {
+  const threeMonthsAgo = dayjs().subtract(3, "month").format("YYYY-MM-DD");
   return axiosInstanceContent.get<Article[], Article[]>(
-    "/blog-articles?populate[0]=coverPhoto"
+    `/blog-articles?populate[0]=coverPhoto&filters[createdAt][$gte]=${threeMonthsAgo}&createdAt&sort=createdAt:desc`
   );
 }
 
