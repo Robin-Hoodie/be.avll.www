@@ -60,7 +60,10 @@ export function getUpcomingEvents() {
 }
 
 export function getContests() {
-  return axiosInstanceContent.get<Contest[], Contest[]>("/contests?sort=date");
+  const oneWeekAgo = dayjs().subtract(1, "week").format('YYYY-MM-DD');
+  return axiosInstanceContent.get<Contest[], Contest[]>(
+    `/contests?sort=date&filters[date][$gte]=${oneWeekAgo}`
+  );
 }
 
 export function getResults() {
