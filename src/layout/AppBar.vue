@@ -130,27 +130,10 @@ const links = [
     ],
   },
   {
-    title: "Atleten",
-    value: "athletes",
+    title: "Records",
+    value: "records",
     icon: "mdi-torch",
-    children: [
-      {
-        title: "Jeugd",
-        to: "/atleten/jeugd",
-      },
-      {
-        title: "Vanaf Cadet",
-        to: "/atleten/vanaf-cadet",
-      },
-      {
-        title: "G-team",
-        to: "/atleten/g-team",
-      },
-      {
-        title: "Records",
-        to: "/atleten/records",
-      },
-    ],
+    to: "/records",
   },
 ];
 </script>
