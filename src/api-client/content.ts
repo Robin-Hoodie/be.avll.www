@@ -10,6 +10,7 @@ import {
   Training,
   StrapiEntry,
   Role,
+  ClubRecord,
 } from "@/types";
 import { axiosInstanceContent } from "./axios";
 import dayjs from "dayjs";
@@ -60,7 +61,7 @@ export function getUpcomingEvents() {
 }
 
 export function getContests() {
-  const oneWeekAgo = dayjs().subtract(1, "week").format('YYYY-MM-DD');
+  const oneWeekAgo = dayjs().subtract(1, "week").format("YYYY-MM-DD");
   return axiosInstanceContent.get<Contest[], Contest[]>(
     `/contests?sort=date&filters[date][$gte]=${oneWeekAgo}`
   );
@@ -84,4 +85,10 @@ export function getRegistrationPage() {
 
 export function getTrainings() {
   return axiosInstanceContent.get<Training[], Training[]>("/trainings");
+}
+
+export function getClubRecords() {
+  return axiosInstanceContent.get<ClubRecord[], ClubRecord[]>(
+    "/club-records?populate[0]=file"
+  );
 }

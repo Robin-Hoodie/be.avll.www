@@ -130,10 +130,10 @@ const links = [
     ],
   },
   {
-    title: "Records",
-    value: "records",
+    title: "Clubrecords",
+    value: "clubRecords",
     icon: "mdi-torch",
-    to: "/records",
+    to: "/club-records",
   },
 ];
 </script>

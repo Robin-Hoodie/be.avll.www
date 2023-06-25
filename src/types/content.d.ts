@@ -18,7 +18,7 @@ export type Role =
   | "trainerFromCadet"
   | "trainerGTeam"
   | "trainerJoggers";
-  
+
 export type TrainerRole = Extract<
   Role,
   "trainerYouth" | "trainerFromCadet" | "trainerGTeam" | "trainerJoggers"
@@ -103,7 +103,14 @@ export interface Training extends StrapiModel {
   comment: string | null;
 }
 
-export type Category =
+export interface ClubRecord extends StrapiModel {
+  category: string;
+  type: "indoor" | "outdoor";
+  ageBracket: "youth" | "fromCadet" | "master";
+  file: File;
+}
+
+export type RegistrationCategory =
   | "Benjamins"
   | "Pupillen"
   | "Miniemen"
@@ -119,7 +126,7 @@ export interface Registration {
   email: string;
   gender: "male" | "female";
   birthYear: string;
-  category: Category;
+  category: RegistrationCategory;
   valNumber: string;
   discipline: string;
   bestPerformance: string;

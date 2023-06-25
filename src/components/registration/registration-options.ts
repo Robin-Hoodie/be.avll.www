@@ -1,6 +1,6 @@
-import { Category } from "@/types";
+import { RegistrationCategory } from "@/types";
 
-export const categoryOptions: Category[] = [
+export const categoryOptions: RegistrationCategory[] = [
   "Benjamins",
   "Pupillen",
   "Miniemen",

@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { Training } from "@/types";
 import TrainingTable from "@/components/training/TrainingTable.vue";
 
@@ -42,22 +42,17 @@ function formatTrainingType(trainingType: Training["type"]) {
   }
 }
 
-const trainingTypes = computed(
-  () => new Set(props.trainings.map((training) => training.type))
-);
+const trainingTypes = new Set(props.trainings.map((training) => training.type));
 
-const trainingsPerType = computed(() =>
-  props.trainings.reduce<Record<Training["type"], Training[]>>(
-    (trainingsPerTypeAcc, training) => {
-      const trainingsForType = trainingsPerTypeAcc[training.type] || [];
-      return {
-        ...trainingsPerTypeAcc,
-        [training.type]: trainingsForType.concat(training),
-      };
-    },
-    {} as Record<Training["type"], Training[]>
-  )
-);
+const trainingsPerType = props.trainings.reduce<
+  Record<Training["type"], Training[]>
+>((trainingsPerTypeAcc, training) => {
+  const trainingsForType = trainingsPerTypeAcc[training.type] || [];
+  return {
+    ...trainingsPerTypeAcc,
+    [training.type]: trainingsForType.concat(training),
+  };
+}, {} as Record<Training["type"], Training[]>);
 
-const activeTab = ref([...trainingTypes.value][0]);
+const activeTab = ref([...trainingTypes][0]);
 </script>
