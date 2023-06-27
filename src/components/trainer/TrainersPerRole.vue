@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { Person, TrainerRole } from "@/types";
 import PersonDetailsList from "@/components/person/PersonDetailsList.vue";
 
@@ -24,11 +24,9 @@ const props = defineProps<{
   trainersPerRole: Record<TrainerRole, Person[]>;
 }>();
 
-const roles = computed(
-  () => Object.keys(props.trainersPerRole) as TrainerRole[]
-);
+const roles = Object.keys(props.trainersPerRole) as TrainerRole[];
 
-const activeTab = ref(roles.value[0]);
+const activeTab = ref(roles[0]);
 
 function formatRole(role: TrainerRole) {
   switch (role) {

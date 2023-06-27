@@ -3,9 +3,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
 import { getWelcomeArticle } from "@/api-client";
 import ArticleFull from "@/components/article/ArticleFull.vue";
 
-const welcomeArticle = ref(await getWelcomeArticle());
+const welcomeArticle = await getWelcomeArticle();
 </script>

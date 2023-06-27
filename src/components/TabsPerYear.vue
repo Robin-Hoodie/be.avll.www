@@ -16,26 +16,25 @@
 </template>
 
 <script lang="ts" setup generic="T extends {date: string}">
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import dayjs from "dayjs";
 
 const props = defineProps<{ list: T[] }>();
 
-const listPerYear = computed(() =>
-  props.list.reduce<Record<number, T[]>>((listPerYearAcc, item) => {
+const listPerYear = props.list.reduce<Record<number, T[]>>(
+  (listPerYearAcc, item) => {
     const year = dayjs(item.date).year();
     const listForYear = listPerYearAcc[year] || [];
     return {
       ...listPerYearAcc,
       [year]: listForYear.concat(item),
     };
-  }, {})
+  },
+  {}
 );
-const years = computed(() =>
-  Object.keys(listPerYear.value)
-    .sort((yearOne, yearTwo) => Number(yearTwo) - Number(yearOne))
-    .map(Number)
-);
+const years = Object.keys(listPerYear)
+  .sort((yearOne, yearTwo) => Number(yearTwo) - Number(yearOne))
+  .map(Number);
 
-const activeTab = ref(years.value[0]);
+const activeTab = ref(years[0]);
 </script>

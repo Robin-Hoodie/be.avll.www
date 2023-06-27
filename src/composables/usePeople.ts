@@ -1,4 +1,3 @@
-import { ref } from "vue";
 import { getPeople } from "@/api-client";
 import { Role, Person } from "@/types";
 
@@ -8,5 +7,5 @@ export async function usePeople(role: Role) {
   if (!people) {
     people = await getPeople();
   }
-  return ref(people.filter((person) => person.roles.includes(role)));
+  return people.filter((person) => person.roles.includes(role));
 }
