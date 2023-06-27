@@ -110,11 +110,18 @@ const routes: Readonly<RouteRecordRaw[]> = [
         /* webpackChunkName: "records" */ "@/views/club-records/ClubRecords.vue"
       ),
   },
+  {
+    path: "/not-found",
+    component: () =>
+      import(/* webpackChunkName: "notFound" */ "@/views/NotFound.vue"),
+  },
+  {
+    path: "/:pathMatch(.*)",
+    redirect: "/not-found",
+  },
 ];
 
-const router = createRouter({
+export const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
-
-export default router;
