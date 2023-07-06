@@ -11,6 +11,7 @@ import {
   StrapiEntry,
   Role,
   ClubRecord,
+  FileLink,
 } from "@/types";
 import { axiosInstanceContent } from "./axios";
 import dayjs from "dayjs";
@@ -90,5 +91,11 @@ export function getTrainings() {
 export function getClubRecords() {
   return axiosInstanceContent.get<ClubRecord[], ClubRecord[]>(
     "/club-records?populate[0]=file"
+  );
+}
+
+export function getFileLinks(location: "pageVision" | "footer") {
+  return axiosInstanceContent.get<FileLink[], FileLink[]>(
+    `/file-links?populate[0]=file&filters[location]=${location}`
   );
 }

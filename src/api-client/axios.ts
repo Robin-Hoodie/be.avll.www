@@ -81,7 +81,7 @@ function responseTransformerStrapi(response: string) {
   };
 }
 
-function responseInterceptor(response: AxiosResponse) {
+function extractData(response: AxiosResponse) {
   return response.data;
 }
 
@@ -89,9 +89,9 @@ export const axiosInstanceContent = axios.create({
   baseURL: `${BASE_URL_CONTENT}/api`,
   transformResponse: responseTransformerStrapi,
 });
-axiosInstanceContent.interceptors.response.use(responseInterceptor);
+axiosInstanceContent.interceptors.response.use(extractData);
 
 export const axiosInstanceNetlifyFunctions = axios.create({
   baseURL: "/.netlify/functions",
 });
-axiosInstanceNetlifyFunctions.interceptors.response.use(responseInterceptor);
+axiosInstanceNetlifyFunctions.interceptors.response.use(extractData);

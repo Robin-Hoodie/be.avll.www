@@ -108,6 +108,10 @@ const links = [
         title: "Trainingen",
         to: "/club-info/trainingen",
       },
+      {
+        title: "Visie en werking",
+        to: "/club-info/visie-en-werking",
+      },
     ],
   },
   {

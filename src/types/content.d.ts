@@ -80,6 +80,11 @@ export interface FooterLink extends StrapiModel {
   icon: string | null;
 }
 
+export interface FileLink extends StrapiModel {
+  description: string;
+  file: File;
+}
+
 export interface RegistrationPage extends StrapiModel {
   introText: string;
   privacyStatement: string;
