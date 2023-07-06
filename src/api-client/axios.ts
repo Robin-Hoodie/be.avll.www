@@ -11,12 +11,7 @@ function isFileAttribute(value: unknown): value is StrapiFile {
     typeof value === "object" &&
     value !== null &&
     "data" in value &&
-    typeof value.data === "object" &&
-    value.data !== null &&
-    "attributes" in value.data &&
-    typeof value.data.attributes === "object" &&
-    value.data.attributes !== null &&
-    "url" in value.data.attributes
+    !Array.isArray(value.data)
   );
 }
 

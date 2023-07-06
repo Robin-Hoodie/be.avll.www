@@ -1,5 +1,6 @@
 <template>
   <VCard :title="title" :elevation="5" class="ma-2">
+    <VImg v-if="coverPhoto" :src="coverPhoto.url" class="my-2" :height="150" />
     <VCardSubtitle class="d-flex justify-space-between">
       <div class="d-flex align-center">
         <VIcon color="primary" size="small">mdi-calendar</VIcon>
