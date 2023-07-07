@@ -12,7 +12,6 @@ export type Role =
   | "management"
   | "partyManagement"
   | "confidant"
-  | "official"
   | "confidant"
   | "trainerYouth"
   | "trainerFromCadet"

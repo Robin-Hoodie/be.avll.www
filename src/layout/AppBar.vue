@@ -97,10 +97,6 @@ const links = [
         to: "/club-info/vertrouwenspersoon",
       },
       {
-        title: "Officiëlen",
-        to: "/club-info/officielen",
-      },
-      {
         title: "Trainers",
         to: "/club-info/trainers",
       },
