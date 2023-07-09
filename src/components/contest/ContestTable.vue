@@ -19,7 +19,7 @@
             :href="contest.registrationLink"
             external
           >
-            Aanmelden
+            {{ clipLink(contest.registrationLink, 30) }}
           </ThemedLink>
         </td>
         <td>
@@ -28,7 +28,7 @@
             :href="contest.scheduleLink"
             external
           >
-            Schema
+            {{ clipLink(contest.scheduleLink, 30) }}
           </ThemedLink>
         </td>
         <td>
@@ -37,7 +37,7 @@
             :href="contest.websiteLink"
             external
           >
-            Website
+            {{ clipLink(contest.websiteLink, 30) }}
           </ThemedLink>
         </td>
       </tr>
@@ -47,7 +47,7 @@
 
 <script lang="ts" setup>
 import { Contest } from "@/types";
-import { formatDateFull } from "@/utils";
+import { formatDateFull, clipLink } from "@/utils";
 import ThemedLink from "@/components/ThemedLink.vue";
 
 defineProps<{ contests: Contest[] }>();

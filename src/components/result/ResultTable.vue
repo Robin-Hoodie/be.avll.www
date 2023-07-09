@@ -13,7 +13,7 @@
         <td>{{ result.title }}</td>
         <td>
           <ThemedLink :href="result.link" external>{{
-            result.link
+            clipLink(result.link, 40)
           }}</ThemedLink>
         </td>
       </tr>
@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { Result } from "@/types";
-import { formatDateFull } from "@/utils";
+import { formatDateFull, clipLink } from "@/utils";
 import ThemedLink from "@/components/ThemedLink.vue";
 
 defineProps<{ results: Result[] }>();
