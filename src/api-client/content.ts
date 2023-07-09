@@ -2,7 +2,7 @@ import {
   Person,
   Article,
   Sponsor,
-  UpcomingEvent,
+  UpcomingContest,
   Contest,
   Result,
   FooterLink,
@@ -56,9 +56,9 @@ export function getSponsors() {
   );
 }
 
-export function getUpcomingEvents() {
-  return axiosInstanceContent.get<UpcomingEvent[], UpcomingEvent[]>(
-    "/upcoming-events?sort=date"
+export function getUpcomingContests() {
+  return axiosInstanceContent.get<UpcomingContest[], UpcomingContest[]>(
+    "/upcoming-contests?sort=date"
   );
 }
 

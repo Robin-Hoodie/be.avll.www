@@ -12,35 +12,35 @@
     <div class="text-h6 font-weight-bold text-center my-2">Evenementen</div>
     <VList>
       <VListItem
-        v-for="upcomingEvent in upcomingEvents"
-        :key="upcomingEvent.id"
+        v-for="upcomingContest in upcomingContests"
+        :key="upcomingContest.id"
         class="mb-4"
       >
         <VListItemTitle
           class="font-weight-bold mb-1"
-          :title="upcomingEvent.title"
+          :title="upcomingContest.title"
         >
-          {{ upcomingEvent.title }}
+          {{ upcomingContest.title }}
         </VListItemTitle>
         <VListItemSubtitle class="mb-2">
           <div class="d-flex align-center">
             <VIcon color="primary">mdi-clock</VIcon>
-            <span class="ml-1">{{ formatDateFull(upcomingEvent.date) }}</span>
+            <span class="ml-1">{{ formatDateFull(upcomingContest.date) }}</span>
           </div>
           <div class="d-flex align-center">
             <VIcon color="primary">mdi-map-marker-outline</VIcon>
-            <span class="ml-1">{{ upcomingEvent.location }}</span>
+            <span class="ml-1">{{ upcomingContest.location }}</span>
           </div>
         </VListItemSubtitle>
 
         <div
-          v-if="upcomingEvent.registrationFinalDate"
+          v-if="upcomingContest.dateFinalRegistration"
           class="text-body-2 mb-1"
         >
           Registratie tot
-          {{ formatDateFull(upcomingEvent.registrationFinalDate) }}
+          {{ formatDateFull(upcomingContest.dateFinalRegistration) }}
         </div>
-        <div v-if="upcomingEvent.registrationByClub" class="text-body-2">
+        <div v-if="upcomingContest.registrationByClub" class="text-body-2">
           Registratie door club
         </div>
         <VListItemAction class="mt-2">
@@ -48,9 +48,9 @@
             variant="outlined"
             color="primary"
             block
-            :href="upcomingEvent.link"
+            :href="upcomingContest.link"
           >
-            {{ upcomingEvent.linkText }}
+            {{ upcomingContest.linkText }}
           </VBtn>
         </VListItemAction>
       </VListItem>
@@ -60,15 +60,15 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { Sponsor, UpcomingEvent } from "@/types";
-import { getSponsors, getUpcomingEvents } from "@/api-client";
+import { Sponsor, UpcomingContest } from "@/types";
+import { getSponsors, getUpcomingContests } from "@/api-client";
 import { formatDateFull } from "@/utils";
 
 const sponsors = ref<Sponsor[]>([]);
-const upcomingEvents = ref<UpcomingEvent[]>([]);
+const upcomingContests = ref<UpcomingContest[]>([]);
 
 onMounted(async () => {
   sponsors.value = await getSponsors();
-  upcomingEvents.value = await getUpcomingEvents();
+  upcomingContests.value = await getUpcomingContests();
 });
 </script>

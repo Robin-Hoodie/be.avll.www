@@ -48,12 +48,12 @@ export interface Sponsor extends StrapiModel {
   picture: File;
 }
 
-export interface UpcomingEvent extends StrapiModel {
-  linkText: string;
-  link: string;
+export interface UpcomingContest extends StrapiModel {
   title: string;
+  link: string;
+  linkText: string;
   date: string;
-  location: String;
+  location: string;
   dateFinalRegistration: string | null;
   registrationByClub: boolean;
 }
