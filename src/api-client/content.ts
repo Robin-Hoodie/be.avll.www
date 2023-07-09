@@ -12,6 +12,7 @@ import {
   Role,
   ClubRecord,
   FileLink,
+  RegistrationContest,
 } from "@/types";
 import { axiosInstanceContent } from "./axios";
 import dayjs from "dayjs";
@@ -58,6 +59,13 @@ export function getSponsors() {
 export function getUpcomingEvents() {
   return axiosInstanceContent.get<UpcomingEvent[], UpcomingEvent[]>(
     "/upcoming-events?sort=date"
+  );
+}
+
+export function getRegistrationContests() {
+  const now = dayjs().format("YYYY-MM-DD");
+  return axiosInstanceContent.get<RegistrationContest[], RegistrationContest[]>(
+    `/registration-contests?sort=dateStart&filters[dateFinalRegistration][$gte]=${now}`
   );
 }
 

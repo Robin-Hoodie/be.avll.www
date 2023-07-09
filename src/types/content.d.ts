@@ -54,8 +54,17 @@ export interface UpcomingEvent extends StrapiModel {
   title: string;
   date: string;
   location: String;
-  registrationFinalDate: string | null;
+  dateFinalRegistration: string | null;
   registrationByClub: boolean;
+}
+
+export interface RegistrationContest extends StrapiModel {
+  title: string;
+  dateStart: string;
+  dateEnd: string | null;
+  location: string;
+  dateFinalRegistration: string;
+  infoLink: string | null;
 }
 
 export interface Contest extends StrapiModel {

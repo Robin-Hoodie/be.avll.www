@@ -11,6 +11,10 @@
     :options="{ break: true, linkify: true }"
     class="text-body-1 mb-2"
   />
+  <RegistrationContestTable
+    :registration-contests="registrationContests"
+    class="mb-2"
+  />
   <RegistrationForm v-bind="registrationPage" />
 </template>
 
@@ -18,7 +22,9 @@
 import VueMarkdown from "vue-markdown-render";
 import PageHeader from "@/components/PageHeader.vue";
 import RegistrationForm from "@/components/registration/RegistrationForm.vue";
-import { getRegistrationPage } from "@/api-client";
+import RegistrationContestTable from "@/components/registration/RegistrationContestTable.vue";
+import { getRegistrationPage, getRegistrationContests } from "@/api-client";
 
 const registrationPage = await getRegistrationPage();
+const registrationContests = await getRegistrationContests();
 </script>
