@@ -128,17 +128,11 @@ export interface Registration {
   event: string;
   name: string;
   email: string;
-  gender: "male" | "female";
+  gender: "male" | "female" | null;
   birthYear: string;
-  category: RegistrationCategory;
+  category: RegistrationCategory | null;
   valNumber: string;
   discipline: string;
   bestPerformance: string;
   comment: string;
-}
-
-export interface RegistrationInitial
-  extends Omit<Registration, "gender" | "category"> {
-  gender: null;
-  category: null;
 }

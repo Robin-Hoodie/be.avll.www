@@ -84,7 +84,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { SubmitEventPromise } from "vuetify";
-import { RegistrationInitial, RegistrationPage } from "@/types";
+import { Registration, RegistrationPage, WithRequired } from "@/types";
 import { categoryOptions } from "@/components/registration/registration-options";
 import RequiredLabel from "@/components/form/RequiredLabel.vue";
 import {
@@ -102,7 +102,7 @@ import { sendRegistrationEmails } from "@/api-client";
 
 defineProps<RegistrationPage>();
 
-const registration = reactive<RegistrationInitial>({
+const registration = reactive<Registration>({
   event: "",
   name: "",
   email: "",
@@ -127,8 +127,11 @@ function openFormSubmittedMessage() {
 
 async function handleSubmit(eventPromise: SubmitEventPromise) {
   const { valid } = await eventPromise;
+  
   if (valid) {
-    // await sendRegistrationEmails();
+    await sendRegistrationEmails(
+      registration as WithRequired<Registration, "gender" | "category">
+    );
     openFormSubmittedMessage();
   }
 }

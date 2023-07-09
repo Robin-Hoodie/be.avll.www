@@ -1,5 +1,11 @@
+import type { Registration, WithRequired } from "@/types";
 import { axiosInstanceNetlifyFunctions } from "./axios";
 
-export function sendRegistrationEmails() {
-  return axiosInstanceNetlifyFunctions.get("/send-registration-emails");
+export function sendRegistrationEmails(
+  registration: WithRequired<Registration, "gender" | "category">
+) {
+  return axiosInstanceNetlifyFunctions.post(
+    "/send-registration-emails",
+    registration
+  );
 }

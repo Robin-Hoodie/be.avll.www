@@ -87,6 +87,6 @@ export const axiosInstanceContent = axios.create({
 axiosInstanceContent.interceptors.response.use(extractData);
 
 export const axiosInstanceNetlifyFunctions = axios.create({
-  baseURL: "/.netlify/functions",
+  baseURL: "/api",
 });
 axiosInstanceNetlifyFunctions.interceptors.response.use(extractData);

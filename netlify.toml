@@ -2,11 +2,18 @@
   command = "yarn build"
 
 [dev]
-  command = "vite dev --port 8080"
-  targetPort = 8080
-  port = 3000
+  autoLaunch = false
+  command = "vite dev"
+  targetPort = 3000
+  port = 8080
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[redirects]]
+  force = true
+  from = '/api/*'
+  status = 200
+  to = '/.netlify/functions/:splat'
