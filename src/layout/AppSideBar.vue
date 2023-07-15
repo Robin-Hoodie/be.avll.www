@@ -1,13 +1,7 @@
 <template>
   <VNavigationDrawer location="right">
     <div class="text-h6 font-weight-bold text-center mt-2">Sponsors</div>
-    <VList>
-      <VListItem v-for="sponsor in sponsors" :key="sponsor.id" class="my-1">
-        <a :href="sponsor.link">
-          <VImg :src="sponsor.picture.url" max-height="100" />
-        </a>
-      </VListItem>
-    </VList>
+    <SponsorAnimation class="ma-2" />
     <VDivider />
     <div class="text-h6 font-weight-bold text-center my-2">Evenementen</div>
     <VList>
@@ -59,16 +53,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { Sponsor, UpcomingContest } from "@/types";
-import { getSponsors, getUpcomingContests } from "@/api-client";
+import { getUpcomingContests } from "@/api-client";
 import { formatDateFull } from "@/utils";
+import SponsorAnimation from "@/components/sponsors/SponsorAnimation.vue";
+import { ref } from "vue";
+import { UpcomingContest } from "@/types";
+import { onMounted } from "vue";
 
-const sponsors = ref<Sponsor[]>([]);
 const upcomingContests = ref<UpcomingContest[]>([]);
 
 onMounted(async () => {
-  sponsors.value = await getSponsors();
   upcomingContests.value = await getUpcomingContests();
 });
 </script>
