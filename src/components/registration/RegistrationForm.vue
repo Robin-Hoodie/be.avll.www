@@ -22,8 +22,13 @@
       <template #label>
         <RequiredLabel>Geslacht</RequiredLabel>
       </template>
-      <VRadio value="male" label="Man" />
-      <VRadio value="female" label="Vrouw" />
+      <VRadio
+        v-for="genderOption in genderOptions"
+        :value="genderOption.value"
+        :label="genderOption.label"
+        :key="genderOption.value"
+        color="primary"
+      />
     </VRadioGroup>
     <VTextField
       v-model="registration.birthYear"
@@ -85,7 +90,10 @@
 import { reactive, ref } from "vue";
 import { SubmitEventPromise } from "vuetify";
 import { Registration, RegistrationPage, WithRequired } from "@/types";
-import { categoryOptions } from "@/components/registration/registration-options";
+import {
+  categoryOptions,
+  genderOptions,
+} from "@/components/registration/registration-options";
 import RequiredLabel from "@/components/form/RequiredLabel.vue";
 import {
   eventRules,
@@ -127,7 +135,7 @@ function openFormSubmittedMessage() {
 
 async function handleSubmit(eventPromise: SubmitEventPromise) {
   const { valid } = await eventPromise;
-  
+
   if (valid) {
     await sendRegistrationEmails(
       registration as WithRequired<Registration, "gender" | "category">

@@ -111,6 +111,13 @@ const routes: Readonly<RouteRecordRaw[]> = [
       ),
   },
   {
+    path: "/natuurlopen/:date",
+    component: () =>
+      import(
+        /* webpackChunkName: "natureRun" */ "@/views/nature-run/NatureRunRegistration.vue"
+      ),
+  },
+  {
     path: "/not-found",
     component: () =>
       import(/* webpackChunkName: "notFound" */ "@/views/NotFound.vue"),

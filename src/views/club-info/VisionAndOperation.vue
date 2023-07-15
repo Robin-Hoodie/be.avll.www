@@ -16,5 +16,9 @@
 import PageHeader from "@/components/PageHeader.vue";
 import { getFileLinks } from "@/api-client/content";
 
-const fileLinks = await getFileLinks("pageVision");
+const fileLinks = await getFileLinks([
+  "philosophy",
+  "missionStatement",
+  "statutes",
+]);
 </script>

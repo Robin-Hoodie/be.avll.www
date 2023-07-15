@@ -5,7 +5,6 @@ import {
   UpcomingContest,
   Contest,
   Result,
-  FooterLink,
   RegistrationPage,
   Training,
   StrapiEntry,
@@ -14,6 +13,7 @@ import {
   FileLink,
   RegistrationContest,
 } from "@/types";
+import qs from "qs";
 import { axiosInstanceContent } from "./axios";
 import dayjs from "dayjs";
 
@@ -24,8 +24,11 @@ interface PersonRaw extends Omit<Person, "roles"> {
 }
 
 export async function getPeople(): Promise<Person[]> {
+  const query = qs.stringify({
+    populate: ["profilePhoto", "roles"],
+  });
   const peopleRaw = await axiosInstanceContent.get<PersonRaw[], PersonRaw[]>(
-    "/people?populate[0]=profilePhoto&populate[1]=roles"
+    `/people?${query}`
   );
   return peopleRaw.map((person) => ({
     ...person,
@@ -39,51 +42,78 @@ export function getWelcomeArticle() {
 
 export function getBlogArticles() {
   const threeMonthsAgo = dayjs().subtract(3, "month").format("YYYY-MM-DD");
+  const query = qs.stringify({
+    populate: "coverPhoto",
+    filters: {
+      createdAt: {
+        $gte: threeMonthsAgo,
+      },
+      sort: "createdAt:desc",
+    },
+  });
   return axiosInstanceContent.get<Article[], Article[]>(
-    `/blog-articles?populate[0]=coverPhoto&filters[createdAt][$gte]=${threeMonthsAgo}&createdAt&sort=createdAt:desc`
+    `/blog-articles?${query}`
   );
 }
 
 export function getBlogArticle(id: number | string) {
+  const query = qs.stringify({
+    populate: "coverPhoto",
+  });
   return axiosInstanceContent.get<Article, Article>(
-    `/blog-articles/${id}?populate[0]=coverPhoto`
+    `/blog-articles/${id}?${query}`
   );
 }
 
 export function getSponsors() {
-  return axiosInstanceContent.get<Sponsor[], Sponsor[]>(
-    "/sponsors?populate[0]=picture"
-  );
+  const query = qs.stringify({
+    populate: "picture",
+  });
+  return axiosInstanceContent.get<Sponsor[], Sponsor[]>(`/sponsors?${query}`);
 }
 
 export function getUpcomingContests() {
+  const query = qs.stringify({
+    sort: "date",
+  });
   return axiosInstanceContent.get<UpcomingContest[], UpcomingContest[]>(
-    "/upcoming-contests?sort=date"
+    `/upcoming-contests?${query}`
   );
 }
 
 export function getRegistrationContests() {
   const now = dayjs().format("YYYY-MM-DD");
+  const query = qs.stringify({
+    sort: "dateStart",
+    filters: {
+      dateFinalRegistration: {
+        $gte: now,
+      },
+    },
+  });
   return axiosInstanceContent.get<RegistrationContest[], RegistrationContest[]>(
-    `/registration-contests?sort=dateStart&filters[dateFinalRegistration][$gte]=${now}`
+    `/registration-contests?${query}`
   );
 }
 
 export function getContests() {
   const oneWeekAgo = dayjs().subtract(1, "week").format("YYYY-MM-DD");
-  return axiosInstanceContent.get<Contest[], Contest[]>(
-    `/contests?sort=date&filters[date][$gte]=${oneWeekAgo}`
-  );
+  const query = qs.stringify({
+    filters: {
+      date: {
+        $gte: oneWeekAgo,
+      },
+      sort: "date",
+    },
+  });
+  return axiosInstanceContent.get<Contest[], Contest[]>(`/contests?${query}`);
 }
 
 export function getResults() {
-  return axiosInstanceContent.get<Result[], Result[]>("/results?sort=date");
-}
-
-export function getFooterLinks() {
-  return axiosInstanceContent.get<FooterLink[], FooterLink[]>(
-    "/footer-links?populate[0]=file"
-  );
+  const query = qs.stringify({
+    sort: "date",
+  });
+  return axiosInstanceContent.get<Result[], Result[]>(`/results?${query}`);
 }
 
 export function getRegistrationPage() {
@@ -97,13 +127,32 @@ export function getTrainings() {
 }
 
 export function getClubRecords() {
+  const query = qs.stringify({
+    populate: "file",
+  });
   return axiosInstanceContent.get<ClubRecord[], ClubRecord[]>(
-    "/club-records?populate[0]=file"
+    `/club-records?${query}`
   );
 }
 
-export function getFileLinks(location: "pageVision" | "footer") {
-  return axiosInstanceContent.get<FileLink[], FileLink[]>(
-    `/file-links?populate[0]=file&filters[location]=${location}`
+export async function getFileLinks(
+  types: Array<
+    | "philosophy"
+    | "youthPlan"
+    | "statutes"
+    | "missionStatement"
+    | "privacyStatement"
+  >
+) {
+  const query = qs.stringify({
+    populate: "file",
+    filters: {
+      type: {
+        $in: types,
+      },
+    },
+  });
+  return await axiosInstanceContent.get<FileLink[], FileLink[]>(
+    `/file-links?${query}`
   );
 }

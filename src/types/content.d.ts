@@ -81,13 +81,6 @@ export interface Result extends StrapiModel {
   link: string;
 }
 
-export interface FooterLink extends StrapiModel {
-  description: string;
-  link: string | null;
-  file: File | null;
-  icon: string | null;
-}
-
 export interface FileLink extends StrapiModel {
   description: string;
   file: File;
@@ -137,7 +130,7 @@ export interface Registration {
   event: string;
   name: string;
   email: string;
-  gender: "male" | "female" | null;
+  gender: RegistrationGender | null;
   birthYear: string;
   category: RegistrationCategory | null;
   valNumber: string;
@@ -145,3 +138,5 @@ export interface Registration {
   bestPerformance: string;
   comment: string;
 }
+
+export type RegistrationGender = "male" | "female";

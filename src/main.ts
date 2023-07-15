@@ -15,11 +15,13 @@ import { registerPlugins } from "@/plugins";
 
 import "dayjs/locale/nl";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 const app = createApp(App);
 
 registerPlugins(app);
 
 dayjs.locale("nl");
+dayjs.extend(customParseFormat);
 
 app.mount("#app");

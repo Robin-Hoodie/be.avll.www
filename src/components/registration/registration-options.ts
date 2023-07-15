@@ -1,4 +1,4 @@
-import { RegistrationCategory } from "@/types";
+import { RegistrationCategory, RegistrationGender } from "@/types";
 
 export const categoryOptions: RegistrationCategory[] = [
   "Benjamins",
@@ -9,4 +9,18 @@ export const categoryOptions: RegistrationCategory[] = [
   "Juniors",
   "Seniors",
   "Masters",
+];
+
+export const genderOptions: Array<{
+  value: RegistrationGender;
+  label: string;
+}> = [
+  {
+    value: "male",
+    label: "Man",
+  },
+  {
+    value: "female",
+    label: "Vrouw",
+  },
 ];
