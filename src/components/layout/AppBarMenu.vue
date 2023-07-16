@@ -9,19 +9,18 @@
     </template>
     <template #default>
       <VList>
-        <VListItem v-for="child in children" :key="child.to" v-bind="child" />
+        <VListItem
+          v-for="child in children"
+          :key="child.title"
+          v-bind="child"
+        />
       </VList>
     </template>
   </VMenu>
 </template>
 
 <script lang="ts" setup>
-defineProps<{
-  icon: string;
-  title: string;
-  children: Array<{
-    title: string;
-    to: string;
-  }>;
-}>();
+import { MenuLinkWithChildren } from "@/types";
+
+defineProps<MenuLinkWithChildren>();
 </script>

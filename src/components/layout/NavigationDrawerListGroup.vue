@@ -7,18 +7,12 @@
         </template>
       </VListItem>
     </template>
-    <VListItem v-for="child in children" :key="child.to" v-bind="child" />
+    <VListItem v-for="child in children" :key="child.title" v-bind="child" />
   </VListGroup>
 </template>
 
 <script lang="ts" setup>
-defineProps<{
-  value: string;
-  icon: string;
-  title: string;
-  children: Array<{
-    title: string;
-    to: string;
-  }>;
-}>();
+import { MenuLinkWithChildren } from "@/types";
+
+defineProps<MenuLinkWithChildren>();
 </script>

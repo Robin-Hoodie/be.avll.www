@@ -1,5 +1,11 @@
 <template>
-  <VCarousel hide-delimiters cycle :show-arrows="false" :height="200">
+  <VCarousel
+    hide-delimiters
+    cycle
+    :show-arrows="false"
+    :height="100"
+    class="pa-2"
+  >
     <VCarouselItem v-for="sponsor in sponsors" :key="sponsor.id">
       <ThemedLink :href="sponsor.link">
         <VImg :src="sponsor.picture.url" />

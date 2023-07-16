@@ -7,9 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
-  title: string;
-  to: string;
-  icon: string;
-}>();
+import { MenuLinkWithoutChildren } from "@/types";
+
+defineProps<MenuLinkWithoutChildren>();
 </script>
