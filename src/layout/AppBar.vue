@@ -128,7 +128,7 @@ const links = ref<MenuLink[]>([
       },
       {
         title: "Lyra-Lierse webshop",
-        href: "https://www.vermarcsport.com/nl/store/avlyralierse",
+        href: "https://www.vermarcsport.be/nl/store/avlyralierse",
       },
     ],
   },
