@@ -86,7 +86,7 @@ export function getRegistrationContests() {
   const query = qs.stringify({
     sort: "dateStart",
     filters: {
-      dateFinalRegistration: {
+      dateStart: {
         $gte: now,
       },
     },
