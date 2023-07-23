@@ -163,9 +163,7 @@
           <VCheckbox
             color="primary"
             v-model="registration.agreeToPrivacyTerms"
-            :rules="privacyTermsRules"
             required
-            
           >
             <template #label>
               <RequiredLabel>
