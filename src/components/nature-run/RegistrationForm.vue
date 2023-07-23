@@ -55,11 +55,7 @@
           </VTextField>
         </VCol>
         <VCol :cols="12" :sm="3">
-          <VTextField v-model="registration.bus">
-            <template #label>
-              <RequiredLabel>Bus</RequiredLabel>
-            </template>
-          </VTextField>
+          <VTextField v-model="registration.bus" label="Bus" />
         </VCol>
         <VCol :cols="12" :sm="3">
           <VTextField
@@ -207,7 +203,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { SubmitEventPromise } from "vuetify";
-import { NatureRunRegistration } from "@/types";
+import { NatureRunRegistration, WithRequired } from "@/types";
 import {
   distanceOptions,
   genderOptions,
@@ -228,7 +224,11 @@ import {
   tShirtSizeRules,
   privacyTermsRules,
 } from "@/components/nature-run/registration-rules";
-import { getFileLinks, sendRegistrationEmails } from "@/api-client";
+import {
+  getFileLinks,
+  handleNatureRunRegistration,
+  sendRegistrationEmails,
+} from "@/api-client";
 import ThemedLink from "../ThemedLink.vue";
 import { computed } from "vue";
 
@@ -273,8 +273,9 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
   const { valid } = await eventPromise;
 
   if (valid) {
-    await sendRegistrationEmails(
-      registration as WithRequired<Registration, "gender" | "category">
+    console.log("registration", registration);
+    await handleNatureRunRegistration(
+      registration as WithRequired<NatureRunRegistration, "gender" | "distance">
     );
     openFormSubmittedMessage();
   }
