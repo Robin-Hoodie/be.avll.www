@@ -2,7 +2,7 @@
   <VContainer>
     <VRow>
       <VCol :cols="cols" v-for="person in people" :key="person.id">
-        <PersonDetails v-bind="person"
+        <PersonDetails :person="person" :active-role-name="activeRoleName"
       /></VCol>
     </VRow>
   </VContainer>
@@ -11,10 +11,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useDisplay } from "vuetify";
-import { Person } from "@/types";
+import { Person, Role } from "@/types";
 import PersonDetails from "@/components/person/PersonDetails.vue";
 
-defineProps<{ people: Person[] }>();
+defineProps<{ people: Person[]; activeRoleName: Role["name"] }>();
 
 const { smAndDown, lgAndDown } = useDisplay();
 

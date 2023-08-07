@@ -1,6 +1,9 @@
 <template>
   <PageHeader>Bestuur</PageHeader>
-  <PersonDetailsList :people="managementMembers" />
+  <PersonDetailsList
+    :people="managementMembers"
+    active-role-name="management"
+  />
 </template>
 
 <script setup lang="ts">
@@ -9,4 +12,6 @@ import PageHeader from "@/components/PageHeader.vue";
 import { usePeople } from "@/composables/usePeople";
 
 const managementMembers = await usePeople("management");
+
+console.log("managementMembers", managementMembers);
 </script>

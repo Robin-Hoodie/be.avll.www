@@ -8,23 +8,25 @@ interface StrapiModel {
   updatedAt: string;
 }
 
-export type Role =
-  | "management"
-  | "partyManagement"
-  | "confidant"
-  | "confidant"
-  | "trainerYouth"
-  | "trainerFromCadet"
-  | "trainerGTeam"
-  | "trainerJoggers";
+export interface Role {
+  name:
+    | "management"
+    | "partyManagement"
+    | "confidant"
+    | "confidant"
+    | "trainerYouth"
+    | "trainerFromCadet"
+    | "trainerGTeam"
+    | "trainerJoggers";
+  title: string | null;
+}
 
-export type TrainerRole = Extract<
-  Role,
+export type TrainerRoleName = Extract<
+  Role["name"],
   "trainerYouth" | "trainerFromCadet" | "trainerGTeam" | "trainerJoggers"
 >;
 
 export interface Person extends StrapiModel {
-  title: string;
   name: string;
   phoneMobile: string | null;
   phoneLandLine: string | null;

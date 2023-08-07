@@ -5,49 +5,54 @@
         <VIcon size="x-small">mdi-account-tie</VIcon>
       </VAvatar>
       <span>
-        {{ name }}
+        {{ person.name }}
       </span>
     </VCardTitle>
-    <VCardSubtitle :title="title">
+    <VCardSubtitle v-if="title" :title="title">
       {{ title }}
     </VCardSubtitle>
     <VCardText class="d-flex">
-      <div class="mr-4" v-if="profilePhoto">
+      <div class="mr-4" v-if="person.profilePhoto">
         <VImg
-          :src="profilePhoto.url"
-          :height="profilePhoto?.height"
-          :width="profilePhoto?.width"
+          :src="person.profilePhoto.url"
+          :height="person.profilePhoto?.height"
+          :width="person.profilePhoto?.width"
         />
       </div>
       <div>
-        <div v-if="addressStreet || addressPlace" class="d-flex align-center">
+        <div
+          v-if="person.addressStreet || person.addressPlace"
+          class="d-flex align-center"
+        >
           <VIcon class="pr-2">mdi-home</VIcon>
           <div>
-            <div v-if="addressStreet">
-              {{ addressStreet }}
+            <div v-if="person.addressStreet">
+              {{ person.addressStreet }}
             </div>
-            <div v-if="addressPlace">
-              <span v-if="addressZip">{{ addressZip }}</span>
+            <div v-if="person.addressPlace">
+              <span v-if="person.addressZip">{{ person.addressZip }}</span>
               {{ " " }}
-              <span>{{ addressPlace }}</span>
+              <span>{{ person.addressPlace }}</span>
             </div>
           </div>
         </div>
-        <div v-if="phoneMobile">
+        <div v-if="person.phoneMobile">
           <VIcon class="pr-2">mdi-phone</VIcon>
-          <ThemedLink :href="`tel:${phoneMobile}`">
-            {{ formatPhone(phoneMobile, "mobile") }}</ThemedLink
+          <ThemedLink :href="`tel:${person.phoneMobile}`">
+            {{ formatPhone(person.phoneMobile, "mobile") }}</ThemedLink
           >
         </div>
-        <div v-if="phoneLandLine">
+        <div v-if="person.phoneLandLine">
           <VIcon class="pr-2">mdi-phone</VIcon>
-          <ThemedLink :href="`tel:${phoneLandLine}`">{{
-            formatPhone(phoneLandLine, "home")
+          <ThemedLink :href="`tel:${person.phoneLandLine}`">{{
+            formatPhone(person.phoneLandLine, "home")
           }}</ThemedLink>
         </div>
-        <div v-if="email">
+        <div v-if="person.email">
           <VIcon class="pr-2">mdi-email</VIcon>
-          <ThemedLink :href="`mailto:${email}`">{{ email }}</ThemedLink>
+          <ThemedLink :href="`mailto:${person.email}`">{{
+            person.email
+          }}</ThemedLink>
         </div>
       </div>
     </VCardText>
@@ -55,10 +60,19 @@
 </template>
 
 <script setup lang="ts">
-import { Person } from "@/types";
+import { Person, Role } from "@/types";
 import ThemedLink from "@/components/ThemedLink.vue";
+import { computed } from "vue";
 
-defineProps<Person>();
+const props = defineProps<{
+  person: Person;
+  activeRoleName: Role["name"];
+}>();
+
+const title = computed(() => {
+  return props.person.roles.find((role) => role.name === props.activeRoleName)
+    ?.title;
+});
 
 function formatPhone(phone: string, type: "mobile" | "home") {
   if (type === "mobile") {

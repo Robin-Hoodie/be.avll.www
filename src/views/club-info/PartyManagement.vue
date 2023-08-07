@@ -1,6 +1,9 @@
 <template>
   <PageHeader>Feestbestuur</PageHeader>
-  <PersonDetailsList :people="partyManagementMembers" />
+  <PersonDetailsList
+    :people="partyManagementMembers"
+    active-role-name="partyManagement"
+  />
 </template>
 
 <script setup lang="ts">

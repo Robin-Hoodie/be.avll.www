@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 
 interface PersonRaw extends Omit<Person, "roles"> {
   roles: {
-    data: Array<StrapiEntry<{ name: string }>>;
+    data: Array<StrapiEntry<{ name: string; title: string | null }>>;
   };
 }
 
@@ -32,7 +32,7 @@ export async function getPeople(): Promise<Person[]> {
   );
   return peopleRaw.map((person) => ({
     ...person,
-    roles: person.roles.data.map((role) => role.attributes.name as Role),
+    roles: person.roles.data.map((role) => role.attributes as Role),
   }));
 }
 

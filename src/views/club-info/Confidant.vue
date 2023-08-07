@@ -1,6 +1,6 @@
 <template>
   <PageHeader>Vertrouwenspersoon</PageHeader>
-  <PersonDetailsList :people="confidants" />
+  <PersonDetailsList :people="confidants" active-role-name="confidant" />
 </template>
 
 <script setup lang="ts">
