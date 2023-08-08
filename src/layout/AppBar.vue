@@ -7,7 +7,7 @@
     />
     <VAppBarTitle
       ><RouterLink to="/" class="home-link text-primary font-weight-bold"
-        >AV Lyra-Lierse
+        ><VImg src="/logo.jpg" height="64" width="64" />
       </RouterLink>
     </VAppBarTitle>
     <template v-if="!smAndDown" #append>
