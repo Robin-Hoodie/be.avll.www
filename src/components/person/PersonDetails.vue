@@ -1,5 +1,9 @@
 <template>
-  <VCard :elevation="5" rounded>
+  <VCard
+    :elevation="5"
+    rounded
+    :border="person.isProminent ? 'primary md opacity-100' : false"
+  >
     <VCardTitle class="d-flex align-center">
       <VAvatar color="primary" size="x-small" class="mr-2">
         <VIcon size="x-small">mdi-account-tie</VIcon>

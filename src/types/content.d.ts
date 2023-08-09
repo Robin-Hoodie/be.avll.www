@@ -32,6 +32,7 @@ export interface Person extends StrapiModel {
   addressZip: string | null;
   addressPlace: string | null;
   roles: Role[];
+  isProminent: boolean;
   titleAsManagement: string | null;
   titleAsPartyManagement: string | null;
   titleAsConfidant: string | null;
