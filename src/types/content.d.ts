@@ -8,21 +8,17 @@ interface StrapiModel {
   updatedAt: string;
 }
 
-export interface Role {
-  name:
-    | "management"
-    | "partyManagement"
-    | "confidant"
-    | "confidant"
-    | "trainerYouth"
-    | "trainerFromCadet"
-    | "trainerGTeam"
-    | "trainerJoggers";
-  title: string | null;
-}
+export type Role =
+  | "management"
+  | "partyManagement"
+  | "confidant"
+  | "trainerYouth"
+  | "trainerFromCadet"
+  | "trainerGTeam"
+  | "trainerJoggers";
 
-export type TrainerRoleName = Extract<
-  Role["name"],
+export type TrainerRole = Extract<
+  Role,
   "trainerYouth" | "trainerFromCadet" | "trainerGTeam" | "trainerJoggers"
 >;
 
@@ -36,6 +32,13 @@ export interface Person extends StrapiModel {
   addressZip: string | null;
   addressPlace: string | null;
   roles: Role[];
+  titleAsManagement: string | null;
+  titleAsPartyManagement: string | null;
+  titleAsConfidant: string | null;
+  titleAsTrainerYouth: string | null;
+  titleAsTrainerFromCadet: string | null;
+  titleAsTrainerGTeam: string | null;
+  titleAsTrainerJoggers: string | null;
 }
 
 export interface Article extends StrapiModel {

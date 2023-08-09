@@ -6,33 +6,30 @@
   >
   <VWindow v-model="activeTab">
     <VWindowItem
-      v-for="(trainersForRole, roleName) in trainersPerRole"
-      :key="roleName"
-      :value="roleName"
+      v-for="(trainersForRole, role) in trainersPerRole"
+      :key="role"
+      :value="role"
     >
-      <PersonDetailsList
-        :people="trainersForRole"
-        :active-role-name="roleName"
-      />
+      <PersonDetailsList :people="trainersForRole" :active-role="role" />
     </VWindowItem>
   </VWindow>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { Person, TrainerRoleName } from "@/types";
+import { Person, TrainerRole } from "@/types";
 import PersonDetailsList from "@/components/person/PersonDetailsList.vue";
 
 const props = defineProps<{
-  trainersPerRole: Record<TrainerRoleName, Person[]>;
+  trainersPerRole: Record<TrainerRole, Person[]>;
 }>();
 
-const roles = Object.keys(props.trainersPerRole) as TrainerRoleName[];
+const roles = Object.keys(props.trainersPerRole) as TrainerRole[];
 
 const activeTab = ref(roles[0]);
 
-function formatRole(roleName: TrainerRoleName) {
-  switch (roleName) {
+function formatRole(role: TrainerRole) {
+  switch (role) {
     case "trainerYouth":
       return "Jeugd";
     case "trainerFromCadet":

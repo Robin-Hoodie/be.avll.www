@@ -1,9 +1,6 @@
 <template>
   <PageHeader>Bestuur</PageHeader>
-  <PersonDetailsList
-    :people="managementMembers"
-    active-role-name="management"
-  />
+  <PersonDetailsList :people="managementMembers" active-role="management" />
 </template>
 
 <script setup lang="ts">

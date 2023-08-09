@@ -2,7 +2,7 @@
   <PageHeader>Feestbestuur</PageHeader>
   <PersonDetailsList
     :people="partyManagementMembers"
-    active-role-name="partyManagement"
+    active-role="partyManagement"
   />
 </template>
 

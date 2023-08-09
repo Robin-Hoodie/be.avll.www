@@ -66,12 +66,22 @@ import { computed } from "vue";
 
 const props = defineProps<{
   person: Person;
-  activeRoleName: Role["name"];
+  activeRole: Role;
 }>();
 
 const title = computed(() => {
-  return props.person.roles.find((role) => role.name === props.activeRoleName)
-    ?.title;
+  return props.person[
+    `titleAs${props.activeRole[0].toUpperCase()}${props.activeRole.slice(
+      1
+    )}` as
+      | "titleAsManagement"
+      | "titleAsPartyManagement"
+      | "titleAsConfidant"
+      | "titleAsTrainerYouth"
+      | "titleAsTrainerFromCadet"
+      | "titleAsTrainerGTeam"
+      | "titleAsTrainerJoggers"
+  ];
 });
 
 function formatPhone(phone: string, type: "mobile" | "home") {
