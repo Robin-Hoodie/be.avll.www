@@ -1,20 +1,12 @@
 <template>
   <PageHeader>Visie en werking</PageHeader>
-  <VList>
-    <VListItem v-for="fileLink in fileLinks" :key="fileLink.id">
-      <VBtn variant="text" :href="fileLink.file.url">
-        <template #prepend>
-          <VIcon color="primary">mdi-post</VIcon>
-        </template>
-        {{ fileLink.description }}
-      </VBtn>
-    </VListItem>
-  </VList>
+  <FileLinkList :file-links="fileLinks" />
 </template>
 
 <script setup lang="ts">
 import PageHeader from "@/components/PageHeader.vue";
 import { getFileLinks } from "@/api-client/content";
+import FileLinkList from "@/components/file-link/FileLinkList.vue";
 
 const fileLinks = await getFileLinks([
   "philosophy",
