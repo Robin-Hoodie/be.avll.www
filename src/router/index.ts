@@ -18,16 +18,18 @@ const routes: Readonly<RouteRecordRaw[]> = [
       import(/* webpackChunkName: "articles" */ "@/views/articles/Article.vue"),
   },
   {
-    path: "/welcome",
-    component: () =>
-      import(/* webpackChunkName: "welcome" */ "@/views/Welcome.vue"),
-  },
-  {
     path: "/club-info",
     children: [
       {
         path: "",
-        redirect: "/club-info/bestuur",
+        redirect: "/club-info/welcome",
+      },
+      {
+        path: "welcome",
+        component: () =>
+          import(
+            /* webpackChunkName: "welcome" */ "@/views/club-info/Welcome.vue"
+          ),
       },
       {
         path: "bestuur",

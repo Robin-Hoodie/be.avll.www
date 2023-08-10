@@ -58,11 +58,6 @@ const adminLink = `${BASE_URL_CONTENT}/admin`;
 
 const links = ref<MenuLink[]>([
   {
-    title: "Welkom",
-    to: "/welcome",
-    icon: "mdi-home",
-  },
-  {
     title: "Artikels",
     to: "/artikels",
     icon: "mdi-post",
@@ -72,6 +67,10 @@ const links = ref<MenuLink[]>([
     value: "clubInfo",
     icon: "mdi-account-group",
     children: [
+      {
+        title: "Welkom",
+        to: "/club-info/welcome",
+      },
       {
         title: "Bestuur",
         to: "/club-info/bestuur",
