@@ -93,8 +93,8 @@ export interface FileLink extends StrapiModel {
   type:
     | "philosophy"
     | "youthPlan"
-    | "statutes"
-    | "missionStatement"
+    | "houseRules"
+    | "vision"
     | "privacyStatement"
     | "clubRecord"
     | "secretariat"

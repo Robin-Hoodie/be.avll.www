@@ -10,7 +10,7 @@ import FileLinkList from "@/components/file-link/FileLinkList.vue";
 
 const fileLinks = await getFileLinks([
   "philosophy",
-  "missionStatement",
-  "statutes",
+  "vision",
+  "houseRules",
 ]);
 </script>

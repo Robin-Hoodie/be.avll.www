@@ -93,6 +93,10 @@ const links = ref<MenuLink[]>([
         to: "/club-info/trainingen",
       },
       {
+        title: "Info",
+        to: "/club-info/info",
+      },
+      {
         title: "Visie en werking",
         to: "/club-info/visie-en-werking",
       },
