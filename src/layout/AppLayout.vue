@@ -16,13 +16,11 @@
       </RouterView>
     </VContainer>
   </VMain>
-  <AppFooter />
 </template>
 
 <script lang="ts" setup>
 import AppBar from "./AppBar.vue";
 import AppSideBar from "./AppSideBar.vue";
-import AppFooter from "./AppFooter.vue";
 import CircularLoader from "@/components/CircularLoader.vue";
 </script>
 
