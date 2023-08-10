@@ -9,6 +9,4 @@ import PageHeader from "@/components/PageHeader.vue";
 import { usePeople } from "@/composables/usePeople";
 
 const managementMembers = await usePeople("management");
-
-console.log("managementMembers", managementMembers);
 </script>

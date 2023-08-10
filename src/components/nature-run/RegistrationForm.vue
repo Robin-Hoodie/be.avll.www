@@ -271,7 +271,6 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
   const { valid } = await eventPromise;
 
   if (valid) {
-    console.log("registration", registration);
     await handleNatureRunRegistration(
       registration as WithRequired<NatureRunRegistration, "gender" | "distance">
     );

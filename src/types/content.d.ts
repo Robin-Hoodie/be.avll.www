@@ -96,7 +96,10 @@ export interface FileLink extends StrapiModel {
     | "statutes"
     | "missionStatement"
     | "privacyStatement"
-    | "clubRecord";
+    | "clubRecord"
+    | "secretariat"
+    | "sportAccident"
+    | "becomingAMember";
 }
 
 export interface RegistrationPage extends StrapiModel {
