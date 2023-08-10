@@ -90,6 +90,13 @@ export interface Result extends StrapiModel {
 export interface FileLink extends StrapiModel {
   description: string;
   file: File;
+  type:
+    | "philosophy"
+    | "youthPlan"
+    | "statutes"
+    | "missionStatement"
+    | "privacyStatement"
+    | "clubRecord";
 }
 
 export interface RegistrationPage extends StrapiModel {
@@ -113,13 +120,6 @@ export interface Training extends StrapiModel {
   place: string;
   type: "youth" | "fromCadet" | "gTeam" | "joggers";
   comment: string | null;
-}
-
-export interface ClubRecord extends StrapiModel {
-  category: string;
-  type: "indoor" | "outdoor";
-  ageBracket: "youth" | "fromCadet" | "master";
-  file: File;
 }
 
 export type RegistrationCategory =

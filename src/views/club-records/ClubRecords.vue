@@ -1,12 +1,12 @@
 <template>
   <PageHeader>Records</PageHeader>
-  <ClubRecordsPerType :club-records="clubRecords" />
+  <ClubRecordTable :club-records="clubRecords" />
 </template>
 
 <script setup lang="ts">
-import { getClubRecords } from "@/api-client";
+import { getFileLinks } from "@/api-client";
 import PageHeader from "@/components/PageHeader.vue";
-import ClubRecordsPerType from "@/components/club-record/ClubRecordsPerType.vue";
+import ClubRecordTable from "@/components/club-record/ClubRecordTable.vue";
 
-const clubRecords = await getClubRecords();
+const clubRecords = await getFileLinks(["clubRecord"]);
 </script>

@@ -9,7 +9,6 @@ import {
   Training,
   StrapiEntry,
   Role,
-  ClubRecord,
   FileLink,
   RegistrationContest,
 } from "@/types";
@@ -126,24 +125,7 @@ export function getTrainings() {
   return axiosInstanceContent.get<Training[], Training[]>("/trainings");
 }
 
-export function getClubRecords() {
-  const query = qs.stringify({
-    populate: "file",
-  });
-  return axiosInstanceContent.get<ClubRecord[], ClubRecord[]>(
-    `/club-records?${query}`
-  );
-}
-
-export async function getFileLinks(
-  types: Array<
-    | "philosophy"
-    | "youthPlan"
-    | "statutes"
-    | "missionStatement"
-    | "privacyStatement"
-  >
-) {
+export async function getFileLinks(types: Array<FileLink["type"]>) {
   const query = qs.stringify({
     populate: "file",
     filters: {

@@ -56,36 +56,6 @@ const isDrawerOpen = ref(false);
 const { smAndDown } = useDisplay();
 const adminLink = `${BASE_URL_CONTENT}/admin`;
 
-onMounted(async () => {
-  const privacyStatementLink = (await getFileLinks(["privacyStatement"]))[0];
-  links.value = links.value.map((link) => {
-    if ("value" in link && link.value === "clubInfo") {
-      return {
-        ...link,
-        children: link.children?.concat({
-          title: "Privacystatement",
-          href: privacyStatementLink.file.url,
-        }),
-      };
-    }
-    return link;
-  });
-});
-
-function toggleNavigationDrawer() {
-  isDrawerOpen.value = !isDrawerOpen.value;
-}
-
-function getAppBarLinkComponent(link: MenuLink) {
-  return "children" in link ? AppBarMenu : AppBarLinkButton;
-}
-
-function getNavigationDrawerLinkComponent(link: MenuLink) {
-  return "children" in link
-    ? NavigationDrawerListGroup
-    : NavigationDrawerListItem;
-}
-
 const links = ref<MenuLink[]>([
   {
     title: "Welkom",
@@ -158,6 +128,36 @@ const links = ref<MenuLink[]>([
     to: "/club-records",
   },
 ]);
+
+onMounted(async () => {
+  const privacyStatementLink = (await getFileLinks(["privacyStatement"]))[0];
+  links.value = links.value.map((link) => {
+    if ("value" in link && link.value === "clubInfo") {
+      return {
+        ...link,
+        children: link.children?.concat({
+          title: "Privacystatement",
+          href: privacyStatementLink.file.url,
+        }),
+      };
+    }
+    return link;
+  });
+});
+
+function toggleNavigationDrawer() {
+  isDrawerOpen.value = !isDrawerOpen.value;
+}
+
+function getAppBarLinkComponent(link: MenuLink) {
+  return "children" in link ? AppBarMenu : AppBarLinkButton;
+}
+
+function getNavigationDrawerLinkComponent(link: MenuLink) {
+  return "children" in link
+    ? NavigationDrawerListGroup
+    : NavigationDrawerListItem;
+}
 </script>
 
 <style scoped>
