@@ -127,6 +127,29 @@ const routes: Readonly<RouteRecordRaw[]> = [
       ),
   },
   {
+    path: "/webshop",
+    children: [
+      {
+        path: "",
+        redirect: "/webshop/vrijetijdskledij",
+      },
+      {
+        path: "vrijetijdskledij",
+        component: () =>
+          import(
+            /* webpackChunkName: "webShop" */ "@/views/web-shop/RecreationalClothing.vue"
+          ),
+      },
+      {
+        path: "wedstrijd-kledij-en-specials",
+        component: () =>
+          import(
+            /* webpackChunkName: "webShop" */ "@/views/web-shop/CompetitionClothing.vue"
+          ),
+      },
+    ],
+  },
+  {
     path: "/natuurlopen/:date",
     component: () =>
       import(

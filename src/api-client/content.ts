@@ -60,6 +60,18 @@ export function getSportingAccidentPage() {
   );
 }
 
+export function getRecreationalClothingPage() {
+  return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
+    "/recreational-clothing-page"
+  );
+}
+
+export function getCompetitionClothingPage() {
+  return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
+    "/competition-clothing-page"
+  );
+}
+
 export function getBlogArticles() {
   const threeMonthsAgo = dayjs().subtract(3, "month").format("YYYY-MM-DD");
   const query = qs.stringify({

@@ -103,10 +103,6 @@ const links = ref<MenuLink[]>([
         title: "Visie en werking",
         to: "/club-info/visie-en-werking",
       },
-      {
-        title: "Lyra-Lierse webshop",
-        href: "https://www.vermarcsport.be/nl/store/avlyralierse",
-      },
     ],
   },
   {
@@ -133,6 +129,21 @@ const links = ref<MenuLink[]>([
     value: "clubRecords",
     icon: "mdi-torch",
     to: "/club-records",
+  },
+  {
+    title: "Webshops",
+    value: "web-shops",
+    icon: "mdi-store",
+    children: [
+      {
+        title: "Vrijetijdskledij",
+        to: "/webshop/vrijetijdskledij",
+      },
+      {
+        title: "Wedstrijdkledij en specials",
+        to: "/webshop/wedstrijd-kledij-en-specials",
+      },
+    ],
   },
 ]);
 
