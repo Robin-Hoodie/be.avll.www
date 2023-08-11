@@ -96,6 +96,10 @@ const links = ref<MenuLink[]>([
         to: "/club-info/lid-worden",
       },
       {
+        title: "Sportongeval",
+        to: "/club-info/sportongeval",
+      },
+      {
         title: "Visie en werking",
         to: "/club-info/visie-en-werking",
       },

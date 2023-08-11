@@ -54,6 +54,12 @@ export function getBecomingAMemberPage() {
   );
 }
 
+export function getSportingAccidentPage() {
+  return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
+    "/sporting-accident-page"
+  );
+}
+
 export function getBlogArticles() {
   const threeMonthsAgo = dayjs().subtract(3, "month").format("YYYY-MM-DD");
   const query = qs.stringify({

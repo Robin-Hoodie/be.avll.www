@@ -74,6 +74,13 @@ const routes: Readonly<RouteRecordRaw[]> = [
           ),
       },
       {
+        path: "sportongeval",
+        component: () =>
+          import(
+            /* webpackChunkName: "clubInfo" */ "@/views/club-info/SportingAccident.vue"
+          ),
+      },
+      {
         path: "visie-en-werking",
         component: () =>
           import(
