@@ -1,12 +1,17 @@
 <template>
-  <PageHeader>Vertrouwenspersoon</PageHeader>
+  <TitleWithContent
+    :title="confidantPage.title"
+    :content="confidantPage.content"
+  />
   <PersonDetailsList :people="confidants" active-role="confidant" />
 </template>
 
 <script setup lang="ts">
 import PersonDetailsList from "@/components/person/PersonDetailsList.vue";
-import PageHeader from "@/components/PageHeader.vue";
 import { usePeople } from "@/composables/usePeople";
+import { getConfidantPage } from "@/api-client";
+import TitleWithContent from "@/components/title-with-content/TitleWithContent.vue";
 
+const confidantPage = await getConfidantPage();
 const confidants = await usePeople("confidant");
 </script>

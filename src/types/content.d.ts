@@ -49,6 +49,11 @@ export interface Article extends StrapiModel {
   coverPhoto: File | null;
 }
 
+export interface TitleWithContent extends StrapiModel {
+  title: string;
+  content: string;
+}
+
 export interface Sponsor extends StrapiModel {
   link: string;
   picture: File;

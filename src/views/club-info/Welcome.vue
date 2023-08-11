@@ -1,10 +1,10 @@
 <template>
-  <ArticleFull hide-subtitle :article="welcomeArticle" />
+  <TitleWithContent :title="welcomePage.title" :content="welcomePage.content" />
 </template>
 
 <script lang="ts" setup>
-import { getWelcomeArticle } from "@/api-client";
-import ArticleFull from "@/components/article/ArticleFull.vue";
+import { getWelcomePage } from "@/api-client";
+import TitleWithContent from "@/components/title-with-content/TitleWithContent.vue";
 
-const welcomeArticle = await getWelcomeArticle();
+const welcomePage = await getWelcomePage();
 </script>

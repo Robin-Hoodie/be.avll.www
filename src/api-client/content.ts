@@ -1,5 +1,6 @@
 import {
   Person,
+  TitleWithContent,
   Article,
   Sponsor,
   UpcomingContest,
@@ -35,8 +36,16 @@ export async function getPeople(): Promise<Person[]> {
   }));
 }
 
-export function getWelcomeArticle() {
-  return axiosInstanceContent.get<Article, Article>("/welcome-article");
+export function getWelcomePage() {
+  return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
+    "/welcome-page"
+  );
+}
+
+export function getConfidantPage() {
+  return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
+    "/confidant-page"
+  );
 }
 
 export function getBlogArticles() {
