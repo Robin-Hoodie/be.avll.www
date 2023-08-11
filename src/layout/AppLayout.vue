@@ -4,6 +4,8 @@
 
   <VMain>
     <VContainer>
+      <VImg src="@/assets/cover.jpg" class="ma-2" max-height="350" />
+      <VDivider />
       <RouterView v-slot="{ Component }">
         <template v-if="Component">
           <suspense>
