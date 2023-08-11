@@ -11,21 +11,32 @@
   </VTabs>
   <VWindow v-model="activeTab">
     <VWindowItem
-      v-for="(trainingsForType, trainingType) in trainingsPerType"
+      v-for="(
+        trainingsWithIntroForType, trainingType
+      ) in trainingsWithIntroPerType"
       :key="trainingType"
       :value="trainingType"
     >
-      <TrainingTable :trainings="trainingsForType" />
+      <VueMarkdown
+        :source="trainingsWithIntroForType.intro"
+        :options="{ breaks: true, linkify: true }"
+        class="my-2"
+      />
+      <TrainingTable :trainings="trainingsWithIntroForType.trainings" />
     </VWindowItem>
   </VWindow>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { Training } from "@/types";
+import { Training, TrainingPage } from "@/types";
 import TrainingTable from "@/components/training/TrainingTable.vue";
+import VueMarkdown from "vue-markdown-render";
 
-const props = defineProps<{ trainings: Training[] }>();
+const props = defineProps<{
+  trainings: Training[];
+  trainingPage: TrainingPage;
+}>();
 
 function formatTrainingType(trainingType: Training["type"]) {
   switch (trainingType) {
@@ -44,15 +55,23 @@ function formatTrainingType(trainingType: Training["type"]) {
 
 const trainingTypes = new Set(props.trainings.map((training) => training.type));
 
-const trainingsPerType = props.trainings.reduce<
-  Record<Training["type"], Training[]>
+const trainingsWithIntroPerType = props.trainings.reduce<
+  Record<Training["type"], { trainings: Training[]; intro: string }>
 >((trainingsPerTypeAcc, training) => {
-  const trainingsForType = trainingsPerTypeAcc[training.type] || [];
+  const trainingsForType = trainingsPerTypeAcc[training.type]?.trainings || [];
   return {
     ...trainingsPerTypeAcc,
-    [training.type]: trainingsForType.concat(training),
+    [training.type]: {
+      trainings: trainingsForType.concat(training),
+      intro:
+        props.trainingPage[
+          `intro${training.type.slice(0, 1).toUpperCase()}${training.type.slice(
+            1
+          )}` as "introYouth" | "introFromCadet" | "introGTeam" | "introJoggers"
+        ],
+    },
   };
-}, {} as Record<Training["type"], Training[]>);
+}, {} as Record<Training["type"], { trainings: Training[]; intro: string }>);
 
 const activeTab = ref([...trainingTypes][0]);
 </script>

@@ -12,6 +12,7 @@ import {
   Role,
   FileLink,
   RegistrationContest,
+  TrainingPage,
 } from "@/types";
 import qs from "qs";
 import { axiosInstanceContent } from "./axios";
@@ -156,6 +157,10 @@ export function getRegistrationPage() {
 
 export function getTrainings() {
   return axiosInstanceContent.get<Training[], Training[]>("/trainings");
+}
+
+export function getTrainingPage() {
+  return axiosInstanceContent.get<TrainingPage, TrainingPage>("/training-page");
 }
 
 export async function getFileLinks(types: Array<FileLink["type"]>) {

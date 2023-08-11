@@ -111,6 +111,14 @@ export interface RegistrationPage extends StrapiModel {
   registrationSubmittedCloseButtonText: string;
 }
 
+export interface TrainingPage extends StrapiModel {
+  title: string;
+  introYouth: string;
+  introFromCadet: string;
+  introGTeam: string;
+  introJoggers: string;
+}
+
 export interface Training extends StrapiModel {
   day:
     | "Maandag"
