@@ -48,6 +48,12 @@ export function getConfidantPage() {
   );
 }
 
+export function getBecomingAMemberPage() {
+  return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
+    "/becoming-a-member-page"
+  );
+}
+
 export function getBlogArticles() {
   const threeMonthsAgo = dayjs().subtract(3, "month").format("YYYY-MM-DD");
   const query = qs.stringify({

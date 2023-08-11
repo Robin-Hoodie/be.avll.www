@@ -67,10 +67,10 @@ const routes: Readonly<RouteRecordRaw[]> = [
           ),
       },
       {
-        path: "info",
+        path: "lid-worden",
         component: () =>
           import(
-            /* webpackChunkName: "clubInfo" */ "@/views/club-info/Info.vue"
+            /* webpackChunkName: "clubInfo" */ "@/views/club-info/BecomingAMember.vue"
           ),
       },
       {
