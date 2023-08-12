@@ -29,6 +29,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import { sortTrainings } from "@/utils";
 import { Training, TrainingPage } from "@/types";
 import TrainingTable from "@/components/training/TrainingTable.vue";
 import VueMarkdown from "vue-markdown-render";
@@ -55,23 +56,32 @@ function formatTrainingType(trainingType: Training["type"]) {
 
 const trainingTypes = new Set(props.trainings.map((training) => training.type));
 
-const trainingsWithIntroPerType = props.trainings.reduce<
-  Record<Training["type"], { trainings: Training[]; intro: string }>
->((trainingsPerTypeAcc, training) => {
-  const trainingsForType = trainingsPerTypeAcc[training.type]?.trainings || [];
-  return {
-    ...trainingsPerTypeAcc,
-    [training.type]: {
-      trainings: trainingsForType.concat(training),
-      intro:
-        props.trainingPage[
-          `intro${training.type.slice(0, 1).toUpperCase()}${training.type.slice(
-            1
-          )}` as "introYouth" | "introFromCadet" | "introGTeam" | "introJoggers"
-        ],
+const trainingsWithIntroPerType = props.trainings
+  .slice()
+  .sort(sortTrainings)
+  .reduce<Record<Training["type"], { trainings: Training[]; intro: string }>>(
+    (trainingsPerTypeAcc, training) => {
+      const trainingsForType =
+        trainingsPerTypeAcc[training.type]?.trainings || [];
+      return {
+        ...trainingsPerTypeAcc,
+        [training.type]: {
+          trainings: trainingsForType.concat(training),
+          intro:
+            props.trainingPage[
+              `intro${training.type
+                .slice(0, 1)
+                .toUpperCase()}${training.type.slice(1)}` as
+                | "introYouth"
+                | "introFromCadet"
+                | "introGTeam"
+                | "introJoggers"
+            ],
+        },
+      };
     },
-  };
-}, {} as Record<Training["type"], { trainings: Training[]; intro: string }>);
+    {} as Record<Training["type"], { trainings: Training[]; intro: string }>
+  );
 
 const activeTab = ref([...trainingTypes][0]);
 </script>

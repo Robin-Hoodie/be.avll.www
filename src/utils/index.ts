@@ -1,3 +1,4 @@
+import { Training } from "@/types";
 import dayjs from "dayjs";
 
 export function formatDateFull(date: string | number | Date) {
@@ -41,4 +42,29 @@ export function getEmailRules(label = "E-mail") {
       // Regex taken from https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript#answer-48800
       /^\S+@\S+\.\S+$/.test(value) || "Dit is geen geldig e-mail adres",
   ];
+}
+
+const dayToSortFactor = {
+  Maandag: 0,
+  Dinsdag: 1,
+  Woensdag: 2,
+  Donderdag: 3,
+  Vrijdag: 4,
+  Zaterdag: 5,
+  Zondag: 6,
+};
+
+export function sortTrainings(trainingOne: Training, trainingTwo: Training) {
+  const trainingOneDaySortFactor = dayToSortFactor[trainingOne.day];
+  const trainingTwoDaySortFactor = dayToSortFactor[trainingTwo.day];
+
+  const daySortDifference = trainingOneDaySortFactor - trainingTwoDaySortFactor;
+
+  if (daySortDifference === 0) {
+    const trainingOneStartTime = dayjs(trainingOne.startTime, "HH:mm");
+    const trainingTwoStartTime = dayjs(trainingTwo.startTime, "HH:mm");
+    return trainingOneStartTime.diff(trainingTwoStartTime, "minute");
+  }
+
+  return daySortDifference;
 }
