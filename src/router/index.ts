@@ -8,14 +8,12 @@ const routes: Readonly<RouteRecordRaw[]> = [
   },
   {
     path: "/artikels",
-    component: () =>
-      import(/* webpackChunkName: "articles" */ "@/views/Articles.vue"),
+    component: () => import("@/views/articles/Articles.vue"),
   },
   {
     path: "/artikels/:id",
     props: true,
-    component: () =>
-      import(/* webpackChunkName: "articles" */ "@/views/articles/Article.vue"),
+    component: () => import("@/views/articles/Article.vue"),
   },
   {
     path: "/club-info",
@@ -26,66 +24,39 @@ const routes: Readonly<RouteRecordRaw[]> = [
       },
       {
         path: "welcome",
-        component: () =>
-          import(
-            /* webpackChunkName: "welcome" */ "@/views/club-info/Welcome.vue"
-          ),
+        component: () => import("@/views/club-info/Welcome.vue"),
       },
       {
         path: "bestuur",
-        component: () =>
-          import(
-            /* webpackChunkName: "clubInfo" */ "@/views/club-info/Management.vue"
-          ),
+        component: () => import("@/views/club-info/Management.vue"),
       },
       {
         path: "feestbestuur",
-        component: () =>
-          import(
-            /* webpackChunkName: "clubInfo" */ "@/views/club-info/PartyManagement.vue"
-          ),
+        component: () => import("@/views/club-info/PartyManagement.vue"),
       },
       {
         path: "vertrouwenspersoon",
-        component: () =>
-          import(
-            /* webpackChunkName: "clubInfo" */ "@/views/club-info/Confidant.vue"
-          ),
+        component: () => import("@/views/club-info/Confidant.vue"),
       },
       {
         path: "trainers",
-        component: () =>
-          import(
-            /* webpackChunkName: "clubInfo" */ "@/views/club-info/Trainers.vue"
-          ),
+        component: () => import("@/views/club-info/Trainers.vue"),
       },
       {
         path: "trainingen",
-        component: () =>
-          import(
-            /* webpackChunkName: "clubInfo" */ "@/views/club-info/Trainings.vue"
-          ),
+        component: () => import("@/views/club-info/Trainings.vue"),
       },
       {
         path: "lid-worden",
-        component: () =>
-          import(
-            /* webpackChunkName: "clubInfo" */ "@/views/club-info/BecomingAMember.vue"
-          ),
+        component: () => import("@/views/club-info/BecomingAMember.vue"),
       },
       {
         path: "sportongeval",
-        component: () =>
-          import(
-            /* webpackChunkName: "clubInfo" */ "@/views/club-info/SportingAccident.vue"
-          ),
+        component: () => import("@/views/club-info/SportingAccident.vue"),
       },
       {
         path: "visie-en-werking",
-        component: () =>
-          import(
-            /* webpackChunkName: "clubInfo" */ "@/views/club-info/VisionAndOperation.vue"
-          ),
+        component: () => import("@/views/club-info/VisionAndOperation.vue"),
       },
     ],
   },
@@ -98,33 +69,21 @@ const routes: Readonly<RouteRecordRaw[]> = [
       },
       {
         path: "onze-organisaties",
-        component: () =>
-          import(
-            /* webpackChunkName: "contests" */ "@/views/contests/Contests.vue"
-          ),
+        component: () => import("@/views/contests/Contests.vue"),
       },
       {
         path: "uitslagen",
-        component: () =>
-          import(
-            /* webpackChunkName: "contests" */ "@/views/contests/Results.vue"
-          ),
+        component: () => import("@/views/contests/Results.vue"),
       },
       {
         path: "inschrijvingen",
-        component: () =>
-          import(
-            /* webpackChunkName: "contests" */ "@/views/contests/Registrations.vue"
-          ),
+        component: () => import("@/views/contests/Registrations.vue"),
       },
     ],
   },
   {
     path: "/club-records",
-    component: () =>
-      import(
-        /* webpackChunkName: "records" */ "@/views/club-records/ClubRecords.vue"
-      ),
+    component: () => import("@/views/club-records/ClubRecords.vue"),
   },
   {
     path: "/webshop",
@@ -135,31 +94,21 @@ const routes: Readonly<RouteRecordRaw[]> = [
       },
       {
         path: "vrijetijdskledij",
-        component: () =>
-          import(
-            /* webpackChunkName: "webShop" */ "@/views/web-shop/RecreationalClothing.vue"
-          ),
+        component: () => import("@/views/web-shop/RecreationalClothing.vue"),
       },
       {
         path: "wedstrijd-kledij-en-specials",
-        component: () =>
-          import(
-            /* webpackChunkName: "webShop" */ "@/views/web-shop/CompetitionClothing.vue"
-          ),
+        component: () => import("@/views/web-shop/CompetitionClothing.vue"),
       },
     ],
   },
   {
     path: "/natuurlopen/:date",
-    component: () =>
-      import(
-        /* webpackChunkName: "natureRun" */ "@/views/nature-run/NatureRunRegistration.vue"
-      ),
+    component: () => import("@/views/nature-run/NatureRunRegistration.vue"),
   },
   {
     path: "/not-found",
-    component: () =>
-      import(/* webpackChunkName: "notFound" */ "@/views/NotFound.vue"),
+    component: () => import("@/views/NotFound.vue"),
   },
   {
     path: "/:pathMatch(.*)",
