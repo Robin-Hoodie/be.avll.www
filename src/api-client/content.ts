@@ -81,8 +81,8 @@ export function getBlogArticles() {
       createdAt: {
         $gte: threeMonthsAgo,
       },
-      sort: "createdAt:desc",
     },
+    sort: "createdAt:desc",
   });
   return axiosInstanceContent.get<Article[], Article[]>(
     `/blog-articles?${query}`
@@ -136,8 +136,8 @@ export function getContests() {
       date: {
         $gte: oneWeekAgo,
       },
-      sort: "date",
     },
+    sort: "date",
   });
   return axiosInstanceContent.get<Contest[], Contest[]>(`/contests?${query}`);
 }
