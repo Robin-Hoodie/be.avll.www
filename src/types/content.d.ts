@@ -61,12 +61,15 @@ export interface Sponsor extends StrapiModel {
 
 export interface UpcomingContest extends StrapiModel {
   title: string;
-  link: string;
-  linkText: string;
   date: string;
   location: string;
   dateFinalRegistration: string | null;
   registrationByClub: boolean;
+  primaryLink: string;
+  primaryLinkText: string;
+  secondaryLink: string | null;
+  secondaryFile: File | null;
+  secondaryText: string | null;
 }
 
 export interface RegistrationContest extends StrapiModel {

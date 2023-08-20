@@ -108,6 +108,7 @@ export function getSponsors() {
 export function getUpcomingContests() {
   const query = qs.stringify({
     sort: "date",
+    populate: "secondaryFile",
   });
   return axiosInstanceContent.get<UpcomingContest[], UpcomingContest[]>(
     `/upcoming-contests?${query}`

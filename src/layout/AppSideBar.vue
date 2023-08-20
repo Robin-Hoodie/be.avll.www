@@ -37,16 +37,27 @@
         <div v-if="upcomingContest.registrationByClub" class="text-body-2">
           Registratie door club
         </div>
-        <VListItemAction class="mt-2">
-          <VBtn
-            variant="outlined"
-            color="primary"
-            block
-            :href="upcomingContest.link"
-          >
-            {{ upcomingContest.linkText }}
-          </VBtn>
-        </VListItemAction>
+        <VBtn
+          variant="outlined"
+          color="primary"
+          block
+          :href="upcomingContest.primaryLink"
+          class="mt-2"
+        >
+          {{ upcomingContest.primaryLinkText }}
+        </VBtn>
+        <VBtn
+          v-if="upcomingContest.secondaryLink || upcomingContest.secondaryFile"
+          variant="outlined"
+          color="primary"
+          block
+          :href="
+              upcomingContest.secondaryLink || upcomingContest.secondaryFile!.url
+            "
+          class="mt-2"
+        >
+          {{ upcomingContest.secondaryText }}
+        </VBtn>
       </VListItem>
     </VList>
   </VNavigationDrawer>
