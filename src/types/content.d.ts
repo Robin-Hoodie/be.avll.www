@@ -92,7 +92,8 @@ export interface Contest extends StrapiModel {
 export interface Result extends StrapiModel {
   title: string;
   date: string;
-  link: string;
+  link: string | null;
+  file: File | null;
 }
 
 export interface FileLink extends StrapiModel {

@@ -11,10 +11,12 @@
       <tr v-for="result in results" :key="result.id">
         <td>{{ formatDateFull(result.date) }}</td>
         <td>{{ result.title }}</td>
-        <td>
-          <ThemedLink :href="result.link" external>{{
-            clipLink(result.link, 40)
-          }}</ThemedLink>
+        <td v-if="result.link || result.file">
+          <ThemedLink
+            :href="result.link || result.file!.url"
+            :external="result.link !== null"
+            >{{ clipLink(result.link || result.file!.url, 40) }}</ThemedLink
+          >
         </td>
       </tr>
     </tbody>

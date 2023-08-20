@@ -146,6 +146,7 @@ export function getContests() {
 export function getResults() {
   const query = qs.stringify({
     sort: "date",
+    populate: "file",
   });
   return axiosInstanceContent.get<Result[], Result[]>(`/results?${query}`);
 }
