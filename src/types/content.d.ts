@@ -74,7 +74,6 @@ export interface UpcomingContest extends StrapiModel {
   primaryLink: string;
   primaryLinkText: string;
   secondaryLink: string | null;
-  secondaryFile: File | null;
   secondaryText: string | null;
 }
 
@@ -99,7 +98,6 @@ export interface Result extends StrapiModel {
   title: string;
   date: string;
   link: string | null;
-  file: File | null;
 }
 
 export interface FileLink extends StrapiModel {

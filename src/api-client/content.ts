@@ -130,7 +130,6 @@ export function getSponsors() {
 export function getUpcomingContests() {
   const query = qs.stringify({
     sort: "date",
-    populate: "secondaryFile",
   });
   return axiosInstanceContent.get<UpcomingContest[], UpcomingContest[]>(
     `/upcoming-contests?${query}`
@@ -168,7 +167,6 @@ export function getContests() {
 export function getResults() {
   const query = qs.stringify({
     sort: "date",
-    populate: "file",
   });
   return axiosInstanceContent.get<Result[], Result[]>(`/results?${query}`);
 }

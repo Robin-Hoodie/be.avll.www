@@ -47,13 +47,11 @@
           {{ upcomingContest.primaryLinkText }}
         </VBtn>
         <VBtn
-          v-if="upcomingContest.secondaryLink || upcomingContest.secondaryFile"
+          v-if="upcomingContest.secondaryLink"
           variant="outlined"
           color="primary"
           block
-          :href="
-              upcomingContest.secondaryLink || upcomingContest.secondaryFile!.url
-            "
+          :href="upcomingContest.secondaryLink"
           class="mt-2"
         >
           {{ upcomingContest.secondaryText }}
