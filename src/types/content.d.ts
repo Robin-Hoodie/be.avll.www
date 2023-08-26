@@ -42,11 +42,17 @@ export interface Person extends StrapiModel {
   titleAsTrainerJoggers: string | null;
 }
 
-export interface Article extends StrapiModel {
+export interface BlogArticle extends StrapiModel {
   title: string;
   content: string;
   location: string | null;
   coverPhoto: File | null;
+  links: BlogArticleLink[] | null;
+}
+
+export interface BlogArticleLink extends StrapiModel {
+  text: string;
+  link: string;
 }
 
 export interface TitleWithContent extends StrapiModel {

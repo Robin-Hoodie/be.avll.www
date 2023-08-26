@@ -1,7 +1,7 @@
 import {
   Person,
   TitleWithContent,
-  Article,
+  BlogArticle,
   Sponsor,
   UpcomingContest,
   Contest,
@@ -13,6 +13,7 @@ import {
   FileLink,
   RegistrationContest,
   TrainingPage,
+  BlogArticleLink,
 } from "@/types";
 import qs from "qs";
 import { axiosInstanceContent } from "./axios";
@@ -21,6 +22,12 @@ import dayjs from "dayjs";
 interface PersonRaw extends Omit<Person, "roles"> {
   roles: {
     data: Array<StrapiEntry<{ name: string }>>;
+  };
+}
+
+interface BlogArticleRaw extends Omit<BlogArticle, "links"> {
+  links: {
+    data: Array<StrapiEntry<BlogArticleLink>>;
   };
 }
 
@@ -73,10 +80,10 @@ export function getCompetitionClothingPage() {
   );
 }
 
-export function getBlogArticles() {
+export async function getBlogArticles() {
   const threeMonthsAgo = dayjs().subtract(3, "month").format("YYYY-MM-DD");
   const query = qs.stringify({
-    populate: "coverPhoto",
+    populate: ["coverPhoto", "links"],
     filters: {
       createdAt: {
         $gte: threeMonthsAgo,
@@ -84,18 +91,33 @@ export function getBlogArticles() {
     },
     sort: "createdAt:desc",
   });
-  return axiosInstanceContent.get<Article[], Article[]>(
-    `/blog-articles?${query}`
-  );
+
+  const blogArticlesRaw = await axiosInstanceContent.get<
+    BlogArticleRaw[],
+    BlogArticleRaw[]
+  >(`/blog-articles?${query}`);
+  return blogArticlesRaw.map((blogArticleRaw) => ({
+    ...blogArticleRaw,
+    links: blogArticleRaw.links
+      ? blogArticleRaw.links.data.map((linkRaw) => linkRaw.attributes)
+      : null,
+  }));
 }
 
-export function getBlogArticle(id: number | string) {
+export async function getBlogArticle(id: number | string) {
   const query = qs.stringify({
-    populate: "coverPhoto",
+    populate: ["coverPhoto", "links"],
   });
-  return axiosInstanceContent.get<Article, Article>(
-    `/blog-articles/${id}?${query}`
-  );
+  const blogArticleRaw = await axiosInstanceContent.get<
+    BlogArticleRaw,
+    BlogArticleRaw
+  >(`/blog-articles/${id}?${query}`);
+  return {
+    ...blogArticleRaw,
+    links: blogArticleRaw.links
+      ? blogArticleRaw.links.data.map((linkRaw) => linkRaw.attributes)
+      : null,
+  };
 }
 
 export function getSponsors() {

@@ -10,7 +10,7 @@
         class="ma-2"
         max-height="350"
       />
-      <VDivider v-if="coverPhotoUrl" />
+      <VDivider v-if="coverPhotoUrl" class="mb-4" />
       <RouterView v-slot="{ Component }">
         <template v-if="Component">
           <suspense>

@@ -18,17 +18,24 @@
       />
     </VCardText>
     <VCardActions>
-      <VBtn :to="linkArticle" color="primary">Lees meer</VBtn>
+      <div class="d-flex justify-space-between w-100">
+        <VBtn :to="linkArticle" color="primary">Lees meer</VBtn>
+        <div v-if="links">
+          <VBtn v-for="link in links" :key="link.id" :href="link.link">
+            {{ link.text }}</VBtn
+          >
+        </div>
+      </div>
     </VCardActions>
   </VCard>
 </template>
 
 <script setup lang="ts">
 import VueMarkdown from "vue-markdown-render";
-import { Article } from "@/types";
+import { BlogArticle } from "@/types";
 import { formatDateFull } from "@/utils";
 
-const props = defineProps<Article>();
+const props = defineProps<BlogArticle>();
 
 const CUTOFF_LENGTH = 200;
 
