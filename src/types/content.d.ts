@@ -77,6 +77,11 @@ export interface UpcomingContest extends StrapiModel {
   secondaryText: string | null;
 }
 
+export interface MultimediaLink extends StrapiModel {
+  description: string;
+  link: string;
+}
+
 export interface RegistrationContest extends StrapiModel {
   title: string;
   dateStart: string;

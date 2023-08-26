@@ -103,6 +103,10 @@ const routes: Readonly<RouteRecordRaw[]> = [
     ],
   },
   {
+    path: "/multimedia",
+    component: () => import("@/views/multimedia/Multimedia.vue"),
+  },
+  {
     path: "/natuurlopen/:date",
     component: () => import("@/views/nature-run/NatureRunRegistration.vue"),
   },

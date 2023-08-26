@@ -145,6 +145,12 @@ const links = ref<MenuLink[]>([
       },
     ],
   },
+  {
+    title: "Multimedia",
+    value: "multimedia",
+    icon: "mdi-multimedia",
+    to: "/multimedia",
+  },
 ]);
 
 onMounted(async () => {

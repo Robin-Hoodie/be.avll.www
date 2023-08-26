@@ -14,6 +14,7 @@ import {
   RegistrationContest,
   TrainingPage,
   BlogArticleLink,
+  MultimediaLink,
 } from "@/types";
 import qs from "qs";
 import { axiosInstanceContent } from "./axios";
@@ -77,6 +78,12 @@ export function getRecreationalClothingPage() {
 export function getCompetitionClothingPage() {
   return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
     "/competition-clothing-page"
+  );
+}
+
+export function getMultimediaLinks() {
+  return axiosInstanceContent.get<MultimediaLink[], MultimediaLink[]>(
+    "/multimedia-links"
   );
 }
 
