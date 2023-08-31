@@ -67,7 +67,7 @@ export default defineConfig({
             "./src/views/web-shop/RecreationalClothing.vue",
             "./src/views/web-shop/CompetitionClothing.vue",
           ],
-          "group-multimedia": ["./src/views/media/Multimedia.vue"],
+          "group-multimedia": ["./src/views/multimedia/Multimedia.vue"],
           "group-nature-run": [
             "./src/views/nature-run/NatureRunRegistration.vue",
           ],
