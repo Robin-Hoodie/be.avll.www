@@ -1,6 +1,9 @@
 <template>
   <PageHeader>{{ title }}</PageHeader>
-  <VueMarkdown :source="content" :options="{ breaks: true, linkify: true }" />
+  <VueMarkdown
+    :source="content"
+    :options="{ breaks: true, linkify: true, html: true }"
+  />
 </template>
 
 <script setup lang="ts">
