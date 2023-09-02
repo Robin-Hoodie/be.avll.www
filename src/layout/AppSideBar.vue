@@ -1,5 +1,5 @@
 <template>
-  <VNavigationDrawer location="right">
+  <VNavigationDrawer :location="smAndDown ? 'bottom' : 'right'" permanent>
     <div class="text-h6 font-weight-bold text-center mt-2">Sponsors</div>
     <SponsorAnimation class="ma-2" />
     <VDivider />
@@ -54,7 +54,7 @@
           :href="upcomingContest.secondaryLink"
           class="mt-2"
         >
-          {{ upcomingContest.secondaryText }}
+          {{ upcomingContest.secondaryLinkText }}
         </VBtn>
       </VListItem>
     </VList>
@@ -62,14 +62,17 @@
 </template>
 
 <script setup lang="ts">
+import { useDisplay } from "vuetify";
+import { onMounted } from "vue";
 import { getUpcomingContests } from "@/api-client";
 import { formatDateFull } from "@/utils";
 import SponsorAnimation from "@/components/sponsors/SponsorAnimation.vue";
 import { ref } from "vue";
 import { UpcomingContest } from "@/types";
-import { onMounted } from "vue";
 
 const upcomingContests = ref<UpcomingContest[]>([]);
+
+const { smAndDown } = useDisplay();
 
 onMounted(async () => {
   upcomingContests.value = await getUpcomingContests();

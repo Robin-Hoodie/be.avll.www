@@ -74,7 +74,7 @@ export interface UpcomingContest extends StrapiModel {
   primaryLink: string;
   primaryLinkText: string;
   secondaryLink: string | null;
-  secondaryText: string | null;
+  secondaryLinkText: string | null;
 }
 
 export interface MultimediaLink extends StrapiModel {
