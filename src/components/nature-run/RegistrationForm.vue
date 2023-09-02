@@ -268,6 +268,7 @@ function openFormSubmittedMessage() {
 }
 
 async function handleSubmit(eventPromise: SubmitEventPromise) {
+  eventPromise.preventDefault();
   const { valid } = await eventPromise;
 
   if (valid) {

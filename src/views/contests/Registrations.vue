@@ -12,6 +12,7 @@
     class="text-body-1 mb-2"
   />
   <RegistrationContestTable
+    v-if="registrationContests.length > 0"
     :registration-contests="registrationContests"
     class="mb-2"
   />

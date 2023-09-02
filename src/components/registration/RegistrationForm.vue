@@ -87,9 +87,9 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import { SubmitEventPromise } from "vuetify";
-import { Registration, RegistrationPage, WithRequired } from "@/types";
+import { Registration, RegistrationPage } from "@/types";
 import {
   categoryOptions,
   genderOptions,
@@ -106,22 +106,27 @@ import {
   disciplineRules,
   bestPerformanceRules,
 } from "@/components/registration/registration-rules";
+import { WithRequired } from "@/types";
 import { sendRegistrationEmails } from "@/api-client";
 
 defineProps<RegistrationPage>();
 
-const registration = reactive<Registration>({
-  event: "",
-  name: "",
-  email: "",
-  gender: null,
-  birthYear: "",
-  category: null,
-  valNumber: "",
-  discipline: "",
-  bestPerformance: "",
-  comment: "",
-});
+function getInitialRegistration() {
+  return {
+    event: "",
+    name: "",
+    email: "",
+    gender: null,
+    birthYear: "",
+    category: null,
+    valNumber: "",
+    discipline: "",
+    bestPerformance: "",
+    comment: "",
+  };
+}
+
+const registration = ref<Registration>(getInitialRegistration());
 
 const isFormSubmittedMessageVisible = ref(false);
 
@@ -134,13 +139,15 @@ function openFormSubmittedMessage() {
 }
 
 async function handleSubmit(eventPromise: SubmitEventPromise) {
+  eventPromise.preventDefault();
   const { valid } = await eventPromise;
 
   if (valid) {
     await sendRegistrationEmails(
-      registration as WithRequired<Registration, "gender" | "category">
+      registration.value as WithRequired<Registration, "gender" | "category">
     );
     openFormSubmittedMessage();
+    registration.value = getInitialRegistration();
   }
 }
 </script>
