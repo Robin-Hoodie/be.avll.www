@@ -8,15 +8,12 @@
         :width="article.coverPhoto.width"
         class="my-2"
       />
-      <div v-if="!hideSubtitle" class="text-subtitle-2 my-2">
-        <div class="d-flex align-center">
-          <VIcon color="primary">mdi-clock</VIcon>
-          <span class="pl-1">{{ dateFormatted }}</span>
-        </div>
-        <div v-if="article.location" class="d-flex align-center">
-          <VIcon color="primary">mdi-map-marker-outline</VIcon>
-          <span class="pl-1">{{ article.location }}</span>
-        </div>
+      <div
+        v-if="article.location"
+        class="text-subtitle-2 my-2 d-flex align-center"
+      >
+        <VIcon color="primary">mdi-map-marker-outline</VIcon>
+        <span class="pl-1">{{ article.location }}</span>
       </div>
       <VueMarkdown
         :source="article.content"
@@ -44,12 +41,7 @@ import { BlogArticle } from "@/types";
 import { formatDateFull } from "@/utils";
 import PageHeader from "@/components/PageHeader.vue";
 
-const props = withDefaults(
-  defineProps<{ article: BlogArticle; hideSubtitle?: boolean }>(),
-  {
-    hideSubtitle: false,
-  }
-);
+const props = withDefaults(defineProps<{ article: BlogArticle }>());
 
 const dateFormatted = formatDateFull(props.article.publishedAt);
 </script>
