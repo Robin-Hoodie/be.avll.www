@@ -199,7 +199,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import { SubmitEventPromise } from "vuetify";
 import { NatureRunRegistration, WithRequired } from "@/types";
 import {
@@ -230,7 +230,7 @@ import {
 import ThemedLink from "../ThemedLink.vue";
 import { computed } from "vue";
 
-const registration = reactive<NatureRunRegistration>({
+const registration = ref<NatureRunRegistration>({
   firstName: "",
   lastName: "",
   email: "",
@@ -251,21 +251,11 @@ const registration = reactive<NatureRunRegistration>({
 const [privacyLink] = await getFileLinks(["privacyStatement"]);
 
 const price = computed(() => {
-  if (registration.isMember) {
-    return registration.withTShirt ? "€22,00" : "€5,00";
+  if (registration.value.isMember) {
+    return registration.value.withTShirt ? "€22,00" : "€5,00";
   }
-  return registration.withTShirt ? "€24,00" : "€7,00";
+  return registration.value.withTShirt ? "€24,00" : "€7,00";
 });
-
-const isFormSubmittedMessageVisible = ref(false);
-
-function closeFormSubmittedMessage() {
-  isFormSubmittedMessageVisible.value = false;
-}
-
-function openFormSubmittedMessage() {
-  isFormSubmittedMessageVisible.value = true;
-}
 
 async function handleSubmit(eventPromise: SubmitEventPromise) {
   eventPromise.preventDefault();
@@ -273,9 +263,11 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
 
   if (valid) {
     await handleNatureRunRegistration(
-      registration as WithRequired<NatureRunRegistration, "gender" | "distance">
+      registration.value as WithRequired<
+        NatureRunRegistration,
+        "gender" | "distance"
+      >
     );
-    openFormSubmittedMessage();
   }
 }
 </script>
