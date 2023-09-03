@@ -1,4 +1,5 @@
 import createMollieClient, { Locale } from "@mollie/api-client";
+import axios from "axios";
 import { defineEnvVariable } from "./env";
 
 const MOLLIE_API_KEY = defineEnvVariable("MOLLIE_API_KEY");
@@ -9,15 +10,29 @@ const mollieClient = createMollieClient({
   apiKey: MOLLIE_API_KEY,
 });
 
-function getPrice(natureRunRegistration: any) {
-  const basePrice = 7;
+async function getPrice(natureRunRegistration: any) {
+  const {
+    data: {
+      data: {
+        attributes: { basePrice, memberDiscount, tShirtPrice },
+      },
+    },
+  } = await axios.get<{
+    data: {
+      attributes: {
+        basePrice: number;
+        memberDiscount: number;
+        tShirtPrice: number;
+      };
+    };
+  }>("https://content.avll.be/api/nature-run-pricing");
   return Object.entries(natureRunRegistration).reduce(
     (priceCurrent, [prop, value]) => {
       if (prop === "isMember" && value === true) {
-        return priceCurrent - 2;
+        return priceCurrent - memberDiscount;
       }
       if (prop === "withTShirt" && value === true) {
-        return priceCurrent + 17;
+        return priceCurrent + tShirtPrice;
       }
       return priceCurrent;
     },
@@ -26,7 +41,7 @@ function getPrice(natureRunRegistration: any) {
 }
 
 export async function createPayment(natureRunRegistration: any) {
-  const price = getPrice(natureRunRegistration);
+  const price = await getPrice(natureRunRegistration);
   const paymentResponse = await mollieClient.payments.create({
     amount: {
       value: price.toFixed(2),

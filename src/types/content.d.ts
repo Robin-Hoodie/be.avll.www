@@ -172,3 +172,9 @@ export interface Registration {
 }
 
 export type RegistrationGender = "male" | "female";
+
+export interface NatureRunPricing {
+  basePrice: number;
+  memberDiscount: number;
+  tShirtPrice: number;
+}

@@ -189,7 +189,7 @@
         </VCol>
         <VDivider />
         <VCol :cols="12" :sm="3">
-          <strong>{{ price }}</strong>
+          <strong>{{ priceFormatted }}</strong>
         </VCol>
         <VCol :cols="12" :sm="9">
           <VBtn type="submit" color="primary" class="mt-2">Registreren</VBtn>
@@ -225,6 +225,7 @@ import {
 } from "@/components/nature-run/registration-rules";
 import {
   getFileLinks,
+  getNatureRunPricing,
   handleNatureRunRegistration,
   sendRegistrationEmails,
 } from "@/api-client";
@@ -249,14 +250,23 @@ const registration = ref<NatureRunRegistration>({
   agreeToPrivacyTerms: false,
 });
 
+const natureRunpricing = await getNatureRunPricing();
 const [privacyLink] = await getFileLinks(["privacyStatement"]);
 
 const price = computed(() => {
   if (registration.value.isMember) {
-    return registration.value.withTShirt ? "€22,00" : "€5,00";
+    return registration.value.withTShirt
+      ? natureRunpricing.basePrice +
+          natureRunpricing.tShirtPrice -
+          natureRunpricing.memberDiscount
+      : natureRunpricing.basePrice - natureRunpricing.memberDiscount;
   }
-  return registration.value.withTShirt ? "€24,00" : "€7,00";
+  return registration.value.withTShirt
+    ? natureRunpricing.basePrice + natureRunpricing.tShirtPrice
+    : natureRunpricing.basePrice;
 });
+
+const priceFormatted = computed(() => `€${price.value.toFixed(2)}`);
 
 async function handleSubmit(eventPromise: SubmitEventPromise) {
   eventPromise.preventDefault();

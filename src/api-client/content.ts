@@ -15,6 +15,7 @@ import {
   TrainingPage,
   BlogArticleLink,
   MultimediaLink,
+  NatureRunPricing,
 } from "@/types";
 import qs from "qs";
 import { axiosInstanceContent } from "./axios";
@@ -203,5 +204,11 @@ export async function getFileLinks(types: Array<FileLink["type"]>) {
   });
   return await axiosInstanceContent.get<FileLink[], FileLink[]>(
     `/file-links?${query}`
+  );
+}
+
+export function getNatureRunPricing() {
+  return axiosInstanceContent.get<NatureRunPricing, NatureRunPricing>(
+    "/nature-run-pricing"
   );
 }
