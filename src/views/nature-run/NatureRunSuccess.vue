@@ -1,6 +1,9 @@
 <template>
-  <PageHeader>Natuurlopen - registratie voltooid</PageHeader>
-  <div>Registratie voltooid</div>
+  <PageHeader>Registratie succesvol</PageHeader>
+  <div>
+    U bent geregistreerd voor de wedstrijd. U ontvangt nog een bevestiging via
+    email.
+  </div>
 </template>
 
 <script setup lang="ts">

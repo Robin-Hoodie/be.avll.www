@@ -38,10 +38,7 @@
 <script setup lang="ts">
 import VueMarkdown from "vue-markdown-render";
 import { BlogArticle } from "@/types";
-import { formatDateFull } from "@/utils";
 import PageHeader from "@/components/PageHeader.vue";
 
-const props = withDefaults(defineProps<{ article: BlogArticle }>());
-
-const dateFormatted = formatDateFull(props.article.publishedAt);
+defineProps<{ article: BlogArticle }>();
 </script>
