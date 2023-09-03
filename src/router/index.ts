@@ -107,6 +107,10 @@ const routes: Readonly<RouteRecordRaw[]> = [
     component: () => import("@/views/multimedia/Multimedia.vue"),
   },
   {
+    path: "/natuurlopen/succes",
+    component: () => import("@/views/nature-run/NatureRunSuccess.vue"),
+  },
+  {
     path: "/natuurlopen/:date",
     component: () => import("@/views/nature-run/NatureRunRegistration.vue"),
   },

@@ -1,4 +1,4 @@
-import createMollieClient from "@mollie/api-client";
+import createMollieClient, { Locale } from "@mollie/api-client";
 import { defineEnvVariable } from "./env";
 
 const MOLLIE_API_KEY = defineEnvVariable("MOLLIE_API_KEY");
@@ -27,13 +27,15 @@ function getPrice(natureRunRegistration: any) {
 
 export async function createPayment(natureRunRegistration: any) {
   const price = getPrice(natureRunRegistration);
-  await mollieClient.payments.create({
+  const paymentResponse = await mollieClient.payments.create({
     amount: {
-      value: price.toString(),
+      value: price.toFixed(2),
       currency: "EUR",
     },
     // TODO: add date of natuurloop
     description: "Betaling voor natuurloop",
     redirectUrl: `${URL}/natuurlopen/succes`,
+    locale: Locale.nl_BE,
   });
+  return paymentResponse.getCheckoutUrl();
 }

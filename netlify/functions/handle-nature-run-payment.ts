@@ -34,7 +34,6 @@ function parseRequestBody(body: string | null) {
   checkBodyField(bodyParsed, "emergencyPhoneNumber");
   checkBodyField(bodyParsed, "distance");
   checkBodyField(bodyParsed, "withTShirt");
-  checkBodyField(bodyParsed, "tShirtSize");
   checkBodyField(bodyParsed, "isMember");
   checkBodyField(bodyParsed, "agreeToPrivacyTerms");
   return bodyParsed;
@@ -59,7 +58,7 @@ export async function handler(event: HandlerEvent) {
   }
   try {
     const registration = parseRequestBody(event.body);
-    await createPayment(registration);
+    const checkoutUrl = await createPayment(registration);
     // const htmlMessage = `
     //   <h1>PowerPlus Natuurlopen van Lier</h1>
     //   <p>
@@ -109,7 +108,9 @@ export async function handler(event: HandlerEvent) {
     // });
     return {
       statusCode: 200,
-      body: "Email has been sent out successfully",
+      body: JSON.stringify({
+        checkoutUrl,
+      }),
     };
   } catch (error) {
     return parseEmailError(error);

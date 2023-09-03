@@ -70,6 +70,7 @@ export default defineConfig({
           "group-multimedia": ["./src/views/multimedia/Multimedia.vue"],
           "group-nature-run": [
             "./src/views/nature-run/NatureRunRegistration.vue",
+            "./src/views/nature-run/NatureRunSuccess.vue",
           ],
           "group-not-found": ["./src/views/NotFound.vue"],
         },

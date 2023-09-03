@@ -14,11 +14,12 @@ export function sendRegistrationEmails(
   );
 }
 
-export function handleNatureRunRegistration(
+export async function handleNatureRunRegistration(
   registration: WithRequired<NatureRunRegistration, "gender" | "distance">
 ) {
-  return axiosInstanceNetlifyFunctions.post(
-    "/handle-nature-run-registration",
-    registration
-  );
+  const { checkoutUrl } = await axiosInstanceNetlifyFunctions.post<
+    { checkoutUrl: string },
+    { checkoutUrl: string }
+  >("/handle-nature-run-payment", registration);
+  window.location.assign(checkoutUrl);
 }
