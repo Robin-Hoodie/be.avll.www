@@ -129,8 +129,13 @@ const links = ref<MenuLink[]>([
     value: "infoAthletes",
     icon: "mdi-torch",
     children: [
-      { title: "Club Records", to: "/info-atleten/club-records" }
-    ]
+      { title: "Kalenders", to: "/info-atleten/kalenders" },
+      { title: "Jeugdwerking", to: "/info-atleten/jeugdwerking" },
+      { title: "Prestatievergoeding", to: "/info-atleten/prestatievergoeding" },
+      { title: "Club Records", to: "/info-atleten/club-records" },
+      { title: "Piste Records", to: "/info-atleten/piste-records" },
+      { title: "Gedragscode", to: "/info-atleten/gedragscode" },
+    ],
   },
   {
     title: "Webshops",

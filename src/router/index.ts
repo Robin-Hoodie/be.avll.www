@@ -86,11 +86,31 @@ const routes: Readonly<RouteRecordRaw[]> = [
     children: [
       {
         path: "",
-        redirect: "/info-atleten/club-records",
+        redirect: "/info-atleten/kalenders",
+      },
+      {
+        path: "kalenders",
+        component: () => import("@/views/info-athletes/Calendars.vue"),
+      },
+      {
+        path: "jeugdwerking",
+        component: () => import("@/views/info-athletes/YouthWork.vue"),
+      },
+      {
+        path: "prestatievergoeding",
+        component: () => import("@/views/info-athletes/PerformanceFee.vue"),
       },
       {
         path: "club-records",
         component: () => import("@/views/info-athletes/ClubRecords.vue"),
+      },
+      {
+        path: "piste-records",
+        component: () => import("@/views/info-athletes/TrackRecords.vue"),
+      },
+      {
+        path: "gedragscode",
+        component: () => import("@/views/info-athletes/CodeOfConduct.vue"),
       },
     ],
   },

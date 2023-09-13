@@ -62,7 +62,14 @@ export default defineConfig({
             "./src/views/contests/Results.vue",
             "./src/views/contests/Registrations.vue",
           ],
-          "group-info-athletes": ["./src/views/info-athletes/ClubRecords.vue"],
+          "group-info-athletes": [
+            "./src/views/info-athletes/Calendars.vue",
+            "./src/views/info-athletes/ClubRecords.vue",
+            "./src/views/info-athletes/CodeOfConduct.vue",
+            "./src/views/info-athletes/PerformanceFee.vue",
+            "./src/views/info-athletes/TrackRecords.vue",
+            "./src/views/info-athletes/YouthWork.vue",
+          ],
           "group-web-shop": [
             "./src/views/web-shop/RecreationalClothing.vue",
             "./src/views/web-shop/CompetitionClothing.vue",
