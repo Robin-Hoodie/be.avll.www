@@ -125,10 +125,12 @@ const links = ref<MenuLink[]>([
     ],
   },
   {
-    title: "Clubrecords",
-    value: "clubRecords",
+    title: "Info Atleten",
+    value: "infoAthletes",
     icon: "mdi-torch",
-    to: "/club-records",
+    children: [
+      { title: "Club Records", to: "/info-atleten/club-records" }
+    ]
   },
   {
     title: "Webshops",

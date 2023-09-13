@@ -82,8 +82,17 @@ const routes: Readonly<RouteRecordRaw[]> = [
     ],
   },
   {
-    path: "/club-records",
-    component: () => import("@/views/club-records/ClubRecords.vue"),
+    path: "/info-atleten",
+    children: [
+      {
+        path: "",
+        redirect: "/info-atleten/club-records",
+      },
+      {
+        path: "club-records",
+        component: () => import("@/views/info-athletes/ClubRecords.vue"),
+      },
+    ],
   },
   {
     path: "/webshop",
@@ -111,7 +120,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
     component: () => import("@/views/nature-run/NatureRunSuccess.vue"),
   },
   {
-    path: "/natuurlopen/:date",
+    path: "/natuurlopen",
     component: () => import("@/views/nature-run/NatureRunRegistration.vue"),
   },
   {
