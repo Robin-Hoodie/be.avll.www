@@ -1,5 +1,5 @@
 <template>
-  <PageHeader>Records</PageHeader>
+  <PageHeader>Club Records</PageHeader>
   <FileLinkList :file-links="clubRecords" />
 </template>
 

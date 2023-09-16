@@ -193,6 +193,18 @@ export function getTrainingPage() {
   return axiosInstanceContent.get<TrainingPage, TrainingPage>("/training-page");
 }
 
+export function getYouthWorkPage() {
+  return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
+    "/youth-work-page"
+  );
+}
+
+export function getPerformanceFeePage() {
+  return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
+    "/performance-fee-page"
+  );
+}
+
 export async function getFileLinks(types: Array<FileLink["type"]>) {
   const query = qs.stringify({
     populate: "file",

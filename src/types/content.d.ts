@@ -114,7 +114,8 @@ export interface FileLink extends StrapiModel {
     | "houseRules"
     | "vision"
     | "privacyStatement"
-    | "clubRecord";
+    | "clubRecord"
+    | "trackRecord";
 }
 
 export interface RegistrationPage extends StrapiModel {
