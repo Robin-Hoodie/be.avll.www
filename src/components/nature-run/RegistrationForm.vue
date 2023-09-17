@@ -146,7 +146,11 @@
         <VCol :cols="12">
           <VTextarea v-model="registration.comment" label="Opmerking" />
         </VCol>
-        <VCol :cols="12" :sm="registration.withTShirt ? 3 : 12">
+        <VCol
+          v-if="withTShirt"
+          :cols="12"
+          :sm="registration.withTShirt ? 3 : 12"
+        >
           <VCheckbox
             color="primary"
             v-model="registration.withTShirt"
@@ -202,7 +206,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { SubmitEventPromise } from "vuetify";
-import { NatureRunRegistration, WithRequired } from "@/types";
+import { NatureRun, NatureRunRegistration, WithRequired } from "@/types";
 import {
   distanceOptions,
   genderOptions,
@@ -225,45 +229,44 @@ import {
 } from "@/components/nature-run/registration-rules";
 import {
   getFileLinks,
-  getNatureRunPricing,
-  handleNatureRunRegistration,
+  handleNatureRunPayment,
   sendRegistrationEmails,
 } from "@/api-client";
 import ThemedLink from "../ThemedLink.vue";
 import { computed } from "vue";
 
+const props = defineProps<NatureRun>();
+
 const registration = ref<NatureRunRegistration>({
-  firstName: "",
-  lastName: "",
-  email: "",
-  street: "",
+  firstName: "Robin",
+  lastName: "Hellemans",
+  email: "robin@oreon.io",
+  street: "Kammenstraat 32",
   bus: "",
-  zipCode: "",
-  city: "",
-  gender: null,
-  birthYear: null,
-  comment: "",
-  distance: null,
-  emergencyPhoneNumber: "",
+  zipCode: "2000",
+  city: "Antwerpen",
+  gender: "male",
+  birthYear: 1991,
+  comment: "Test comment",
+  distance: "tenK",
+  emergencyPhoneNumber: "+47 99 350 350",
   isMember: false,
   withTShirt: false,
-  agreeToPrivacyTerms: false,
+  agreeToPrivacyTerms: true,
+  tShirtSize: undefined,
 });
 
-const natureRunpricing = await getNatureRunPricing();
 const [privacyLink] = await getFileLinks(["privacyStatement"]);
 
 const price = computed(() => {
   if (registration.value.isMember) {
     return registration.value.withTShirt
-      ? natureRunpricing.basePrice +
-          natureRunpricing.tShirtPrice -
-          natureRunpricing.memberDiscount
-      : natureRunpricing.basePrice - natureRunpricing.memberDiscount;
+      ? props.basePrice + (props.tShirtPrice ?? 0) - props.memberDiscount
+      : props.basePrice - props.memberDiscount;
   }
-  return registration.value.withTShirt
-    ? natureRunpricing.basePrice + natureRunpricing.tShirtPrice
-    : natureRunpricing.basePrice;
+  return props.withTShirt && registration.value.withTShirt
+    ? props.basePrice + (props.tShirtPrice ?? 0)
+    : props.basePrice;
 });
 
 const priceFormatted = computed(() => `€${price.value.toFixed(2)}`);
@@ -273,12 +276,13 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
   const { valid } = await eventPromise;
 
   if (valid) {
-    await handleNatureRunRegistration(
-      registration.value as WithRequired<
+    await handleNatureRunPayment({
+      registration: registration.value as WithRequired<
         NatureRunRegistration,
         "gender" | "distance"
-      >
-    );
+      >,
+      natureRun: props,
+    });
   }
 }
 </script>

@@ -13,15 +13,15 @@ export const distanceOptions: Array<
   OptionWithLabel<NatureRunRegistrationDistance>
 > = [
   {
-    value: "5K",
+    value: "fiveK",
     label: "5km",
   },
   {
-    value: "10K",
+    value: "tenK",
     label: "10km",
   },
   {
-    value: "Long",
+    value: "long",
     label: "Lange afstand",
   },
 ];

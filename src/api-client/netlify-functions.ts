@@ -2,6 +2,7 @@ import type {
   Registration,
   WithRequired,
   NatureRunRegistration,
+  NatureRun,
 } from "@/types";
 import { axiosInstanceNetlifyFunctions } from "./axios";
 
@@ -14,12 +15,13 @@ export function sendRegistrationEmails(
   );
 }
 
-export async function handleNatureRunRegistration(
-  registration: WithRequired<NatureRunRegistration, "gender" | "distance">
-) {
+export async function handleNatureRunPayment(body: {
+  registration: WithRequired<NatureRunRegistration, "gender" | "distance">;
+  natureRun: NatureRun;
+}) {
   const { checkoutUrl } = await axiosInstanceNetlifyFunctions.post<
     { checkoutUrl: string },
     { checkoutUrl: string }
-  >("/handle-nature-run-payment", registration);
+  >("/handle-nature-run-payment", body);
   window.location.assign(checkoutUrl);
 }

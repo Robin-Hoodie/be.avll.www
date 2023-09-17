@@ -1,3 +1,5 @@
+// Duplicate from client code
+
 export interface NatureRunRegistration {
   firstName: string;
   lastName: string;

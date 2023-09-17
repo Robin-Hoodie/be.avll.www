@@ -15,11 +15,13 @@ import {
   TrainingPage,
   BlogArticleLink,
   MultimediaLink,
-  NatureRunPricing,
+  NatureRun,
 } from "@/types";
 import qs from "qs";
 import { axiosInstanceContent } from "./axios";
 import dayjs from "dayjs";
+
+const STRAPI_DATE_FORMAT = "YYYY-MM-DD";
 
 interface PersonRaw extends Omit<Person, "roles"> {
   roles: {
@@ -89,7 +91,9 @@ export function getMultimediaLinks() {
 }
 
 export async function getBlogArticles() {
-  const threeMonthsAgo = dayjs().subtract(3, "month").format("YYYY-MM-DD");
+  const threeMonthsAgo = dayjs()
+    .subtract(3, "month")
+    .format(STRAPI_DATE_FORMAT);
   const query = qs.stringify({
     populate: ["coverPhoto", "links"],
     filters: {
@@ -145,7 +149,7 @@ export function getUpcomingContests() {
 }
 
 export function getRegistrationContests() {
-  const now = dayjs().format("YYYY-MM-DD");
+  const now = dayjs().format(STRAPI_DATE_FORMAT);
   const query = qs.stringify({
     sort: "dateStart",
     filters: {
@@ -160,7 +164,7 @@ export function getRegistrationContests() {
 }
 
 export function getContests() {
-  const oneWeekAgo = dayjs().subtract(1, "week").format("YYYY-MM-DD");
+  const oneWeekAgo = dayjs().subtract(1, "week").format(STRAPI_DATE_FORMAT);
   const query = qs.stringify({
     filters: {
       date: {
@@ -219,8 +223,26 @@ export async function getFileLinks(types: Array<FileLink["type"]>) {
   );
 }
 
-export function getNatureRunPricing() {
-  return axiosInstanceContent.get<NatureRunPricing, NatureRunPricing>(
-    "/nature-run-pricing"
-  );
+export async function getNatureRun() {
+  const now = dayjs().format(STRAPI_DATE_FORMAT);
+  const query = qs.stringify({
+    filters: {
+      registrationStartDate: {
+        $lte: now,
+      },
+      registrationEndDate: {
+        $gte: now,
+      },
+    },
+  });
+  try {
+    const [natureRun] = await axiosInstanceContent.get<
+      NatureRun[],
+      NatureRun[]
+    >(`/nature-runs?${query}`);
+    return natureRun;
+  } catch (error) {
+    console.log("error", error);
+    return null;
+  }
 }

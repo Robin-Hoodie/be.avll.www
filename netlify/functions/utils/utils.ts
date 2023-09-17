@@ -1,4 +1,5 @@
 import { ResponseError } from "@sendgrid/mail";
+import dayjs from "dayjs";
 
 export function parseEmailError(error: unknown) {
   if (isResponseError(error)) {
@@ -52,6 +53,10 @@ function isResponseError(error: unknown): error is ResponseErrorFixed {
     "errors" in error.response.body &&
     Array.isArray(error.response.body.errors)
   );
+}
+
+export function formatDateFull(date: string | number | Date) {
+  return dayjs(date).format("D MMM YYYY");
 }
 
 export class ParseError extends Error {
