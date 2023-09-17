@@ -227,33 +227,30 @@ import {
   tShirtSizeRules,
   privacyTermsRules,
 } from "@/components/nature-run/registration-rules";
-import {
-  getFileLinks,
-  handleNatureRunPayment,
-  sendRegistrationEmails,
-} from "@/api-client";
+import { getFileLinks, handleNatureRunPayment } from "@/api-client";
 import ThemedLink from "../ThemedLink.vue";
 import { computed } from "vue";
 
 const props = defineProps<NatureRun>();
 
 const registration = ref<NatureRunRegistration>({
-  firstName: "Robin",
-  lastName: "Hellemans",
-  email: "robin@oreon.io",
-  street: "Kammenstraat 32",
+  firstName: "",
+  lastName: "",
+  email: "",
+  street: "",
   bus: "",
-  zipCode: "2000",
-  city: "Antwerpen",
-  gender: "male",
-  birthYear: 1991,
-  comment: "Test comment",
-  distance: "tenK",
-  emergencyPhoneNumber: "+47 99 350 350",
+  zipCode: "",
+  city: "",
+  gender: null,
+  birthYear: null,
+  comment: "",
+  distance: null,
+  emergencyPhoneNumber: "",
   isMember: false,
   withTShirt: false,
   agreeToPrivacyTerms: true,
   tShirtSize: undefined,
+  natureRun: props,
 });
 
 const [privacyLink] = await getFileLinks(["privacyStatement"]);
@@ -279,7 +276,7 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
     await handleNatureRunPayment({
       registration: registration.value as WithRequired<
         NatureRunRegistration,
-        "gender" | "distance"
+        "gender" | "distance" | "birthYear"
       >,
       natureRun: props,
     });

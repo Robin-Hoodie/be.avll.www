@@ -144,7 +144,10 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
 
   if (valid) {
     await sendRegistrationEmails(
-      registration.value as WithRequired<Registration, "gender" | "category">
+      registration.value as WithRequired<
+        Registration,
+        "gender" | "category" | "birthYear"
+      >
     );
     openFormSubmittedMessage();
     registration.value = getInitialRegistration();
