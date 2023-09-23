@@ -25,17 +25,17 @@
         target="_blank"
         class="ml-4"
       >
-        <VIcon style="{{}}">mdi-facebook</VIcon>
+        <VIcon class="facebook-link">mdi-facebook</VIcon>
       </a>
       <a
         href="https://www.instagram.com/lyralierse_oneteam_onedream/"
         target="_blank"
         class="mx-4"
       >
-        <VIcon>mdi-instagram</VIcon>
+        <VIcon class="instagram-link">mdi-instagram</VIcon>
       </a>
       <a :href="adminLink" target="_blank" class="mr-4">
-        <VIcon>mdi-shield-crown</VIcon>
+        <VIcon color="primary">mdi-shield-crown</VIcon>
       </a>
     </template>
   </VAppBar>
@@ -205,5 +205,23 @@ function getNavigationDrawerLinkComponent(link: MenuLink) {
 <style scoped>
 .home-link {
   text-decoration-line: none;
+}
+
+.facebook-link {
+  color: #4267b2;
+}
+
+.instagram-link {
+  background: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 </style>
