@@ -20,8 +20,19 @@
       />
 
       <VDivider vertical inset />
-      <a href="https://www.facebook.com/aclyra" target="_blank" class="mx-4">
-        <VIcon>mdi-facebook</VIcon>
+      <a
+        href="https://www.facebook.com/AVLyraLierse"
+        target="_blank"
+        class="ml-4"
+      >
+        <VIcon style="{{}}">mdi-facebook</VIcon>
+      </a>
+      <a
+        href="https://www.instagram.com/lyralierse_oneteam_onedream/"
+        target="_blank"
+        class="mx-4"
+      >
+        <VIcon>mdi-instagram</VIcon>
       </a>
       <a :href="adminLink" target="_blank" class="mr-4">
         <VIcon>mdi-shield-crown</VIcon>
