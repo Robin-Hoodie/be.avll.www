@@ -63,6 +63,10 @@ export interface TitleWithContent extends StrapiModel {
 export interface Sponsor extends StrapiModel {
   link: string;
   picture: File;
+  name: string;
+  addressStreet: string;
+  addressZip: string;
+  addressPlace: string;
 }
 
 export interface UpcomingContest extends StrapiModel {
@@ -173,4 +177,3 @@ export interface Registration {
 }
 
 export type RegistrationGender = "male" | "female";
-
