@@ -108,10 +108,6 @@ const routes: Readonly<RouteRecordRaw[]> = [
         path: "piste-records",
         component: () => import("@/views/info-athletes/TrackRecords.vue"),
       },
-      {
-        path: "gedragscode",
-        component: () => import("@/views/info-athletes/CodeOfConduct.vue"),
-      },
     ],
   },
   {

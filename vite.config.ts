@@ -65,7 +65,6 @@ export default defineConfig({
           "group-info-athletes": [
             "./src/views/info-athletes/Calendars.vue",
             "./src/views/info-athletes/ClubRecords.vue",
-            "./src/views/info-athletes/CodeOfConduct.vue",
             "./src/views/info-athletes/PerformanceFee.vue",
             "./src/views/info-athletes/TrackRecords.vue",
             "./src/views/info-athletes/YouthWork.vue",

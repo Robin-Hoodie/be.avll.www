@@ -145,7 +145,10 @@ const links = ref<MenuLink[]>([
       { title: "Prestatievergoeding", to: "/info-atleten/prestatievergoeding" },
       { title: "Club Records", to: "/info-atleten/club-records" },
       { title: "Piste Records", to: "/info-atleten/piste-records" },
-      { title: "Gedragscode", to: "/info-atleten/gedragscode" },
+      {
+        title: "Gedragscode",
+        href: "https://www.atletiek.be/admin/storage/main/gedragscode.pdf",
+      },
     ],
   },
   {
