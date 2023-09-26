@@ -85,8 +85,11 @@ export function getCompetitionClothingPage() {
 }
 
 export function getMultimediaLinks() {
+  const query = qs.stringify({
+    sort: "createdAt:desc",
+  });
   return axiosInstanceContent.get<MultimediaLink[], MultimediaLink[]>(
-    "/multimedia-links"
+    `/multimedia-links?${query}`
   );
 }
 
