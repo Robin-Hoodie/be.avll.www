@@ -118,8 +118,7 @@ export interface FileLink extends StrapiModel {
     | "houseRules"
     | "vision"
     | "privacyStatement"
-    | "clubRecord"
-    | "trackRecord"
+    | "record"
     | "calendar";
 }
 

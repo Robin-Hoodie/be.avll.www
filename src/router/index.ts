@@ -101,12 +101,8 @@ const routes: Readonly<RouteRecordRaw[]> = [
         component: () => import("@/views/info-athletes/PerformanceFee.vue"),
       },
       {
-        path: "club-records",
-        component: () => import("@/views/info-athletes/ClubRecords.vue"),
-      },
-      {
-        path: "piste-records",
-        component: () => import("@/views/info-athletes/TrackRecords.vue"),
+        path: "records",
+        component: () => import("@/views/info-athletes/Records.vue"),
       },
     ],
   },
