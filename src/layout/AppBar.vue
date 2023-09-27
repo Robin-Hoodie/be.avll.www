@@ -186,7 +186,7 @@ onMounted(async () => {
       return {
         ...link,
         children: link.children?.concat({
-          title: "Privacystatement",
+          title: "Privacyverklaring",
           href: privacyStatementLink.file.url,
         }),
       };

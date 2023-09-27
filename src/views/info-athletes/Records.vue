@@ -10,14 +10,16 @@ import FileLinkList from "@/components/file-link/FileLinkList.vue";
 
 const records = await getFileLinks(["record"]);
 
-const recordsSorted = records.toSorted(
-  ({ sortPriority: sortPriorityOne }, { sortPriority: sortPriorityTwo }) => {
-    if (typeof sortPriorityOne === "number") {
-      return typeof sortPriorityTwo === "number"
-        ? sortPriorityTwo - sortPriorityOne
-        : -1;
+const recordsSorted = records
+  .slice()
+  .sort(
+    ({ sortPriority: sortPriorityOne }, { sortPriority: sortPriorityTwo }) => {
+      if (typeof sortPriorityOne === "number") {
+        return typeof sortPriorityTwo === "number"
+          ? sortPriorityTwo - sortPriorityOne
+          : -1;
+      }
+      return typeof sortPriorityTwo === "number" ? 1 : 0;
     }
-    return typeof sortPriorityTwo === "number" ? 1 : 0;
-  }
-);
+  );
 </script>
