@@ -120,6 +120,7 @@ export interface FileLink extends StrapiModel {
     | "privacyStatement"
     | "record"
     | "calendar";
+  sortPriority?: number;
 }
 
 export interface RegistrationPage extends StrapiModel {
