@@ -54,6 +54,12 @@ export function getWelcomePage() {
   );
 }
 
+export function getContactPage() {
+  return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
+    "/contact-page"
+  );
+}
+
 export function getConfidantPage() {
   return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
     "/confidant-page"

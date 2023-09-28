@@ -48,6 +48,7 @@ export default defineConfig({
           ],
           "group-clubInfo": [
             "./src/views/club-info/Welcome.vue",
+            "./src/views/club-info/Contact.vue",
             "./src/views/club-info/Management.vue",
             "./src/views/club-info/PartyManagement.vue",
             "./src/views/club-info/Confidant.vue",
