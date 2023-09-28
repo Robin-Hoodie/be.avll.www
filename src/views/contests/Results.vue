@@ -1,5 +1,5 @@
 <template>
-  <PageHeader>Resultaten</PageHeader>
+  <PageHeader>Uitslagen</PageHeader>
   <TabsPerYear :list="results" v-slot="slotProps">
     <ResultTable :results="slotProps.listForYear" />
   </TabsPerYear>

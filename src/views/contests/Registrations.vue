@@ -1,5 +1,5 @@
 <template>
-  <PageHeader>Registratie</PageHeader>
+  <PageHeader>Inschrijvingen</PageHeader>
   <VueMarkdown
     :source="registrationPage.introText"
     :options="{ break: true, linkify: true }"
