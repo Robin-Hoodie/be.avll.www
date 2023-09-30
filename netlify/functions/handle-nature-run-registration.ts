@@ -1,8 +1,14 @@
 import type { HandlerEvent } from "@netlify/functions";
-import { checkBodyField, parseError, ParseError } from "./utils/utils";
-import { createPayment } from "./utils/nature-run";
+import {
+  checkBodyField,
+  parseError as parseError,
+  ParseError,
+} from "./utils/utils";
 import type { NatureRun, NatureRunRegistration } from "./types";
-import { defineEnvVariable } from "./utils/env";
+import {
+  createNatureRunRegistration,
+  sendNatureRunRegistrationEmail,
+} from "./utils/nature-run";
 
 interface EventBody {
   registration: NatureRunRegistration;
@@ -32,12 +38,12 @@ export async function handler(event: HandlerEvent) {
   }
   try {
     const { registration, natureRun } = parseRequestBody(event.body);
-    const checkoutUrl = await createPayment(registration, natureRun);
+    await Promise.allSettled([
+      createNatureRunRegistration(registration),
+      sendNatureRunRegistrationEmail(registration, natureRun),
+    ]);
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        checkoutUrl,
-      }),
     };
   } catch (error) {
     return parseError(error);

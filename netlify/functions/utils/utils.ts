@@ -1,7 +1,7 @@
 import { ResponseError } from "@sendgrid/mail";
 import dayjs from "dayjs";
 
-export function parseEmailError(error: unknown) {
+export function parseError(error: unknown) {
   if (isResponseError(error)) {
     return {
       statusCode: error.code,

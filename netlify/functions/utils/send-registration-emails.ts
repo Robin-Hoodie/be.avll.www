@@ -1,7 +1,7 @@
 import type { HandlerEvent } from "@netlify/functions";
 import sendGridMail from "@sendgrid/mail";
 import { defineEnvVariable } from "./env";
-import { ParseError, parseEmailError, checkBodyField } from "./utils";
+import { ParseError, parseError, checkBodyField } from "./utils";
 
 sendGridMail.setApiKey(defineEnvVariable("SENDGRID_API_KEY"));
 const registrationMailReplyToList = defineEnvVariable(
@@ -87,6 +87,6 @@ export async function handler(event: HandlerEvent) {
       body: "Email has been sent out successfully",
     };
   } catch (error) {
-    return parseEmailError(error);
+    return parseError(error);
   }
 }

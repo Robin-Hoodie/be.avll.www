@@ -1,6 +1,8 @@
 import { Training } from "@/types";
 import dayjs from "dayjs";
 
+export const NATURE_RUN_LOCAL_STORAGE_KEY = "registrationAndNatureRun";
+
 export function formatDateFull(date: string | number | Date) {
   return dayjs(date).format("D MMM YYYY");
 }

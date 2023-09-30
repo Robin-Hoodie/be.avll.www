@@ -227,6 +227,7 @@ import {
   tShirtSizeRules,
   privacyTermsRules,
 } from "@/components/nature-run/registration-rules";
+import { NATURE_RUN_LOCAL_STORAGE_KEY } from "@/utils";
 import { getFileLinks, handleNatureRunPayment } from "@/api-client";
 import ThemedLink from "../ThemedLink.vue";
 import { computed } from "vue";
@@ -273,13 +274,18 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
   const { valid } = await eventPromise;
 
   if (valid) {
-    await handleNatureRunPayment({
+    const registrationAndNatureRun = {
       registration: registration.value as WithRequired<
         NatureRunRegistration,
         "gender" | "distance" | "birthYear"
       >,
       natureRun: props,
-    });
+    };
+    localStorage.setItem(
+      NATURE_RUN_LOCAL_STORAGE_KEY,
+      JSON.stringify(registrationAndNatureRun)
+    );
+    await handleNatureRunPayment(registrationAndNatureRun);
   }
 }
 </script>

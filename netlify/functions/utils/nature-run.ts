@@ -1,14 +1,41 @@
+import axios from "axios";
 import sendGridMail from "@sendgrid/mail";
-import { defineEnvVariable } from "./utils/env";
-import { formatDateFull, parseEmailError } from "./utils/utils";
-import type { NatureRun, NatureRunRegistration } from "./types";
+import createMollieClient, { Locale } from "@mollie/api-client";
+import { defineEnvVariable } from "./env";
+import { formatDateFull, parseError } from "./utils";
+import type { NatureRun, NatureRunRegistration } from "../types";
 
-sendGridMail.setApiKey(defineEnvVariable("SENDGRID_API_KEY"));
+// Predefined Netlify env variable
+const URL = defineEnvVariable("URL");
+const BASE_URL_CONTENT = defineEnvVariable("VITE_BASE_URL_CONTENT");
+const SENDGRID_API_KEY = defineEnvVariable("SENDGRID_API_KEY");
+const MOLLIE_API_KEY = defineEnvVariable("MOLLIE_API_KEY");
+const NATURE_RUN_API_KEY = defineEnvVariable("NATURE_RUN_API_KEY");
+
+sendGridMail.setApiKey(SENDGRID_API_KEY);
 
 const registrationMailReplyTo = defineEnvVariable(
   "REGISTRATION_MAIL_NATURE_RUN_REPLY_TO",
   true
 );
+
+const mollieClient = createMollieClient({
+  apiKey: MOLLIE_API_KEY,
+});
+
+export function createNatureRunRegistration(
+  natureRunRegistration: NatureRunRegistration
+) {
+  return axios.post(
+    `${BASE_URL_CONTENT}/api/nature-run-registration`,
+    natureRunRegistration,
+    {
+      headers: {
+        Authorization: `Bearer ${NATURE_RUN_API_KEY}`,
+      },
+    }
+  );
+}
 
 function parseRegistrationDistance(registration: NatureRunRegistration) {
   if (registration.distance === "fiveK") {
@@ -69,6 +96,37 @@ export async function sendNatureRunRegistrationEmail(
       statusCode: 200,
     };
   } catch (error) {
-    return parseEmailError(error);
+    return parseError(error);
   }
+}
+
+async function getPrice(
+  natureRunRegistration: NatureRunRegistration,
+  natureRun: NatureRun
+) {
+  const priceReduction = natureRunRegistration.isMember
+    ? -natureRun.memberDiscount
+    : 0;
+  const priceIncrease =
+    typeof natureRun.withTShirt === "number" && natureRunRegistration.withTShirt
+      ? natureRun.tShirtPrice ?? 0
+      : 0;
+  return natureRun.basePrice + priceIncrease + priceReduction;
+}
+
+export async function createPayment(
+  natureRunRegistration: NatureRunRegistration,
+  natureRun: NatureRun
+) {
+  const price = await getPrice(natureRunRegistration, natureRun);
+  const paymentResponse = await mollieClient.payments.create({
+    amount: {
+      value: price.toFixed(2),
+      currency: "EUR",
+    },
+    description: `Betaling voor natuurloop op ${natureRun.date}`,
+    redirectUrl: `${URL}/natuurlopen/succes`,
+    locale: Locale.nl_BE,
+  });
+  return paymentResponse.getCheckoutUrl();
 }
