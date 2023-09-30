@@ -233,7 +233,7 @@ export async function getFileLinks(types: Array<FileLink["type"]>) {
 }
 
 export async function getNatureRun() {
-  const now = dayjs().format(STRAPI_DATE_FORMAT);
+  const now = dayjs().startOf("day").format(STRAPI_DATE_FORMAT);
   const query = qs.stringify({
     filters: {
       registrationStartDate: {
