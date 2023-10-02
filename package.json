@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "netlify dev",
     "typecheck": "vue-tsc --noEmit && yarn --cwd netlify/functions tsc --noEmit",
-    "build": "yarn typecheck && yarn functions:typecheck && vite build",
+    "build": "yarn typecheck && vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore",
     "prepare": "husky install"
