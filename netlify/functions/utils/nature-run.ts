@@ -107,10 +107,9 @@ async function getPrice(
   const priceReduction = natureRunRegistration.isMember
     ? -natureRun.memberDiscount
     : 0;
-  const priceIncrease =
-    typeof natureRun.withTShirt === "number" && natureRunRegistration.withTShirt
-      ? natureRun.tShirtPrice ?? 0
-      : 0;
+  const priceIncrease = natureRunRegistration.withTShirt
+    ? natureRun.tShirtPrice ?? 0
+    : 0;
   return natureRun.basePrice + priceIncrease + priceReduction;
 }
 

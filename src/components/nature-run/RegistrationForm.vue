@@ -257,13 +257,17 @@ const registration = ref<NatureRunRegistration>({
 
 const [privacyLink] = await getFileLinks(["privacyStatement"]);
 
+const withTShirt = computed(() => {
+  return typeof props.tShirtPrice === "number";
+});
+
 const price = computed(() => {
   if (registration.value.isMember) {
     return registration.value.withTShirt
       ? props.basePrice + (props.tShirtPrice ?? 0) - props.memberDiscount
       : props.basePrice - props.memberDiscount;
   }
-  return props.withTShirt && registration.value.withTShirt
+  return registration.value.withTShirt
     ? props.basePrice + (props.tShirtPrice ?? 0)
     : props.basePrice;
 });
