@@ -34,6 +34,7 @@
       v-model="registration.birthYear"
       :rules="birthYearRules"
       required
+      type="number"
     >
       <template #label><RequiredLabel>Geboortejaar</RequiredLabel></template>
     </VTextField>

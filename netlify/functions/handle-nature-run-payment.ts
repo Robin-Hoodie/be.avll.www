@@ -2,7 +2,6 @@ import type { HandlerEvent } from "@netlify/functions";
 import { checkBodyField, parseError, ParseError } from "./utils/utils";
 import { createPayment } from "./utils/nature-run";
 import type { NatureRun, NatureRunRegistration } from "./types";
-import { defineEnvVariable } from "./utils/env";
 
 interface EventBody {
   registration: NatureRunRegistration;

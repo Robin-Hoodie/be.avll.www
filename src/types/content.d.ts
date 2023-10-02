@@ -167,7 +167,7 @@ export interface Registration {
   name: string;
   email: string;
   gender: RegistrationGender | null;
-  birthYear: string;
+  birthYear: number;
   category: RegistrationCategory | null;
   valNumber: string;
   discipline: string;

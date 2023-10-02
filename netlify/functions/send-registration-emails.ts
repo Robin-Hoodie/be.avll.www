@@ -1,7 +1,7 @@
 import type { HandlerEvent } from "@netlify/functions";
 import sendGridMail from "@sendgrid/mail";
-import { defineEnvVariable } from "./env";
-import { ParseError, parseError, checkBodyField } from "./utils";
+import { defineEnvVariable } from "./utils/env";
+import { ParseError, parseError, checkBodyField } from "./utils/utils";
 
 sendGridMail.setApiKey(defineEnvVariable("SENDGRID_API_KEY"));
 const registrationMailReplyToList = defineEnvVariable(
@@ -33,6 +33,10 @@ function parseRequestBody(body: string | null) {
   return bodyParsed;
 }
 
+function parseGender(gender: "male" | "female") {
+  return gender === "male" ? "Man" : "Vrouw";
+}
+
 export async function handler(event: HandlerEvent) {
   if (event.httpMethod !== "POST") {
     return {
@@ -48,7 +52,8 @@ export async function handler(event: HandlerEvent) {
       Kampioenschap of meeting: ${registration.event}<br/>
       Naam: ${registration.name}<br/>
       E-mail: ${registration.email}<br/>
-      Geslacht: ${registration.birthYear}<br/>
+      Geslacht: ${parseGender(registration.gender)}<br/>
+      Geboortejaar: ${registration.birthYear}<br/>
       Categorie: ${registration.category}<br/>
       VAL nummer: ${registration.valNumber}<br/>
       Discipline: ${registration.discipline}<br/>
