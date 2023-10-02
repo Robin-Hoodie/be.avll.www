@@ -100,7 +100,10 @@ export function getMultimediaLinks() {
 }
 
 export async function getBlogArticles() {
-  const sixMonthsAgo = dayjs().subtract(6, "month").format(STRAPI_DATE_FORMAT);
+  const sixMonthsAgo = dayjs()
+    .startOf("day")
+    .subtract(6, "month")
+    .format(STRAPI_DATE_FORMAT);
   const query = qs.stringify({
     populate: ["coverPhoto", "links"],
     filters: {
@@ -147,8 +150,14 @@ export function getSponsors() {
 }
 
 export function getUpcomingContests() {
+  const now = dayjs().startOf("day").format(STRAPI_DATE_FORMAT);
   const query = qs.stringify({
     sort: "date",
+    filters: {
+      date: {
+        $gte: now,
+      },
+    },
   });
   return axiosInstanceContent.get<UpcomingContest[], UpcomingContest[]>(
     `/upcoming-contests?${query}`
@@ -156,7 +165,7 @@ export function getUpcomingContests() {
 }
 
 export function getRegistrationContests() {
-  const now = dayjs().format(STRAPI_DATE_FORMAT);
+  const now = dayjs().startOf("day").format(STRAPI_DATE_FORMAT);
   const query = qs.stringify({
     sort: "dateStart",
     filters: {
@@ -171,7 +180,10 @@ export function getRegistrationContests() {
 }
 
 export function getContests() {
-  const oneWeekAgo = dayjs().subtract(1, "week").format(STRAPI_DATE_FORMAT);
+  const oneWeekAgo = dayjs()
+    .startOf("day")
+    .subtract(1, "week")
+    .format(STRAPI_DATE_FORMAT);
   const query = qs.stringify({
     filters: {
       date: {
