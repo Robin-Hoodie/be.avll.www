@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "netlify dev",
-    "typecheck": "vue-tsc --noEmit",
+    "typecheck": "vue-tsc --noEmit && yarn --cwd netlify/functions tsc --noEmit",
     "build": "yarn typecheck && yarn functions:typecheck && vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore",
-    "functions:typecheck": "yarn --cwd netlify/functions tsc --noEmit"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
@@ -36,6 +36,7 @@
     "@vue/eslint-config-typescript": "^11.0.0",
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
+    "husky": "^8.0.3",
     "sass": "^1.60.0",
     "typescript": "^5.0.0",
     "vite": "^4.2.0",
