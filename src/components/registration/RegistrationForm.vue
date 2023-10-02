@@ -118,7 +118,7 @@ function getInitialRegistration() {
     name: "",
     email: "",
     gender: null,
-    birthYear: "",
+    birthYear: null,
     category: null,
     valNumber: "",
     discipline: "",
