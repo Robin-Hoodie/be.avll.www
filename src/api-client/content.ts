@@ -100,14 +100,12 @@ export function getMultimediaLinks() {
 }
 
 export async function getBlogArticles() {
-  const threeMonthsAgo = dayjs()
-    .subtract(3, "month")
-    .format(STRAPI_DATE_FORMAT);
+  const sixMonthsAgo = dayjs().subtract(6, "month").format(STRAPI_DATE_FORMAT);
   const query = qs.stringify({
     populate: ["coverPhoto", "links"],
     filters: {
       createdAt: {
-        $gte: threeMonthsAgo,
+        $gte: sixMonthsAgo,
       },
     },
     sort: "createdAt:desc",
