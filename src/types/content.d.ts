@@ -64,9 +64,9 @@ export interface Sponsor extends StrapiModel {
   link: string;
   picture: File;
   name: string;
-  addressStreet: string;
-  addressZip: string;
-  addressPlace: string;
+  addressStreet: string | null;
+  addressZip: string | null;
+  addressPlace: string | null;
 }
 
 export interface UpcomingContest extends StrapiModel {

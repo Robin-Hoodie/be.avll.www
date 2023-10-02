@@ -4,7 +4,7 @@
       <strong>{{ name }}</strong>
     </div>
     <VImg :src="picture.url" :height="150" class="mb-2" />
-    <ThemedLink :href="addressLink" external>
+    <ThemedLink v-if="addressLink" :href="addressLink" external>
       {{ addressStreet }}, {{ addressZip }}
       {{ addressPlace }}
     </ThemedLink>
@@ -19,8 +19,10 @@ import { Sponsor } from "@/types";
 
 const props = defineProps<Sponsor>();
 
-const addressLink = computed(
-  () =>
-    `https://maps.google.com/?q=${`${props.addressStreet} ${props.addressZip} ${props.addressPlace}`}`
-);
+const addressLink = computed(() => {
+  if (props.addressStreet && props.addressPlace && props.addressZip) {
+    return `https://maps.google.com/?q=${`${props.addressStreet} ${props.addressZip} ${props.addressPlace}`}`;
+  }
+  return null;
+});
 </script>
