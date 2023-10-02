@@ -12,7 +12,10 @@ export function clipLink(link: string, maxLength: number) {
 }
 
 export function getRequiredRule(label: string) {
-  return (value: string | null) => {
+  return (value: string | boolean | null) => {
+    if (typeof value === "boolean") {
+      return value || `${label} is vereist`;
+    }
     return (value && value.length > 0) || `${label} is vereist`;
   };
 }

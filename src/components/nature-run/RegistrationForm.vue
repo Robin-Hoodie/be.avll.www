@@ -168,6 +168,7 @@
           <VCheckbox
             color="primary"
             v-model="registration.agreeToPrivacyTerms"
+            :rules="privacyTermsRules"
             required
           >
             <template #label>
@@ -249,7 +250,7 @@ const registration = ref<NatureRunRegistration>({
   emergencyPhoneNumber: "",
   isMember: false,
   withTShirt: false,
-  agreeToPrivacyTerms: true,
+  agreeToPrivacyTerms: false,
   tShirtSize: undefined,
   natureRun: props,
 });
