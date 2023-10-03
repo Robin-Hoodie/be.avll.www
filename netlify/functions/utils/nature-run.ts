@@ -3,7 +3,7 @@ import sendGridMail from "@sendgrid/mail";
 import createMollieClient, { Locale } from "@mollie/api-client";
 import { defineEnvVariable } from "./env";
 import { formatDateFull, parseError } from "./utils";
-import type { NatureRun, NatureRunRegistration } from "../types";
+import type { NatureRun, NatureRunRegistration, WithId } from "../types";
 
 // Predefined Netlify env variable
 const URL = defineEnvVariable("URL");
@@ -11,47 +11,125 @@ const BASE_URL_CONTENT = defineEnvVariable("VITE_BASE_URL_CONTENT");
 const SENDGRID_API_KEY = defineEnvVariable("SENDGRID_API_KEY");
 const MOLLIE_API_KEY = defineEnvVariable("MOLLIE_API_KEY");
 const NATURE_RUN_API_KEY = defineEnvVariable("NATURE_RUN_API_KEY");
-
-sendGridMail.setApiKey(SENDGRID_API_KEY);
-
-const registrationMailReplyTo = defineEnvVariable(
+const REGISTRATION_MAIL_NATURE_RUN_REPLY_TO = defineEnvVariable(
   "REGISTRATION_MAIL_NATURE_RUN_REPLY_TO",
   true
 );
+
+const natureRunAuthHeader = {
+  Authorization: `Bearer ${NATURE_RUN_API_KEY}`,
+};
+
+sendGridMail.setApiKey(SENDGRID_API_KEY);
+
+const axiosInstance = axios.create({
+  baseURL: `${BASE_URL_CONTENT}/api`,
+  transformResponse(response: string) {
+    const parsedResponse = JSON.parse(response);
+    if (!parsedResponse.data) {
+      return response;
+    }
+    const { data } = parsedResponse;
+    if (Array.isArray(data)) {
+      return data.map((element) => {
+        const { id, attributes } = element;
+        return {
+          id,
+          ...attributes,
+        };
+      });
+    }
+    const { id, attributes } = data;
+    return {
+      id,
+      ...attributes,
+    };
+  },
+});
+axiosInstance.interceptors.response.use((response) => response.data);
 
 const mollieClient = createMollieClient({
   apiKey: MOLLIE_API_KEY,
 });
 
-export function createNatureRunRegistration(
-  natureRunRegistration: NatureRunRegistration
-) {
-  return axios.post(
-    `${BASE_URL_CONTENT}/api/nature-run-registration`,
+export async function getNatureRunRegistrationWithNatureRun(id: number) {
+  const natureRunRegistration = await axiosInstance.get<
+    WithId<
+      NatureRunRegistration & {
+        natureRun: { data: { id: number; attributes: Omit<NatureRun, "id"> } };
+      }
+    >,
+    WithId<
+      NatureRunRegistration & {
+        natureRun: { data: { id: number; attributes: Omit<NatureRun, "id"> } };
+      }
+    >
+  >(`/nature-run-registrations/${id}?populate=natureRun`, {
+    headers: natureRunAuthHeader,
+  });
+  return {
     natureRunRegistration,
+    natureRun: {
+      ...natureRunRegistration.natureRun.data.attributes,
+      id: natureRunRegistration.natureRun.data.id,
+    },
+  };
+}
+
+export async function createNatureRunRegistration(
+  natureRunRegistration: NatureRunRegistration,
+  natureRun: NatureRun
+) {
+  return axiosInstance.post<
+    WithId<NatureRunRegistration>,
+    WithId<NatureRunRegistration>
+  >(
+    "/nature-run-registrations",
     {
-      headers: {
-        Authorization: `Bearer ${NATURE_RUN_API_KEY}`,
+      data: {
+        ...natureRunRegistration,
+        natureRun: natureRun.id,
       },
+    },
+    {
+      headers: natureRunAuthHeader,
     }
   );
 }
 
-function parseRegistrationDistance(registration: NatureRunRegistration) {
-  if (registration.distance === "fiveK") {
+export function markNatureRunRegistrationAsPaid(id: number) {
+  return axiosInstance.put(
+    `/nature-run-registrations/${id}`,
+    {
+      data: {
+        isPaid: true,
+      },
+    },
+    {
+      headers: natureRunAuthHeader,
+    }
+  );
+}
+
+function parseNatureRunRegistrationDistance(
+  natureRunRegistration: NatureRunRegistration
+) {
+  if (natureRunRegistration.distance === "fiveK") {
     return "5KM";
   }
-  if (registration.distance === "tenK") {
+  if (natureRunRegistration.distance === "tenK") {
     return "10KM";
   }
   return "lange afstand";
 }
 
 export async function sendNatureRunRegistrationEmail(
-  registration: NatureRunRegistration,
+  natureRunRegistration: NatureRunRegistration,
   natureRun: NatureRun
 ) {
-  const distanceParsed = parseRegistrationDistance(registration);
+  const distanceParsed = parseNatureRunRegistrationDistance(
+    natureRunRegistration
+  );
   try {
     const htmlMessage = `
       <h1>PowerPlus Natuurlopen van Lier</h1>
@@ -75,15 +153,15 @@ export async function sendNatureRunRegistrationEmail(
     await sendGridMail.send({
       to: [
         {
-          name: `${registration.firstName} ${registration.lastName}`,
-          email: registration.email,
+          name: `${natureRunRegistration.firstName} ${natureRunRegistration.lastName}`,
+          email: natureRunRegistration.email,
         },
       ],
       from: "info@avll.be",
       replyToList: [
         {
-          name: registrationMailReplyTo[0],
-          email: registrationMailReplyTo[1],
+          name: REGISTRATION_MAIL_NATURE_RUN_REPLY_TO[0],
+          email: REGISTRATION_MAIL_NATURE_RUN_REPLY_TO[1],
         },
       ],
       subject: `Bevestiging inschrijving ${distanceParsed} op ${formatDateFull(
@@ -114,17 +192,19 @@ async function getPrice(
 }
 
 export async function createPayment(
-  natureRunRegistration: NatureRunRegistration,
+  natureRunRegistrationWithid: WithId<NatureRunRegistration>,
   natureRun: NatureRun
 ) {
-  const price = await getPrice(natureRunRegistration, natureRun);
+  const price = await getPrice(natureRunRegistrationWithid, natureRun);
   const paymentResponse = await mollieClient.payments.create({
     amount: {
       value: price.toFixed(2),
       currency: "EUR",
     },
-    description: `Betaling voor natuurloop op ${natureRun.date}`,
-    redirectUrl: `${URL}/natuurlopen/succes`,
+    description: `Betaling voor natuurloop op ${formatDateFull(
+      natureRun.date
+    )}`,
+    redirectUrl: `${URL}/natuurlopen/${natureRunRegistrationWithid.id}/succes`,
     locale: Locale.nl_BE,
   });
   return paymentResponse.getCheckoutUrl();

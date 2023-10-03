@@ -69,7 +69,7 @@
           </VTextField>
         </VCol>
         <VCol :cols="12" :sm="9">
-          <VTextField v-model="registration.city" :rules="cityRules" required>
+          <VTextField v-model="registration.place" :rules="placeRules" required>
             <template #label>
               <RequiredLabel>Gemeente</RequiredLabel>
             </template>
@@ -95,7 +95,7 @@
         </VCol>
         <VCol :cols="12" :sm="9">
           <VTextField
-            v-model="registration.birthYear"
+            v-model.number="registration.birthYear"
             :rules="birthYearRules"
             required
             type="number"
@@ -219,7 +219,7 @@ import {
   lastNameRules,
   streetRules,
   zipCodeRules,
-  cityRules,
+  placeRules,
   distanceRules,
   emergencyPhoneNumberRules,
   emailRules,
@@ -228,21 +228,20 @@ import {
   tShirtSizeRules,
   privacyTermsRules,
 } from "@/components/nature-run/registration-rules";
-import { NATURE_RUN_LOCAL_STORAGE_KEY } from "@/utils";
 import { getFileLinks, handleNatureRunPayment } from "@/api-client";
 import ThemedLink from "../ThemedLink.vue";
 import { computed } from "vue";
 
-const props = defineProps<NatureRun>();
+const natureRun = defineProps<NatureRun>();
 
 const registration = ref<NatureRunRegistration>({
   firstName: "",
   lastName: "",
   email: "",
   street: "",
-  bus: "",
+  bus: null,
   zipCode: "",
-  city: "",
+  place: "",
   gender: null,
   birthYear: null,
   comment: "",
@@ -251,25 +250,27 @@ const registration = ref<NatureRunRegistration>({
   isMember: false,
   withTShirt: false,
   agreeToPrivacyTerms: false,
-  tShirtSize: undefined,
-  natureRun: props,
+  tShirtSize: null,
+  isPaid: false,
 });
 
 const [privacyLink] = await getFileLinks(["privacyStatement"]);
 
 const withTShirt = computed(() => {
-  return typeof props.tShirtPrice === "number";
+  return typeof natureRun.tShirtPrice === "number";
 });
 
 const price = computed(() => {
   if (registration.value.isMember) {
     return registration.value.withTShirt
-      ? props.basePrice + (props.tShirtPrice ?? 0) - props.memberDiscount
-      : props.basePrice - props.memberDiscount;
+      ? natureRun.basePrice +
+          (natureRun.tShirtPrice ?? 0) -
+          natureRun.memberDiscount
+      : natureRun.basePrice - natureRun.memberDiscount;
   }
   return registration.value.withTShirt
-    ? props.basePrice + (props.tShirtPrice ?? 0)
-    : props.basePrice;
+    ? natureRun.basePrice + (natureRun.tShirtPrice ?? 0)
+    : natureRun.basePrice;
 });
 
 const priceFormatted = computed(() => `€${price.value.toFixed(2)}`);
@@ -279,18 +280,14 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
   const { valid } = await eventPromise;
 
   if (valid) {
-    const registrationAndNatureRun = {
-      registration: registration.value as WithRequired<
+    const natureRunRegistrationAndNatureRun = {
+      natureRunRegistration: registration.value as WithRequired<
         NatureRunRegistration,
         "gender" | "distance" | "birthYear"
       >,
-      natureRun: props,
+      natureRun: natureRun,
     };
-    localStorage.setItem(
-      NATURE_RUN_LOCAL_STORAGE_KEY,
-      JSON.stringify(registrationAndNatureRun)
-    );
-    await handleNatureRunPayment(registrationAndNatureRun);
+    await handleNatureRunPayment(natureRunRegistrationAndNatureRun);
   }
 }
 </script>

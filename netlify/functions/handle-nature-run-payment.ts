@@ -1,10 +1,10 @@
 import type { HandlerEvent } from "@netlify/functions";
 import { checkBodyField, parseError, ParseError } from "./utils/utils";
-import { createPayment } from "./utils/nature-run";
+import { createNatureRunRegistration, createPayment } from "./utils/nature-run";
 import type { NatureRun, NatureRunRegistration } from "./types";
 
 interface EventBody {
-  registration: NatureRunRegistration;
+  natureRunRegistration: NatureRunRegistration;
   natureRun: NatureRun;
 }
 
@@ -17,7 +17,7 @@ function parseRequestBody(body: string | null): EventBody {
   if (typeof bodyParsed !== "object" || bodyParsed === null) {
     throw new ParseError(400, "Body is required to be an object");
   }
-  checkBodyField(bodyParsed, "registration");
+  checkBodyField(bodyParsed, "natureRunRegistration");
   checkBodyField(bodyParsed, "natureRun");
   return bodyParsed;
 }
@@ -30,8 +30,15 @@ export async function handler(event: HandlerEvent) {
     };
   }
   try {
-    const { registration, natureRun } = parseRequestBody(event.body);
-    const checkoutUrl = await createPayment(registration, natureRun);
+    const { natureRunRegistration, natureRun } = parseRequestBody(event.body);
+    const natureRunRegistrationWithId = await createNatureRunRegistration(
+      natureRunRegistration,
+      natureRun
+    );
+    const checkoutUrl = await createPayment(
+      natureRunRegistrationWithId,
+      natureRun
+    );
     return {
       statusCode: 200,
       body: JSON.stringify({

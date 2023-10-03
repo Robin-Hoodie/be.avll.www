@@ -21,7 +21,7 @@ const app = createApp(App);
 
 registerPlugins(app);
 
-dayjs.locale("nl");
+dayjs.locale("nl_BE");
 dayjs.extend(customParseFormat);
 
 app.mount("#app");

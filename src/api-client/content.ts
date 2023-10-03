@@ -126,7 +126,7 @@ export async function getBlogArticles() {
   }));
 }
 
-export async function getBlogArticle(id: number | string) {
+export async function getBlogArticle(id: string) {
   const query = qs.stringify({
     populate: ["coverPhoto", "links"],
   });
@@ -256,12 +256,11 @@ export async function getNatureRun() {
   });
   try {
     const [natureRun] = await axiosInstanceContent.get<
-      NatureRun[],
-      NatureRun[]
+      Array<NatureRun>,
+      Array<NatureRun>
     >(`/nature-runs?${query}`);
     return natureRun;
   } catch (error) {
-    console.log("error", error);
     return null;
   }
 }

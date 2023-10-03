@@ -5,17 +5,17 @@ export interface NatureRunRegistration {
   street: string;
   bus: string | null;
   zipCode: string;
-  city: string;
+  place: string;
   gender: NatureRunRegistrationGender | null;
   birthYear: number | null;
   emergencyPhoneNumber: string;
   distance: NatureRunRegistrationDistance | null;
   comment: string;
   withTShirt: boolean;
-  tShirtSize?: TShirtSize;
+  tShirtSize: TShirtSize | null;
   isMember: boolean;
   agreeToPrivacyTerms: boolean;
-  natureRun: NatureRun;
+  isPaid: boolean;
 }
 
 export type NatureRunRegistrationGender = "male" | "female" | "unidentified";
@@ -23,6 +23,7 @@ export type NatureRunRegistrationDistance = "fiveK" | "tenK" | "long";
 export type TShirtSize = "XS" | "S" | "M" | "L" | "XL" | "XXL";
 
 export interface NatureRun {
+  id: number;
   basePrice: number;
   memberDiscount: number;
   tShirtPrice: number | null;

@@ -136,7 +136,8 @@ const routes: Readonly<RouteRecordRaw[]> = [
     component: () => import("@/views/sponsors/Sponsors.vue"),
   },
   {
-    path: "/natuurlopen/succes",
+    path: "/natuurlopen/:natureRunRegistrationId/succes",
+    props: true,
     component: () => import("@/views/nature-run/NatureRunSuccess.vue"),
   },
   {

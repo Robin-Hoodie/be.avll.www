@@ -1,8 +1,6 @@
 import { Training } from "@/types";
 import dayjs from "dayjs";
 
-export const NATURE_RUN_LOCAL_STORAGE_KEY = "registrationAndNatureRun";
-
 export function formatDateFull(date: string | number | Date) {
   return dayjs(date).format("D MMM YYYY");
 }
@@ -12,30 +10,32 @@ export function clipLink(link: string, maxLength: number) {
 }
 
 export function getRequiredRule(label: string) {
-  return (value: string | boolean | null) => {
+  return (value: string | number | boolean | null) => {
+    if (value === null) {
+      return `${label} is vereist`;
+    }
+    if (typeof value === "string") {
+      return value.length > 0 || `${label} is vereist`;
+    }
     if (typeof value === "boolean") {
       return value || `${label} is vereist`;
     }
-    return (value && value.length > 0) || `${label} is vereist`;
+    return true;
   };
 }
 
 export function getBirthYearRules(label = "Geboortejaar") {
   return [
     getRequiredRule(label),
-    (inputYear: string) => {
+    (inputYear: number) => {
       const currentYear = dayjs().year();
-      const inputYearAsNumber = Number(inputYear);
-      if (typeof inputYearAsNumber === "number") {
-        if (inputYearAsNumber < currentYear - 100) {
-          return "Zo oud ben je nu ook weer niet..";
-        }
-        if (inputYearAsNumber >= currentYear) {
-          return "Mensen van de toekomst kunnen hier niet registreren";
-        }
-        return true;
+      if (inputYear < currentYear - 100) {
+        return "Zo oud ben je nu ook weer niet..";
       }
-      return "Dit is geen geldig geboortejaar";
+      if (inputYear >= currentYear) {
+        return "Mensen van de toekomst kunnen hier niet registreren";
+      }
+      return true;
     },
   ];
 }

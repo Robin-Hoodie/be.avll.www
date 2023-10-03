@@ -1,5 +1,8 @@
 import { ResponseError } from "@sendgrid/mail";
+import "dayjs/locale/nl";
 import dayjs from "dayjs";
+
+dayjs.locale("nl");
 
 export function parseError(error: unknown) {
   if (isResponseError(error)) {

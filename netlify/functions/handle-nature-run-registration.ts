@@ -4,15 +4,15 @@ import {
   parseError as parseError,
   ParseError,
 } from "./utils/utils";
-import type { NatureRun, NatureRunRegistration } from "./types";
+import type { NatureRun } from "./types";
 import {
-  createNatureRunRegistration,
+  getNatureRunRegistrationWithNatureRun,
+  markNatureRunRegistrationAsPaid,
   sendNatureRunRegistrationEmail,
 } from "./utils/nature-run";
 
 interface EventBody {
-  registration: NatureRunRegistration;
-  natureRun: NatureRun;
+  natureRunRegistrationId: number;
 }
 
 // Don't do thorough check
@@ -24,8 +24,7 @@ function parseRequestBody(body: string | null): EventBody {
   if (typeof bodyParsed !== "object" || bodyParsed === null) {
     throw new ParseError(400, "Body is required to be an object");
   }
-  checkBodyField(bodyParsed, "registration");
-  checkBodyField(bodyParsed, "natureRun");
+  checkBodyField(bodyParsed, "natureRunRegistrationId");
   return bodyParsed;
 }
 
@@ -37,10 +36,12 @@ export async function handler(event: HandlerEvent) {
     };
   }
   try {
-    const { registration, natureRun } = parseRequestBody(event.body);
+    const { natureRunRegistrationId } = parseRequestBody(event.body);
+    const { natureRunRegistration, natureRun } =
+      await getNatureRunRegistrationWithNatureRun(natureRunRegistrationId);
     await Promise.allSettled([
-      createNatureRunRegistration(registration),
-      sendNatureRunRegistrationEmail(registration, natureRun),
+      markNatureRunRegistrationAsPaid(natureRunRegistrationId),
+      sendNatureRunRegistrationEmail(natureRunRegistration, natureRun),
     ]);
     return {
       statusCode: 200,

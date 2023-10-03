@@ -31,7 +31,7 @@
       />
     </VRadioGroup>
     <VTextField
-      v-model="registration.birthYear"
+      v-model.number="registration.birthYear"
       :rules="birthYearRules"
       required
       type="number"

@@ -9,10 +9,12 @@
 <script setup lang="ts">
 import PageHeader from "@/components/PageHeader.vue";
 import { handleNatureRunRegistration } from "@/api-client";
-import { NATURE_RUN_LOCAL_STORAGE_KEY } from "@/utils";
 
-await handleNatureRunRegistration(
-  JSON.parse(localStorage.getItem(NATURE_RUN_LOCAL_STORAGE_KEY)!)
-);
-localStorage.removeItem(NATURE_RUN_LOCAL_STORAGE_KEY);
+const props = defineProps<{
+  natureRunRegistrationId: string;
+}>();
+
+await handleNatureRunRegistration({
+  natureRunRegistrationId: Number(props.natureRunRegistrationId),
+});
 </script>
