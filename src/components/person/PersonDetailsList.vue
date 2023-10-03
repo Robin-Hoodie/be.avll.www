@@ -4,8 +4,8 @@
       <VCol :cols="cols" v-for="person in peopleSorted" :key="person.id">
         <PersonDetails
           :person="person"
-          :active-role="activeRole"
-          :is-prominent="person.name === 'Simon Chovau'"
+          :is-prominent="getIsProminent(person)"
+          :title="getTitle(person)"
       /></VCol>
     </VRow>
   </VContainer>
@@ -21,10 +21,12 @@ const props = defineProps<{ people: Person[]; activeRole: Role }>();
 
 const peopleSorted = computed(() =>
   props.people.slice().sort((person1, person2) => {
-    if (person1.isProminent) {
-      return person2.isProminent ? 0 : -1;
+    const personOneIsProminent = getIsProminent(person1);
+    const personTwoIsProminent = getIsProminent(person2);
+    if (personOneIsProminent) {
+      return personTwoIsProminent ? 0 : -1;
     }
-    return person2.isProminent ? 1 : 0;
+    return personTwoIsProminent ? 1 : 0;
   })
 );
 
@@ -36,4 +38,34 @@ const cols = computed(() => {
   }
   return lgAndDown.value ? 6 : 3;
 });
+
+function getIsProminent(person: Person) {
+  return person[
+    `isProminentFor${props.activeRole[0].toUpperCase()}${props.activeRole.slice(
+      1
+    )}` as
+      | "isProminentForManagement"
+      | "isProminentForPartyManagement"
+      | "isProminentForConfidant"
+      | "isProminentForTrainerYouth"
+      | "isProminentForTrainerFromCadet"
+      | "isProminentForTrainerGTeam"
+      | "isProminentForTrainerJoggers"
+  ];
+}
+
+function getTitle(person: Person) {
+  return person[
+    `titleAs${props.activeRole[0].toUpperCase()}${props.activeRole.slice(
+      1
+    )}` as
+      | "titleAsManagement"
+      | "titleAsPartyManagement"
+      | "titleAsConfidant"
+      | "titleAsTrainerYouth"
+      | "titleAsTrainerFromCadet"
+      | "titleAsTrainerGTeam"
+      | "titleAsTrainerJoggers"
+  ];
+}
 </script>

@@ -2,7 +2,7 @@
   <VCard
     :elevation="5"
     rounded
-    :border="person.isProminent ? 'primary md opacity-100' : false"
+    :border="isProminent ? 'primary md opacity-100' : false"
   >
     <VCardTitle class="d-flex align-center">
       <VAvatar color="primary" size="x-small" class="mr-2">
@@ -64,29 +64,14 @@
 </template>
 
 <script setup lang="ts">
-import { Person, Role } from "@/types";
+import { Person } from "@/types";
 import ThemedLink from "@/components/ThemedLink.vue";
-import { computed } from "vue";
 
-const props = defineProps<{
+defineProps<{
   person: Person;
-  activeRole: Role;
+  isProminent: boolean;
+  title: string | null;
 }>();
-
-const title = computed(() => {
-  return props.person[
-    `titleAs${props.activeRole[0].toUpperCase()}${props.activeRole.slice(
-      1
-    )}` as
-      | "titleAsManagement"
-      | "titleAsPartyManagement"
-      | "titleAsConfidant"
-      | "titleAsTrainerYouth"
-      | "titleAsTrainerFromCadet"
-      | "titleAsTrainerGTeam"
-      | "titleAsTrainerJoggers"
-  ];
-});
 
 function formatPhone(phone: string, type: "mobile" | "home") {
   if (type === "mobile") {

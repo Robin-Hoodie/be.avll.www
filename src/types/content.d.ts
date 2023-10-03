@@ -32,7 +32,6 @@ export interface Person extends StrapiModel {
   addressZip: string | null;
   addressPlace: string | null;
   roles: Role[];
-  isProminent: boolean;
   titleAsManagement: string | null;
   titleAsPartyManagement: string | null;
   titleAsConfidant: string | null;
@@ -40,6 +39,13 @@ export interface Person extends StrapiModel {
   titleAsTrainerFromCadet: string | null;
   titleAsTrainerGTeam: string | null;
   titleAsTrainerJoggers: string | null;
+  isProminentForManagement: boolean;
+  isProminentForPartyManagement: boolean;
+  isProminentForConfidant: boolean;
+  isProminentForTrainerYouth: boolean;
+  isProminentForTrainerFromCadet: boolean;
+  isProminentForTrainerGTeam: boolean;
+  isProminentForTrainerJoggers: boolean;
 }
 
 export interface BlogArticle extends StrapiModel {
