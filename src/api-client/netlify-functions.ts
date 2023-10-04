@@ -26,7 +26,7 @@ export async function handleNatureRunPayment(body: {
     { checkoutUrl: string },
     { checkoutUrl: string }
   >("/handle-nature-run-payment", body);
-  window.location.assign(checkoutUrl);
+  return checkoutUrl;
 }
 
 export async function handleNatureRunRegistration(body: {

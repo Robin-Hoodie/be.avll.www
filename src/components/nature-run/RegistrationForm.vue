@@ -233,11 +233,23 @@ import {
   tShirtSizeRules,
   privacyTermsRules,
 } from "@/components/nature-run/registration-rules";
-import { getFileLinks, handleNatureRunPayment } from "@/api-client";
+import { getFileLinks } from "@/api-client";
 import ThemedLink from "../ThemedLink.vue";
 import { computed } from "vue";
 
 const natureRun = defineProps<NatureRun>();
+const emit = defineEmits<{
+  (
+    event: "submit",
+    natureRunRegistrationAndNatureRun: {
+      natureRunRegistration: WithRequired<
+        NatureRunRegistration,
+        "gender" | "distance" | "birthYear"
+      >;
+      natureRun: NatureRun;
+    }
+  ): void;
+}>();
 
 const registration = ref<NatureRunRegistration>({
   firstName: "",
@@ -294,11 +306,10 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
       NatureRunRegistration,
       "gender" | "distance" | "birthYear"
     >;
-    const natureRunRegistrationAndNatureRun = {
+    emit("submit", {
       natureRunRegistration: natureRunRegistrationFinal,
       natureRun: natureRun,
-    };
-    await handleNatureRunPayment(natureRunRegistrationAndNatureRun);
+    });
   }
 }
 </script>
