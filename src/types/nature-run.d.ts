@@ -20,7 +20,7 @@ export interface NatureRunRegistration {
 
 export type NatureRunRegistrationGender = "male" | "female" | "unidentified";
 export type NatureRunRegistrationDistance = "fiveK" | "tenK" | "long";
-export type TShirtSize = "XS" | "S" | "M" | "L" | "XL" | "XXL";
+export type TShirtSize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
 
 export interface NatureRun {
   id: number;

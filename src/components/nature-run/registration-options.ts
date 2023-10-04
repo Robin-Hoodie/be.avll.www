@@ -50,4 +50,5 @@ export const tShirtSizeOptions: TShirtSize[] = [
   "L",
   "XL",
   "XXL",
+  "XXXL",
 ];

@@ -158,7 +158,12 @@
           />
         </VCol>
         <VCol v-if="registration.withTShirt" :cols="12" :sm="6">
-          <VSelect :rules="tShirtSizeRules" :items="tShirtSizeOptions" required>
+          <VSelect
+            v-model="registration.tShirtSize"
+            :rules="tShirtSizeRules"
+            :items="tShirtSizeOptions"
+            required
+          >
             <template #label>
               <RequiredLabel>Grootte T-Shirt</RequiredLabel>
             </template>
@@ -280,11 +285,17 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
   const { valid } = await eventPromise;
 
   if (valid) {
+    const natureRunRegistrationFinal = {
+      ...registration.value,
+      tShirtSize: registration.value.withTShirt
+        ? registration.value.tShirtSize
+        : null,
+    } as WithRequired<
+      NatureRunRegistration,
+      "gender" | "distance" | "birthYear"
+    >;
     const natureRunRegistrationAndNatureRun = {
-      natureRunRegistration: registration.value as WithRequired<
-        NatureRunRegistration,
-        "gender" | "distance" | "birthYear"
-      >,
+      natureRunRegistration: natureRunRegistrationFinal,
       natureRun: natureRun,
     };
     await handleNatureRunPayment(natureRunRegistrationAndNatureRun);
