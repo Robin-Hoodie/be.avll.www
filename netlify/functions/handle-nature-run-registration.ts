@@ -39,10 +39,13 @@ export async function handler(event: HandlerEvent) {
     const { natureRunRegistrationId } = parseRequestBody(event.body);
     const { natureRunRegistration, natureRun } =
       await getNatureRunRegistrationWithNatureRun(natureRunRegistrationId);
-    await Promise.allSettled([
-      markNatureRunRegistrationAsPaid(natureRunRegistrationId),
-      sendNatureRunRegistrationEmail(natureRunRegistration, natureRun),
-    ]);
+    // Avoid users refreshing getting multiple emails
+    if (!natureRunRegistration.isPaid) {
+      await Promise.allSettled([
+        markNatureRunRegistrationAsPaid(natureRunRegistrationId),
+        sendNatureRunRegistrationEmail(natureRunRegistration, natureRun),
+      ]);
+    }
     return {
       statusCode: 200,
     };
