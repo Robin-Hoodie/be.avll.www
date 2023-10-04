@@ -157,7 +157,7 @@ export async function sendNatureRunRegistrationEmail(
           email: natureRunRegistration.email,
         },
       ],
-      from: "info@avll.be",
+      from: "natuurlopen@avll.be",
       replyToList: [
         {
           name: REGISTRATION_MAIL_NATURE_RUN_REPLY_TO[0],
