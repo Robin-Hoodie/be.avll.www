@@ -16,6 +16,9 @@ export interface NatureRunRegistration {
   isMember: boolean;
   agreeToPrivacyTerms: boolean;
   isPaid: boolean;
+  runsWithPK: boolean;
+  clubName: string | null;
+  bibNumber: string | null;
 }
 
 export type NatureRunRegistrationGender = "male" | "female" | "unidentified";
@@ -30,4 +33,5 @@ export interface NatureRun {
   registrationStartDate: string;
   registrationEndDate: string;
   date: string;
+  isPK: boolean;
 }

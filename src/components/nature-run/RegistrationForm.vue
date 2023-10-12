@@ -143,6 +143,32 @@
             />
           </VRadioGroup>
         </VCol>
+        <VCol v-if="isPK" :cols="2" :sm="12">
+          <VCheckbox
+            color="primary"
+            v-model="registration.runsWithPK"
+            label="Ik neem deel aan PK"
+        /></VCol>
+        <VCol v-if="registration.runsWithPK" :cols="5" :sm="6">
+          <VTextField
+            v-model="registration.bibNumber"
+            :rules="bibNumberRules"
+            required
+          >
+            <template #label
+              ><RequiredLabel>Borstnummer</RequiredLabel></template
+            >
+          </VTextField></VCol
+        >
+        <VCol v-if="registration.runsWithPK" :cols="5" :sm="6">
+          <VTextField
+            v-model="registration.clubName"
+            :rules="clubNameRules"
+            required
+          >
+            <template #label><RequiredLabel>Clubnaam</RequiredLabel></template>
+          </VTextField></VCol
+        >
         <VCol :cols="12">
           <VTextarea v-model="registration.comment" label="Opmerking" />
         </VCol>
@@ -232,6 +258,8 @@ import {
   birthYearRules,
   tShirtSizeRules,
   privacyTermsRules,
+  bibNumberRules,
+  clubNameRules,
 } from "@/components/nature-run/registration-rules";
 import { getFileLinks } from "@/api-client";
 import ThemedLink from "../ThemedLink.vue";
@@ -269,6 +297,9 @@ const registration = ref<NatureRunRegistration>({
   agreeToPrivacyTerms: false,
   tShirtSize: null,
   isPaid: false,
+  runsWithPK: false,
+  bibNumber: "",
+  clubName: "",
 });
 
 const [privacyLink] = await getFileLinks(["privacyStatement"]);
@@ -301,6 +332,12 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
       ...registration.value,
       tShirtSize: registration.value.withTShirt
         ? registration.value.tShirtSize
+        : null,
+      bibNumber: registration.value.runsWithPK
+        ? registration.value.bibNumber
+        : null,
+      clubName: registration.value.runsWithPK
+        ? registration.value.clubName
         : null,
     } as WithRequired<
       NatureRunRegistration,

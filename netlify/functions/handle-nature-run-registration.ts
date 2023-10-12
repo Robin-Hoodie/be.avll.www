@@ -4,7 +4,6 @@ import {
   parseError as parseError,
   ParseError,
 } from "./utils/utils";
-import type { NatureRun } from "./types";
 import {
   getNatureRunRegistrationWithNatureRun,
   markNatureRunRegistrationAsPaid,
