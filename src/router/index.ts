@@ -1,5 +1,9 @@
 // Composables
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+// Statically importing these, as they both import TabsPerYear.
+// TabsPerYear uses "generic" in its "<script>" tag, which for some reason triggers Netlify to serve it as a text/html file
+import Results from "@/views/contests/Results.vue";
+import Contests from "@/views/contests/Contests.vue";
 
 const routes: Readonly<RouteRecordRaw[]> = [
   {
@@ -73,11 +77,11 @@ const routes: Readonly<RouteRecordRaw[]> = [
       },
       {
         path: "onze-organisaties",
-        component: () => import("@/views/contests/Contests.vue"),
+        component: Contests,
       },
       {
         path: "uitslagen",
-        component: () => import("@/views/contests/Results.vue"),
+        component: Results,
       },
       {
         path: "inschrijvingen",
