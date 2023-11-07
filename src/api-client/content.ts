@@ -111,7 +111,7 @@ export async function getBlogArticles() {
         $gte: sixMonthsAgo,
       },
     },
-    sort: "createdAt:desc",
+    sort: "date:desc",
   });
 
   const blogArticlesRaw = await axiosInstanceContent.get<

@@ -53,6 +53,7 @@ export interface BlogArticle extends StrapiModel {
   content: string;
   location: string | null;
   coverPhoto: File | null;
+  date: string;
   links: BlogArticleLink[] | null;
 }
 
