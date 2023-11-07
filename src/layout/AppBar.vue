@@ -30,11 +30,14 @@
       <a
         href="https://www.instagram.com/lyralierse_oneteam_onedream/"
         target="_blank"
-        class="mx-4"
+        class="ml-4"
       >
         <VIcon class="instagram-link">mdi-instagram</VIcon>
       </a>
-      <a :href="adminLink" target="_blank" class="mr-4">
+      <a href="https://www.bloggen.be/aclyra/" target="_blank" class="ml-4">
+        <VIcon color="primary">mdi-post-outline</VIcon>
+      </a>
+      <a :href="adminLink" target="_blank" class="mx-4">
         <VIcon color="primary">mdi-shield-crown</VIcon>
       </a>
     </template>
