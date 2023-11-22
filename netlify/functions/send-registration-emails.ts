@@ -4,11 +4,11 @@ import { defineEnvVariable } from "./utils/env";
 import { ParseError, parseError, checkBodyField } from "./utils/utils";
 
 sendGridMail.setApiKey(defineEnvVariable("SENDGRID_API_KEY"));
-const registrationMailReplyToList = defineEnvVariable(
+const REGISTRATION_MAIL_REPLY_TO_LIST = defineEnvVariable(
   "REGISTRATION_MAIL_REPLY_TO_LIST",
   true
 );
-const registrationMailBccList = defineEnvVariable(
+const REGISTRATION_MAIL_BCC_LIST = defineEnvVariable(
   "REGISTRATION_MAIL_BCC_LIST",
   true
 );
@@ -69,18 +69,18 @@ export async function handler(event: HandlerEvent) {
         },
       ],
       bcc: [
-        { name: registrationMailBccList[0], email: registrationMailBccList[1] },
-        { name: registrationMailBccList[2], email: registrationMailBccList[3] },
+        { name: REGISTRATION_MAIL_BCC_LIST[0], email: REGISTRATION_MAIL_BCC_LIST[1] },
+        { name: REGISTRATION_MAIL_BCC_LIST[2], email: REGISTRATION_MAIL_BCC_LIST[3] },
       ],
       from: "info@avll.be",
       replyToList: [
         {
-          name: registrationMailReplyToList[0],
-          email: registrationMailReplyToList[1],
+          name: REGISTRATION_MAIL_REPLY_TO_LIST[0],
+          email: REGISTRATION_MAIL_REPLY_TO_LIST[1],
         },
         {
-          name: registrationMailReplyToList[2],
-          email: registrationMailReplyToList[3],
+          name: REGISTRATION_MAIL_REPLY_TO_LIST[2],
+          email: REGISTRATION_MAIL_REPLY_TO_LIST[3],
         },
       ],
       subject: `Bevestiging inschrijving ${registration.event}`,
