@@ -105,6 +105,10 @@ const routes: Readonly<RouteRecordRaw[]> = [
         component: () => import("@/views/info-athletes/YouthWork.vue"),
       },
       {
+        path: "g-team",
+        component: () => import("@/views/info-athletes/GTeam.vue"),
+      },
+      {
         path: "prestatievergoeding",
         component: () => import("@/views/info-athletes/PerformanceFee.vue"),
       },

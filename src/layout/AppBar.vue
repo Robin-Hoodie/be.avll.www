@@ -149,6 +149,7 @@ const links = ref<MenuLink[]>([
     children: [
       { title: "Kalenders", to: "/info-atleten/kalenders" },
       { title: "Jeugdwerking", to: "/info-atleten/jeugdwerking" },
+      { title: "G-team", to: "/info-atleten/g-team" },
       { title: "Prestatievergoeding", to: "/info-atleten/prestatievergoeding" },
       { title: "Records", to: "/info-atleten/records" },
       {

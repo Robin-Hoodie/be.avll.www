@@ -90,6 +90,12 @@ export function getCompetitionClothingPage() {
   );
 }
 
+export function getGTeamPage() {
+  return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
+    "/g-team-page"
+  );
+}
+
 export function getMultimediaLinks() {
   const query = qs.stringify({
     sort: "createdAt:desc",
