@@ -214,8 +214,11 @@ export async function createPayment(
     description: `Betaling voor natuurloop op ${formatDateFull(
       natureRun.date
     )}`,
-    redirectUrl: `${URL}/natuurlopen/${natureRunRegistrationWithid.id}/succes`,
+    redirectUrl: `${URL}/natuurlopen/${natureRunRegistrationWithid.id}/success`,
+    // @ts-expect-error
+    cancelUrl: `${URL}/natuurlopen/${natureRunRegistrationWithid.id}/failed`,
     locale: Locale.nl_BE,
   });
+  // @ts-expect-error See https://github.com/mollie/mollie-api-node/issues/332
   return paymentResponse.getCheckoutUrl();
 }
