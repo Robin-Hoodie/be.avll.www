@@ -1,5 +1,5 @@
 <template>
-  <VMenu open-on-hover>
+  <VMenu :open-on-hover="isDeviceWithMouse">
     <template #activator="{ props }">
       <VBtn v-bind="props" append-icon="mdi-menu-down"
         ><template #prepend
@@ -23,4 +23,6 @@
 import { MenuLinkWithChildren } from "@/types";
 
 defineProps<MenuLinkWithChildren>();
+
+const isDeviceWithMouse = matchMedia("(pointer:fine)").matches;
 </script>
