@@ -15,7 +15,7 @@ export function sendRegistrationEmails(
   );
 }
 
-export async function handleNatureRunPayment(body: {
+export async function handleNatureRunRegistration(body: {
   natureRunRegistration: WithRequired<
     NatureRunRegistration,
     "gender" | "distance"
@@ -25,6 +25,6 @@ export async function handleNatureRunPayment(body: {
   const { checkoutUrl } = await axiosInstanceNetlifyFunctions.post<
     { checkoutUrl: string },
     { checkoutUrl: string }
-  >("/handle-nature-run-payment", body);
+  >("/handle-nature-run-registration", body);
   return checkoutUrl;
 }

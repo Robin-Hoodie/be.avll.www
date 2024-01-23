@@ -17,7 +17,7 @@ import dayjs from "dayjs";
 import { formatDateFull } from "@/utils";
 import RegistrationForm from "@/components/nature-run/RegistrationForm.vue";
 import PageHeader from "@/components/PageHeader.vue";
-import { getNatureRun, handleNatureRunPayment } from "@/api-client";
+import { getNatureRun, handleNatureRunRegistration } from "@/api-client";
 import { NatureRun, NatureRunRegistration, WithRequired } from "@/types";
 
 const natureRun = await getNatureRun();
@@ -33,7 +33,7 @@ async function handleSubmit(natureRunRegistrationAndNatureRun: {
   >;
   natureRun: NatureRun;
 }) {
-  const checkoutUrl = await handleNatureRunPayment(
+  const checkoutUrl = await handleNatureRunRegistration(
     natureRunRegistrationAndNatureRun
   );
 

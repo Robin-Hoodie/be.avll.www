@@ -206,6 +206,10 @@ export async function createPayment(
   natureRun: NatureRun
 ) {
   const price = await getPrice(natureRunRegistrationWithId, natureRun);
+  console.log("redirect URL", `${URL}/natuurlopen/succes`);
+  console.log("cancelUrl URL", `${URL}/natuurlopen/nope`);
+  console.log("webhook URL", `${URL}/api/handle-nature-run-payment`);
+
   const paymentResponse = await mollieClient.payments.create({
     amount: {
       value: price.toFixed(2),
@@ -214,10 +218,10 @@ export async function createPayment(
     description: `Betaling voor natuurloop op ${formatDateFull(
       natureRun.date
     )}`,
-    redirectUrl: `${URL}/natuurlopen/success`,
+    redirectUrl: `${URL}/natuurlopen/succes`,
     // @ts-expect-error
-    cancelUrl: `${URL}/natuurlopen/failed`,
-    webhookUrl: `${URL}/api/handle-nature-run-registration`,
+    cancelUrl: `${URL}/natuurlopen/nope`,
+    webhookUrl: `${URL}/api/handle-nature-run-payment`,
     metadata: {
       natureRunRegistrationId: natureRunRegistrationWithId.id,
     },

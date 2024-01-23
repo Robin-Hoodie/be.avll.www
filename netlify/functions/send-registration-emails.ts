@@ -69,8 +69,14 @@ export async function handler(event: HandlerEvent) {
         },
       ],
       bcc: [
-        { name: REGISTRATION_MAIL_BCC_LIST[0], email: REGISTRATION_MAIL_BCC_LIST[1] },
-        { name: REGISTRATION_MAIL_BCC_LIST[2], email: REGISTRATION_MAIL_BCC_LIST[3] },
+        {
+          name: REGISTRATION_MAIL_BCC_LIST[0],
+          email: REGISTRATION_MAIL_BCC_LIST[1],
+        },
+        {
+          name: REGISTRATION_MAIL_BCC_LIST[2],
+          email: REGISTRATION_MAIL_BCC_LIST[3],
+        },
       ],
       from: "info@avll.be",
       replyToList: [
@@ -92,6 +98,10 @@ export async function handler(event: HandlerEvent) {
       body: "Email has been sent out successfully",
     };
   } catch (error) {
+    console.error(
+      "Something went wrong when sending a registration email",
+      error
+    );
     return parseError(error);
   }
 }

@@ -144,12 +144,12 @@ const routes: Readonly<RouteRecordRaw[]> = [
     component: () => import("@/views/sponsors/Sponsors.vue"),
   },
   {
-    path: "/natuurlopen/success",
+    path: "/natuurlopen/succes",
     component: () =>
       import("@/views/nature-run/NatureRunRegistrationSuccess.vue"),
   },
   {
-    path: "/natuurlopen/failed",
+    path: "/natuurlopen/nope",
     component: () =>
       import("@/views/nature-run/NatureRunRegistrationFailed.vue"),
   },

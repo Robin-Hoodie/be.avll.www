@@ -1,15 +1,11 @@
 import type { HandlerEvent } from "@netlify/functions";
 import { checkBodyField, parseError, ParseError } from "./utils/utils";
-import {
-  getNatureRunRegistrationWithNatureRun,
-  getPayment,
-  markNatureRunRegistrationAsPaid,
-  sendNatureRunRegistrationEmail,
-} from "./utils/nature-run";
-import type { Payment } from "@mollie/api-client";
+import { createNatureRunRegistration, createPayment } from "./utils/nature-run";
+import type { NatureRun, NatureRunRegistration } from "./types";
 
 interface EventBody {
-  id: string;
+  natureRunRegistration: NatureRunRegistration;
+  natureRun: NatureRun;
 }
 
 // Don't do thorough check
@@ -21,26 +17,9 @@ function parseRequestBody(body: string | null): EventBody {
   if (typeof bodyParsed !== "object" || bodyParsed === null) {
     throw new ParseError(400, "Body is required to be an object");
   }
-  checkBodyField(bodyParsed, "id");
+  checkBodyField(bodyParsed, "natureRunRegistration");
+  checkBodyField(bodyParsed, "natureRun");
   return bodyParsed;
-}
-
-function checkPaymentStatus(payment: Payment) {
-  if (payment.status !== "paid") {
-    return `Payment with id ${payment.id} status is ${payment.status}`;
-  }
-  return null;
-}
-
-function checkPaymentMetadata(payment: Payment) {
-  if (
-    typeof payment.metadata !== "object" ||
-    payment.metadata === null ||
-    typeof payment.metadata.natureRunRegistrationId !== "number"
-  ) {
-    return `Payment with id ${payment.id} has no "natureRunRegistrationId" in its metadata`;
-  }
-  return null;
 }
 
 export async function handler(event: HandlerEvent) {
@@ -51,32 +30,26 @@ export async function handler(event: HandlerEvent) {
     };
   }
   try {
-    const { id: paymentId } = parseRequestBody(event.body);
-    const payment = await getPayment(paymentId);
-    const errorMessage =
-      checkPaymentStatus(payment) || checkPaymentMetadata(payment);
-    if (errorMessage) {
-      console.warn(errorMessage);
-      return {
-        statusCode: 400,
-        body: errorMessage,
-      };
-    }
-    const natureRunRegistrationId = payment.metadata
-      .natureRunRegistrationId as number;
-    const { natureRunRegistration, natureRun } =
-      await getNatureRunRegistrationWithNatureRun(natureRunRegistrationId);
-    // Avoid users refreshing getting multiple emails
-    if (!natureRunRegistration.isPaid) {
-      await Promise.allSettled([
-        markNatureRunRegistrationAsPaid(natureRunRegistrationId),
-        sendNatureRunRegistrationEmail(natureRunRegistration, natureRun),
-      ]);
-    }
+    const { natureRunRegistration, natureRun } = parseRequestBody(event.body);
+    const natureRunRegistrationWithId = await createNatureRunRegistration(
+      natureRunRegistration,
+      natureRun
+    );
+    const checkoutUrl = await createPayment(
+      natureRunRegistrationWithId,
+      natureRun
+    );
     return {
       statusCode: 200,
+      body: JSON.stringify({
+        checkoutUrl,
+      }),
     };
   } catch (error) {
+    console.error(
+      "Something went wrong when processing a registration the nature run",
+      error
+    );
     return parseError(error);
   }
 }
