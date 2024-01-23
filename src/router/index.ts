@@ -144,14 +144,14 @@ const routes: Readonly<RouteRecordRaw[]> = [
     component: () => import("@/views/sponsors/Sponsors.vue"),
   },
   {
-    path: "/natuurlopen/:natureRunRegistrationId/success",
-    props: true,
-    component: () => import("@/views/nature-run/NatureRunRegistrationSuccess.vue"),
+    path: "/natuurlopen/success",
+    component: () =>
+      import("@/views/nature-run/NatureRunRegistrationSuccess.vue"),
   },
   {
-    path: "/natuurlopen/:natureRunRegistrationId/failed",
-    props: true,
-    component: () => import("@/views/nature-run/NatureRunRegistrationFailed.vue"),
+    path: "/natuurlopen/failed",
+    component: () =>
+      import("@/views/nature-run/NatureRunRegistrationFailed.vue"),
   },
   {
     path: "/natuurlopen",

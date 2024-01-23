@@ -28,12 +28,3 @@ export async function handleNatureRunPayment(body: {
   >("/handle-nature-run-payment", body);
   return checkoutUrl;
 }
-
-export async function handleNatureRunRegistration(body: {
-  natureRunRegistrationId: number;
-}) {
-  return axiosInstanceNetlifyFunctions.post(
-    "/handle-nature-run-registration",
-    body
-  );
-}

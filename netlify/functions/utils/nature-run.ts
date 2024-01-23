@@ -202,10 +202,10 @@ async function getPrice(
 }
 
 export async function createPayment(
-  natureRunRegistrationWithid: WithId<NatureRunRegistration>,
+  natureRunRegistrationWithId: WithId<NatureRunRegistration>,
   natureRun: NatureRun
 ) {
-  const price = await getPrice(natureRunRegistrationWithid, natureRun);
+  const price = await getPrice(natureRunRegistrationWithId, natureRun);
   const paymentResponse = await mollieClient.payments.create({
     amount: {
       value: price.toFixed(2),
@@ -214,11 +214,19 @@ export async function createPayment(
     description: `Betaling voor natuurloop op ${formatDateFull(
       natureRun.date
     )}`,
-    redirectUrl: `${URL}/natuurlopen/${natureRunRegistrationWithid.id}/success`,
+    redirectUrl: `${URL}/natuurlopen/success`,
     // @ts-expect-error
-    cancelUrl: `${URL}/natuurlopen/${natureRunRegistrationWithid.id}/failed`,
+    cancelUrl: `${URL}/natuurlopen/failed`,
+    webhookUrl: `${URL}/api/handle-nature-run-registration`,
+    metadata: {
+      natureRunRegistrationId: natureRunRegistrationWithId.id,
+    },
     locale: Locale.nl_BE,
   });
   // @ts-expect-error See https://github.com/mollie/mollie-api-node/issues/332
   return paymentResponse.getCheckoutUrl();
+}
+
+export function getPayment(paymentId: string) {
+  return mollieClient.payments.get(paymentId);
 }

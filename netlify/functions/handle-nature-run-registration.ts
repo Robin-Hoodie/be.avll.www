@@ -1,17 +1,15 @@
 import type { HandlerEvent } from "@netlify/functions";
-import {
-  checkBodyField,
-  parseError as parseError,
-  ParseError,
-} from "./utils/utils";
+import { checkBodyField, parseError, ParseError } from "./utils/utils";
 import {
   getNatureRunRegistrationWithNatureRun,
+  getPayment,
   markNatureRunRegistrationAsPaid,
   sendNatureRunRegistrationEmail,
 } from "./utils/nature-run";
+import type { Payment } from "@mollie/api-client";
 
 interface EventBody {
-  natureRunRegistrationId: number;
+  id: string;
 }
 
 // Don't do thorough check
@@ -23,8 +21,26 @@ function parseRequestBody(body: string | null): EventBody {
   if (typeof bodyParsed !== "object" || bodyParsed === null) {
     throw new ParseError(400, "Body is required to be an object");
   }
-  checkBodyField(bodyParsed, "natureRunRegistrationId");
+  checkBodyField(bodyParsed, "id");
   return bodyParsed;
+}
+
+function checkPaymentStatus(payment: Payment) {
+  if (payment.status !== "paid") {
+    return `Payment with id ${payment.id} status is ${payment.status}`;
+  }
+  return null;
+}
+
+function checkPaymentMetadata(payment: Payment) {
+  if (
+    typeof payment.metadata !== "object" ||
+    payment.metadata === null ||
+    typeof payment.metadata.natureRunRegistrationId !== "number"
+  ) {
+    return `Payment with id ${payment.id} has no "natureRunRegistrationId" in its metadata`;
+  }
+  return null;
 }
 
 export async function handler(event: HandlerEvent) {
@@ -35,7 +51,19 @@ export async function handler(event: HandlerEvent) {
     };
   }
   try {
-    const { natureRunRegistrationId } = parseRequestBody(event.body);
+    const { id: paymentId } = parseRequestBody(event.body);
+    const payment = await getPayment(paymentId);
+    const errorMessage =
+      checkPaymentStatus(payment) || checkPaymentMetadata(payment);
+    if (errorMessage) {
+      console.warn(errorMessage);
+      return {
+        statusCode: 400,
+        body: errorMessage,
+      };
+    }
+    const natureRunRegistrationId = payment.metadata
+      .natureRunRegistrationId as number;
     const { natureRunRegistration, natureRun } =
       await getNatureRunRegistrationWithNatureRun(natureRunRegistrationId);
     // Avoid users refreshing getting multiple emails
