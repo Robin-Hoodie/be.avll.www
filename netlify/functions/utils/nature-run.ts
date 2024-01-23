@@ -5,12 +5,6 @@ import { defineEnvVariable } from "./env";
 import { formatDateFull, parseError } from "./utils";
 import type { NatureRun, NatureRunRegistration, WithId } from "../types";
 
-// Predefined Netlify env variables
-const URL = defineEnvVariable("URL");
-const DEPLOY_PRIME_URL = defineEnvVariable("DEPLOY_PRIME_URL");
-const CONTEXT = defineEnvVariable("CONTEXT");
-const SITE_URL = CONTEXT === "production" ? URL : DEPLOY_PRIME_URL;
-
 const BASE_URL_CONTENT = defineEnvVariable("VITE_BASE_URL_CONTENT");
 const SENDGRID_API_KEY = defineEnvVariable("SENDGRID_API_KEY");
 const MOLLIE_API_KEY = defineEnvVariable("MOLLIE_API_KEY");
@@ -207,12 +201,10 @@ async function getPrice(
 
 export async function createPayment(
   natureRunRegistrationWithId: WithId<NatureRunRegistration>,
-  natureRun: NatureRun
+  natureRun: NatureRun,
+  siteURL: string
 ) {
   const price = await getPrice(natureRunRegistrationWithId, natureRun);
-  console.log("redirect URL", `${SITE_URL}/natuurlopen/succes`);
-  console.log("cancelUrl URL", `${SITE_URL}/natuurlopen/nope`);
-  console.log("webhook URL", `${SITE_URL}/api/handle-nature-run-payment`);
 
   const paymentResponse = await mollieClient.payments.create({
     amount: {
@@ -222,10 +214,10 @@ export async function createPayment(
     description: `Betaling voor natuurloop op ${formatDateFull(
       natureRun.date
     )}`,
-    redirectUrl: `${SITE_URL}/natuurlopen/succes`,
+    redirectUrl: `${siteURL}/natuurlopen/succes`,
     // @ts-expect-error
-    cancelUrl: `${SITE_URL}/natuurlopen/nope`,
-    webhookUrl: `${SITE_URL}/api/handle-nature-run-payment`,
+    cancelUrl: `${siteURL}/natuurlopen/nope`,
+    webhookUrl: `${siteURL}/api/handle-nature-run-payment`,
     metadata: {
       natureRunRegistrationId: natureRunRegistrationWithId.id,
     },

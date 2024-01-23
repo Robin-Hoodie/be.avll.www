@@ -6,6 +6,7 @@ import type { NatureRun, NatureRunRegistration } from "./types";
 interface EventBody {
   natureRunRegistration: NatureRunRegistration;
   natureRun: NatureRun;
+  siteURL: string;
 }
 
 // Don't do thorough check
@@ -19,6 +20,7 @@ function parseRequestBody(body: string | null): EventBody {
   }
   checkBodyField(bodyParsed, "natureRunRegistration");
   checkBodyField(bodyParsed, "natureRun");
+  checkBodyField(bodyParsed, "siteURL");
   return bodyParsed;
 }
 
@@ -30,14 +32,17 @@ export async function handler(event: HandlerEvent) {
     };
   }
   try {
-    const { natureRunRegistration, natureRun } = parseRequestBody(event.body);
+    const { natureRunRegistration, natureRun, siteURL } = parseRequestBody(
+      event.body
+    );
     const natureRunRegistrationWithId = await createNatureRunRegistration(
       natureRunRegistration,
       natureRun
     );
     const checkoutUrl = await createPayment(
       natureRunRegistrationWithId,
-      natureRun
+      natureRun,
+      siteURL
     );
     return {
       statusCode: 200,

@@ -25,6 +25,9 @@ export async function handleNatureRunRegistration(body: {
   const { checkoutUrl } = await axiosInstanceNetlifyFunctions.post<
     { checkoutUrl: string },
     { checkoutUrl: string }
-  >("/handle-nature-run-registration", body);
+  >("/handle-nature-run-registration", {
+    ...body,
+    siteURL: window.location.origin,
+  });
   return checkoutUrl;
 }
