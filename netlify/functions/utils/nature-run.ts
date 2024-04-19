@@ -1,6 +1,6 @@
 import axios from "axios";
 import sendGridMail from "@sendgrid/mail";
-import createMollieClient, { Locale, type Payment } from "@mollie/api-client";
+import createMollieClient, { Locale } from "@mollie/api-client";
 import { defineEnvVariable } from "./env";
 import { formatDateFull, parseError } from "./utils";
 import type { NatureRun, NatureRunRegistration, WithId } from "../types";
@@ -142,6 +142,35 @@ function parseNatureRunRegistrationDistance(
   return "lange afstand";
 }
 
+function getEmailMessage(
+  natureRunRegistration: NatureRunRegistration,
+  natureRun: NatureRun
+) {
+  const distanceParsed = parseNatureRunRegistrationDistance(
+    natureRunRegistration
+  );
+  return natureRun.type === "natureRun"
+    ? `
+  <h1>PowerPlus Natuurlopen van Lier</h1>
+  <p>
+  Bedankt voor uw deelname aan de POWERPLUS Natuurlopen van Lier.
+  Uw inschrijving voor <strong>${distanceParsed}</strong>
+  </p>
+  <p>
+  Uw nummer kan op de dag van de wedstrijd afgehaald worden op het inschrijfbureau in de foyer van CC De Mol,
+  <strong>Aarschotsesteenweg 4, 2500 Lier.</strong> (Aan de ingang van de atletiekpiste).
+  </p>
+  <p>
+    We adviseren u ook om op de website www.natuurlopenvanlier.be de praktische ABC te lezen, zo bent u van alles op de hoogte.
+  </p>
+  <p>
+  Sportieve groeten en succes bij de Natuurlopen van Lier.
+  Het organisatiecomité van AV Lyra-Lierse vzw.
+  </p>
+`
+    : "some custom email";
+}
+
 export async function sendNatureRunRegistrationEmail(
   natureRunRegistration: NatureRunRegistration,
   natureRun: NatureRun
@@ -150,24 +179,7 @@ export async function sendNatureRunRegistrationEmail(
     natureRunRegistration
   );
   try {
-    const htmlMessage = `
-      <h1>PowerPlus Natuurlopen van Lier</h1>
-      <p>
-      Bedankt voor uw deelname aan de POWERPLUS Natuurlopen van Lier.
-      Uw inschrijving voor <strong>${distanceParsed}</strong>
-      </p>
-      <p>
-      Uw nummer kan op de dag van de wedstrijd afgehaald worden op het inschrijfbureau in de foyer van CC De Mol,
-      <strong>Aarschotsesteenweg 4, 2500 Lier.</strong> (Aan de ingang van de atletiekpiste).
-      </p>
-      <p>
-        We adviseren u ook om op de website www.natuurlopenvanlier.be de praktische ABC te lezen, zo bent u van alles op de hoogte.
-      </p>
-      <p>
-      Sportieve groeten en succes bij de Natuurlopen van Lier.
-      Het organisatiecomité van AV Lyra-Lierse vzw.
-      </p>
-    `;
+    const htmlMessage = getEmailMessage(natureRunRegistration, natureRun);
     const textMessage = htmlMessage.replace(/<\/?\w+>/g, "");
     await sendGridMail.send({
       to: [

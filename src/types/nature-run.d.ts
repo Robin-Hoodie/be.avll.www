@@ -28,6 +28,7 @@ export type TShirtSize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
 
 export interface NatureRun {
   id: number;
+  title: string;
   basePrice: number;
   memberDiscount: number;
   tShirtPrice: number | null;
@@ -35,4 +36,5 @@ export interface NatureRun {
   registrationEndDate: string;
   date: string;
   isPK: boolean;
+  type: "natureRun" | "customRun";
 }
