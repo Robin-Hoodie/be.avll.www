@@ -13,10 +13,6 @@ const REGISTRATION_MAIL_NATURE_RUN_REPLY_TO = defineEnvVariable(
   "REGISTRATION_MAIL_NATURE_RUN_REPLY_TO",
   true
 );
-const REGISTRATION_MAIL_NATURE_RUN_BCC_LIST = defineEnvVariable(
-  "REGISTRATION_MAIL_NATURE_RUN_BCC_LIST",
-  true
-);
 
 const natureRunAuthHeader = {
   Authorization: `Bearer ${NATURE_RUN_API_KEY}`,
@@ -186,12 +182,6 @@ export async function sendNatureRunRegistrationEmail(
         {
           name: `${natureRunRegistration.firstName} ${natureRunRegistration.lastName}`,
           email: natureRunRegistration.email,
-        },
-      ],
-      bcc: [
-        {
-          name: REGISTRATION_MAIL_NATURE_RUN_BCC_LIST[0],
-          email: REGISTRATION_MAIL_NATURE_RUN_BCC_LIST[1],
         },
       ],
       from: "natuurlopen@avll.be",
