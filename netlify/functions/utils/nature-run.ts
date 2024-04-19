@@ -1,6 +1,6 @@
 import axios from "axios";
 import sendGridMail from "@sendgrid/mail";
-import createMollieClient, { Locale } from "@mollie/api-client";
+import createMollieClient, { Locale, type Payment } from "@mollie/api-client";
 import { defineEnvVariable } from "./env";
 import { formatDateFull, parseError } from "./utils";
 import type { NatureRun, NatureRunRegistration, WithId } from "../types";
@@ -91,6 +91,23 @@ export async function createNatureRunRegistration(
       data: {
         ...natureRunRegistration,
         natureRun: natureRun.id,
+      },
+    },
+    {
+      headers: natureRunAuthHeader,
+    }
+  );
+}
+
+export async function addMollieIdToNatureRunRegistration(
+  natureRunRegistrationId: number,
+  mollieId: string
+) {
+  return axiosInstance.put(
+    `/nature-run-registrations/${natureRunRegistrationId}`,
+    {
+      data: {
+        mollieId,
       },
     },
     {
@@ -223,8 +240,12 @@ export async function createPayment(
     },
     locale: Locale.nl_BE,
   });
-  // @ts-expect-error See https://github.com/mollie/mollie-api-node/issues/332
-  return paymentResponse.getCheckoutUrl();
+  return {
+    // @ts-expect-error See https://github.com/mollie/mollie-api-node/issues/332
+    checkoutUrl: paymentResponse.getCheckoutUrl(),
+    // @ts-expect-error ID is defined on paymentResponse, but doesn't seem to be added to types
+    mollieId: paymentResponse.id,
+  };
 }
 
 export function getPayment(paymentId: string) {

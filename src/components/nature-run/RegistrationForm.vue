@@ -300,6 +300,7 @@ const registration = ref<NatureRunRegistration>({
   runsWithPK: false,
   bibNumber: "",
   clubName: "",
+  mollieId: null,
 });
 
 const [privacyLink] = await getFileLinks(["privacyStatement"]);

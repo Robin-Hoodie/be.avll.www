@@ -1,6 +1,10 @@
 import type { HandlerEvent } from "@netlify/functions";
 import { checkBodyField, parseError, ParseError } from "./utils/utils";
-import { createNatureRunRegistration, createPayment } from "./utils/nature-run";
+import {
+  addMollieIdToNatureRunRegistration,
+  createNatureRunRegistration,
+  createPayment,
+} from "./utils/nature-run";
 import type { NatureRun, NatureRunRegistration } from "./types";
 
 interface EventBody {
@@ -39,10 +43,14 @@ export async function handler(event: HandlerEvent) {
       natureRunRegistration,
       natureRun
     );
-    const checkoutUrl = await createPayment(
+    const { checkoutUrl, mollieId } = await createPayment(
       natureRunRegistrationWithId,
       natureRun,
       siteURL
+    );
+    await addMollieIdToNatureRunRegistration(
+      natureRunRegistrationWithId.id,
+      mollieId
     );
     return {
       statusCode: 200,

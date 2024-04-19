@@ -23,6 +23,7 @@ export interface NatureRunRegistration {
   runsWithPK: boolean;
   clubName: string | null;
   bibNumber: string | null;
+  mollieId: string | null;
 }
 
 export type NatureRunRegistrationGender = "male" | "female" | "unidentified";
