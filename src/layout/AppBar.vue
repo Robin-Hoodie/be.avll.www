@@ -140,6 +140,10 @@ const links = ref<MenuLink[]>([
         title: "Inschrijvingen",
         to: "/wedstrijden/inschrijvingen",
       },
+      {
+        title: "Hoe inschrijven?",
+        to: "/wedstrijden/hoe-inschrijven",
+      },
     ],
   },
   {

@@ -228,6 +228,12 @@ export function getYouthWorkPage() {
   );
 }
 
+export function getContestRegistrationInstructionsPage() {
+  return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
+    "/contest-registration-instructions-page"
+  );
+}
+
 export function getPerformanceFeePage() {
   return axiosInstanceContent.get<TitleWithContent, TitleWithContent>(
     "/performance-fee-page"

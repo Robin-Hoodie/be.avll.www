@@ -87,6 +87,11 @@ const routes: Readonly<RouteRecordRaw[]> = [
         path: "inschrijvingen",
         component: () => import("@/views/contests/Registrations.vue"),
       },
+      {
+        path: "hoe-inschrijven",
+        component: () =>
+          import("@/views/contests/ContestRegistrationInstructions.vue"),
+      },
     ],
   },
   {
