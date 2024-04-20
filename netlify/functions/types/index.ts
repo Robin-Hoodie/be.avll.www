@@ -40,5 +40,6 @@ export interface NatureRun {
   registrationEndDate: string;
   date: string;
   isPK: boolean;
-  type: "natureRun" | "customRun";
+  emailSubject: string;
+  emailContent: string;
 }

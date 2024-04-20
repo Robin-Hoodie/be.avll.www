@@ -257,6 +257,7 @@ export async function getFileLinks(types: Array<FileLink["type"]>) {
 export async function getNatureRun() {
   const now = dayjs().startOf("day").format(STRAPI_DATE_FORMAT);
   const query = qs.stringify({
+    populate: ["title", "basePrice", "tShirtPrice", "memberDiscount", "isPK"],
     filters: {
       registrationStartDate: {
         $lte: now,

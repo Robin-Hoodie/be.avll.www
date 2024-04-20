@@ -4,6 +4,10 @@ import createMollieClient, { Locale } from "@mollie/api-client";
 import { defineEnvVariable } from "./env";
 import { formatDateFull, parseError } from "./utils";
 import type { NatureRun, NatureRunRegistration, WithId } from "../types";
+import {
+  parseNatureRunEmailContent,
+  parseNatureRunEmailSubject,
+} from "./nature-run-email-template-parser";
 
 const BASE_URL_CONTENT = defineEnvVariable("VITE_BASE_URL_CONTENT");
 const SENDGRID_API_KEY = defineEnvVariable("SENDGRID_API_KEY");
@@ -126,57 +130,20 @@ export function markNatureRunRegistrationAsPaid(id: number) {
   );
 }
 
-function parseNatureRunRegistrationDistance(
-  natureRunRegistration: NatureRunRegistration
-) {
-  if (natureRunRegistration.distance === "fiveK") {
-    return "5KM";
-  }
-  if (natureRunRegistration.distance === "tenK") {
-    return "10KM";
-  }
-  return "lange afstand";
-}
-
-function getEmailMessage(
-  natureRunRegistration: NatureRunRegistration,
-  natureRun: NatureRun
-) {
-  const distanceParsed = parseNatureRunRegistrationDistance(
-    natureRunRegistration
-  );
-  return natureRun.type === "natureRun"
-    ? `
-  <h1>PowerPlus Natuurlopen van Lier</h1>
-  <p>
-  Bedankt voor uw deelname aan de POWERPLUS Natuurlopen van Lier.
-  Uw inschrijving voor <strong>${distanceParsed}</strong>
-  </p>
-  <p>
-  Uw nummer kan op de dag van de wedstrijd afgehaald worden op het inschrijfbureau in de foyer van CC De Mol,
-  <strong>Aarschotsesteenweg 4, 2500 Lier.</strong> (Aan de ingang van de atletiekpiste).
-  </p>
-  <p>
-    We adviseren u ook om op de website www.natuurlopenvanlier.be de praktische ABC te lezen, zo bent u van alles op de hoogte.
-  </p>
-  <p>
-  Sportieve groeten en succes bij de Natuurlopen van Lier.
-  Het organisatiecomité van AV Lyra-Lierse vzw.
-  </p>
-`
-    : "some custom email";
-}
-
 export async function sendNatureRunRegistrationEmail(
   natureRunRegistration: NatureRunRegistration,
   natureRun: NatureRun
 ) {
-  const distanceParsed = parseNatureRunRegistrationDistance(
-    natureRunRegistration
-  );
   try {
-    const htmlMessage = getEmailMessage(natureRunRegistration, natureRun);
-    const textMessage = htmlMessage.replace(/<\/?\w+>/g, "");
+    const emailSubject = parseNatureRunEmailSubject(
+      natureRun,
+      natureRunRegistration
+    );
+    const emailHtml = parseNatureRunEmailContent(
+      natureRun,
+      natureRunRegistration
+    );
+    const emailText = emailHtml.replace(/<\/?\w+>/g, "");
     await sendGridMail.send({
       to: [
         {
@@ -191,11 +158,9 @@ export async function sendNatureRunRegistrationEmail(
           email: REGISTRATION_MAIL_NATURE_RUN_REPLY_TO[1],
         },
       ],
-      subject: `Bevestiging inschrijving ${distanceParsed} op ${formatDateFull(
-        natureRun.date
-      )}`,
-      text: textMessage,
-      html: htmlMessage,
+      subject: emailSubject,
+      text: emailText,
+      html: emailHtml,
     });
     return {
       statusCode: 200,
