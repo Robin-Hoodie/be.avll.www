@@ -17,6 +17,14 @@ const REGISTRATION_MAIL_NATURE_RUN_REPLY_TO = defineEnvVariable(
   "REGISTRATION_MAIL_NATURE_RUN_REPLY_TO",
   true
 );
+const SITE_URL =
+  process.env.NODE_ENV === "production"
+    ? defineEnvVariable("URL")
+    : defineEnvVariable("NGROK_URL");
+
+console.log('defineEnvVariable("URL")', defineEnvVariable("URL"));
+console.log('defineEnvVariable("NGROK_URL")', defineEnvVariable("NGROK_URL"));
+console.log("SITE_URL", SITE_URL);
 
 const natureRunAuthHeader = {
   Authorization: `Bearer ${NATURE_RUN_API_KEY}`,
@@ -185,8 +193,7 @@ async function getPrice(
 
 export async function createPayment(
   natureRunRegistrationWithId: WithId<NatureRunRegistration>,
-  natureRun: NatureRun,
-  siteURL: string
+  natureRun: NatureRun
 ) {
   const price = await getPrice(natureRunRegistrationWithId, natureRun);
 
@@ -198,10 +205,10 @@ export async function createPayment(
     description: `Betaling voor natuurloop op ${formatDateFull(
       natureRun.date
     )}`,
-    redirectUrl: `${siteURL}/natuurlopen/succes`,
+    redirectUrl: `${SITE_URL}/natuurlopen/succes`,
     // @ts-expect-error
-    cancelUrl: `${siteURL}/natuurlopen/nope`,
-    webhookUrl: `${siteURL}/api/handle-nature-run-payment`,
+    cancelUrl: `${SITE_URL}/natuurlopen/nope`,
+    webhookUrl: `${SITE_URL}/api/handle-nature-run-payment`,
     metadata: {
       natureRunRegistrationId: natureRunRegistrationWithId.id,
     },

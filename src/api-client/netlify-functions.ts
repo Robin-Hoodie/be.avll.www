@@ -5,6 +5,7 @@ import type {
   NatureRun,
 } from "@/types";
 import { axiosInstanceNetlifyFunctions } from "./axios";
+import { IS_PRODUCTION } from "@/env";
 
 export function sendRegistrationEmails(
   natureRunRegistration: WithRequired<Registration, "gender" | "category">
@@ -25,9 +26,6 @@ export async function handleNatureRunRegistration(body: {
   const { checkoutUrl } = await axiosInstanceNetlifyFunctions.post<
     { checkoutUrl: string },
     { checkoutUrl: string }
-  >("/handle-nature-run-registration", {
-    ...body,
-    siteURL: window.location.origin,
-  });
+  >("/handle-nature-run-registration", body);
   return checkoutUrl;
 }
