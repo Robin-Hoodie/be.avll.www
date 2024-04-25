@@ -1,14 +1,21 @@
 <template>
   <div>
     <div class="mb-2">
-      <strong>{{ name }}</strong>
+      <strong>{{ attributes.name }}</strong>
     </div>
-    <VImg :src="picture.url" :height="150" class="mb-2" />
+    <VImg
+      v-if="attributes.picture.data"
+      :src="attributes.picture.data.attributes.url"
+      :height="150"
+      class="mb-2"
+    />
     <ThemedLink v-if="addressLink" :href="addressLink" external>
-      {{ addressStreet }}, {{ addressZip }}
-      {{ addressPlace }}
+      {{ attributes.addressStreet }}, {{ attributes.addressZip }}
+      {{ attributes.addressPlace }}
     </ThemedLink>
-    <ThemedLink :href="link" external>{{ link }}</ThemedLink>
+    <ThemedLink :href="attributes.link" external>{{
+      attributes.link
+    }}</ThemedLink>
   </div>
 </template>
 
@@ -20,8 +27,12 @@ import { Sponsor } from "@/types";
 const props = defineProps<Sponsor>();
 
 const addressLink = computed(() => {
-  if (props.addressStreet && props.addressPlace && props.addressZip) {
-    return `https://maps.google.com/?q=${`${props.addressStreet} ${props.addressZip} ${props.addressPlace}`}`;
+  if (
+    props.attributes.addressStreet &&
+    props.attributes.addressPlace &&
+    props.attributes.addressZip
+  ) {
+    return `https://maps.google.com/?q=${`${props.attributes.addressStreet} ${props.attributes.addressZip} ${props.attributes.addressPlace}`}`;
   }
   return null;
 });

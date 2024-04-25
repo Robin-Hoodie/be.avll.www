@@ -194,12 +194,16 @@ const links = ref<MenuLink[]>([
 onMounted(async () => {
   const privacyStatementLink = (await getFileLinks(["privacyStatement"]))[0];
   links.value = links.value.map((link) => {
-    if ("value" in link && link.value === "clubInfo") {
+    if (
+      "value" in link &&
+      link.value === "clubInfo" &&
+      privacyStatementLink.attributes.file.data
+    ) {
       return {
         ...link,
         children: link.children?.concat({
           title: "Privacyverklaring",
-          href: privacyStatementLink.file.url,
+          href: privacyStatementLink.attributes.file.data.attributes.url,
         }),
       };
     }

@@ -11,33 +11,33 @@
     </thead>
     <tbody>
       <tr v-for="contest in contests" :key="contest.id">
-        <td>{{ formatDateFull(contest.date) }}</td>
-        <td>{{ contest.title }}</td>
+        <td>{{ formatDateFull(contest.attributes.date) }}</td>
+        <td>{{ contest.attributes.title }}</td>
         <td>
           <ThemedLink
-            v-if="contest.registrationLink"
-            :href="contest.registrationLink"
+            v-if="contest.attributes.registrationLink"
+            :href="contest.attributes.registrationLink"
             external
           >
-            {{ clipLink(contest.registrationLink, 30) }}
+            {{ clipLink(contest.attributes.registrationLink, 30) }}
           </ThemedLink>
         </td>
         <td>
           <ThemedLink
-            v-if="contest.scheduleLink"
-            :href="contest.scheduleLink"
+            v-if="contest.attributes.scheduleLink"
+            :href="contest.attributes.scheduleLink"
             external
           >
-            {{ clipLink(contest.scheduleLink, 30) }}
+            {{ clipLink(contest.attributes.scheduleLink, 30) }}
           </ThemedLink>
         </td>
         <td>
           <ThemedLink
-            v-if="contest.websiteLink"
-            :href="contest.websiteLink"
+            v-if="contest.attributes.websiteLink"
+            :href="contest.attributes.websiteLink"
             external
           >
-            {{ clipLink(contest.websiteLink, 30) }}
+            {{ clipLink(contest.attributes.websiteLink, 30) }}
           </ThemedLink>
         </td>
       </tr>

@@ -1,12 +1,4 @@
-export interface StrapiCollectionResponse<T = any> {
-  data: StrapiEntry<T>[];
-}
-
-export interface StrapiSingleResponse<T = any> {
-  data: StrapiEntry<T>;
-}
-
-export interface File {
+interface File {
   alternativeText: string | null;
   caption: string | null;
   createdAt: string;
@@ -26,10 +18,12 @@ export interface File {
 }
 
 export interface StrapiFile {
-  data: StrapiEntry<File>;
+  data: StrapiEntry<File> | null;
 }
 
-interface StrapiEntry<T> {
+export interface StrapiEntry<
+  T extends Record<string, unknown> = Record<string, unknown>
+> {
   id: number;
   attributes: T;
 }

@@ -3,7 +3,12 @@ import sendGridMail from "@sendgrid/mail";
 import createMollieClient, { Locale } from "@mollie/api-client";
 import { defineEnvVariable } from "./env";
 import { formatDateFull, parseError } from "./utils";
-import type { NatureRun, NatureRunRegistration, WithId } from "../types";
+import type {
+  NatureRun,
+  NatureRunRegistration,
+  NatureRunRegistrationRaw,
+  WithId,
+} from "../types";
 import {
   parseNatureRunEmailContent,
   parseNatureRunEmailSubject,
@@ -22,10 +27,6 @@ const SITE_URL =
     ? defineEnvVariable("URL")
     : defineEnvVariable("NGROK_URL");
 
-console.log('defineEnvVariable("URL")', defineEnvVariable("URL"));
-console.log('defineEnvVariable("NGROK_URL")', defineEnvVariable("NGROK_URL"));
-console.log("SITE_URL", SITE_URL);
-
 const natureRunAuthHeader = {
   Authorization: `Bearer ${NATURE_RUN_API_KEY}`,
 };
@@ -34,66 +35,27 @@ sendGridMail.setApiKey(SENDGRID_API_KEY);
 
 const axiosInstance = axios.create({
   baseURL: `${BASE_URL_CONTENT}/api`,
-  transformResponse(response: string) {
-    const parsedResponse = JSON.parse(response);
-    if (!parsedResponse.data) {
-      return response;
-    }
-    const { data } = parsedResponse;
-    if (Array.isArray(data)) {
-      return data.map((element) => {
-        const { id, attributes } = element;
-        return {
-          id,
-          ...attributes,
-        };
-      });
-    }
-    const { id, attributes } = data;
-    return {
-      id,
-      ...attributes,
-    };
-  },
 });
-axiosInstance.interceptors.response.use((response) => response.data);
+axiosInstance.interceptors.response.use((response) => response.data.data);
 
 const mollieClient = createMollieClient({
   apiKey: MOLLIE_API_KEY,
 });
 
-export async function getNatureRunRegistrationWithNatureRun(id: number) {
-  const natureRunRegistration = await axiosInstance.get<
-    WithId<
-      NatureRunRegistration & {
-        natureRun: { data: { id: number; attributes: Omit<NatureRun, "id"> } };
-      }
-    >,
-    WithId<
-      NatureRunRegistration & {
-        natureRun: { data: { id: number; attributes: Omit<NatureRun, "id"> } };
-      }
-    >
-  >(`/nature-run-registrations/${id}?populate=natureRun`, {
-    headers: natureRunAuthHeader,
-  });
-  return {
-    natureRunRegistration,
-    natureRun: {
-      ...natureRunRegistration.natureRun.data.attributes,
-      id: natureRunRegistration.natureRun.data.id,
-    },
-  };
+export async function getNatureRunRegistration(id: number) {
+  return axiosInstance.get<NatureRunRegistration, NatureRunRegistration>(
+    `/nature-run-registrations/${id}?populate=natureRun`,
+    {
+      headers: natureRunAuthHeader,
+    }
+  );
 }
 
 export async function createNatureRunRegistration(
-  natureRunRegistration: NatureRunRegistration,
+  natureRunRegistration: NatureRunRegistrationRaw,
   natureRun: NatureRun
 ) {
-  return axiosInstance.post<
-    WithId<NatureRunRegistration>,
-    WithId<NatureRunRegistration>
-  >(
+  return axiosInstance.post<NatureRunRegistration, NatureRunRegistration>(
     "/nature-run-registrations",
     {
       data: {
@@ -139,24 +101,17 @@ export function markNatureRunRegistrationAsPaid(id: number) {
 }
 
 export async function sendNatureRunRegistrationEmail(
-  natureRunRegistration: NatureRunRegistration,
-  natureRun: NatureRun
+  natureRunRegistration: NatureRunRegistration
 ) {
   try {
-    const emailSubject = parseNatureRunEmailSubject(
-      natureRun,
-      natureRunRegistration
-    );
-    const emailHtml = parseNatureRunEmailContent(
-      natureRun,
-      natureRunRegistration
-    );
+    const emailSubject = parseNatureRunEmailSubject(natureRunRegistration);
+    const emailHtml = parseNatureRunEmailContent(natureRunRegistration);
     const emailText = emailHtml.replace(/<\/?\w+>/g, "");
     await sendGridMail.send({
       to: [
         {
-          name: `${natureRunRegistration.firstName} ${natureRunRegistration.lastName}`,
-          email: natureRunRegistration.email,
+          name: `${natureRunRegistration.attributes.firstName} ${natureRunRegistration.attributes.lastName}`,
+          email: natureRunRegistration.attributes.email,
         },
       ],
       from: "natuurlopen@avll.be",
@@ -182,35 +137,35 @@ async function getPrice(
   natureRunRegistration: NatureRunRegistration,
   natureRun: NatureRun
 ) {
-  const priceReduction = natureRunRegistration.isMember
-    ? -natureRun.memberDiscount
+  const priceReduction = natureRunRegistration.attributes.isMember
+    ? -natureRun.attributes.memberDiscount
     : 0;
-  const priceIncrease = natureRunRegistration.withTShirt
-    ? natureRun.tShirtPrice ?? 0
+  const priceIncrease = natureRunRegistration.attributes.withTShirt
+    ? natureRun.attributes.tShirtPrice ?? 0
     : 0;
-  return natureRun.basePrice + priceIncrease + priceReduction;
+  return natureRun.attributes.basePrice + priceIncrease + priceReduction;
 }
 
 export async function createPayment(
-  natureRunRegistrationWithId: WithId<NatureRunRegistration>,
+  natureRunRegistration: NatureRunRegistration,
   natureRun: NatureRun
 ) {
-  const price = await getPrice(natureRunRegistrationWithId, natureRun);
-
+  const price = await getPrice(natureRunRegistration, natureRun);
+  // await is necessary - payments.create does in fact return a promise - typing is wrong
   const paymentResponse = await mollieClient.payments.create({
     amount: {
       value: price.toFixed(2),
       currency: "EUR",
     },
     description: `Betaling voor natuurloop op ${formatDateFull(
-      natureRun.date
+      natureRun.attributes.date
     )}`,
     redirectUrl: `${SITE_URL}/natuurlopen/succes`,
     // @ts-expect-error
     cancelUrl: `${SITE_URL}/natuurlopen/nope`,
     webhookUrl: `${SITE_URL}/api/handle-nature-run-payment`,
     metadata: {
-      natureRunRegistrationId: natureRunRegistrationWithId.id,
+      natureRunRegistrationId: natureRunRegistration.id,
     },
     locale: Locale.nl_BE,
   });

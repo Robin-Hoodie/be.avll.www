@@ -39,7 +39,7 @@ const props = defineProps<{
   trainingPage: TrainingPage;
 }>();
 
-function formatTrainingType(trainingType: Training["type"]) {
+function formatTrainingType(trainingType: Training["attributes"]["type"]) {
   switch (trainingType) {
     case "youth":
       return "Jeugd";
@@ -54,34 +54,38 @@ function formatTrainingType(trainingType: Training["type"]) {
   }
 }
 
-const trainingTypes = new Set(props.trainings.map((training) => training.type));
+const trainingTypes = new Set(
+  props.trainings.map((training) => training.attributes.type)
+);
 
 const trainingsWithIntroPerType = props.trainings
   .slice()
   .sort(sortTrainings)
-  .reduce<Record<Training["type"], { trainings: Training[]; intro: string }>>(
-    (trainingsPerTypeAcc, training) => {
-      const trainingsForType =
-        trainingsPerTypeAcc[training.type]?.trainings || [];
-      return {
-        ...trainingsPerTypeAcc,
-        [training.type]: {
-          trainings: trainingsForType.concat(training),
-          intro:
-            props.trainingPage[
-              `intro${training.type
-                .slice(0, 1)
-                .toUpperCase()}${training.type.slice(1)}` as
-                | "introYouth"
-                | "introFromCadet"
-                | "introGTeam"
-                | "introJoggers"
-            ],
-        },
-      };
-    },
-    {} as Record<Training["type"], { trainings: Training[]; intro: string }>
-  );
+  .reduce<
+    Record<
+      Training["attributes"]["type"],
+      { trainings: Training[]; intro: string }
+    >
+  >((trainingsPerTypeAcc, training) => {
+    const trainingsForType =
+      trainingsPerTypeAcc[training.attributes.type]?.trainings || [];
+    return {
+      ...trainingsPerTypeAcc,
+      [training.attributes.type]: {
+        trainings: trainingsForType.concat(training),
+        intro:
+          props.trainingPage.attributes[
+            `intro${training.attributes.type
+              .slice(0, 1)
+              .toUpperCase()}${training.attributes.type.slice(1)}` as
+              | "introYouth"
+              | "introFromCadet"
+              | "introGTeam"
+              | "introJoggers"
+          ],
+      },
+    };
+  }, {} as Record<Training["attributes"]["type"], { trainings: Training[]; intro: string }>);
 
 const activeTab = ref([...trainingTypes][0]);
 </script>

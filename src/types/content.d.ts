@@ -1,14 +1,6 @@
-import { File } from "./strapi";
+import { StrapiEntry, StrapiFile } from "./strapi";
 
-interface StrapiModel {
-  id: number;
-  // Fields are in ISO-8601 format
-  createdAt: string;
-  publishedAt: string;
-  updatedAt: string;
-}
-
-export type Role =
+type RoleName =
   | "management"
   | "partyManagement"
   | "confidant"
@@ -17,21 +9,25 @@ export type Role =
   | "trainerGTeam"
   | "trainerJoggers";
 
-export type TrainerRole = Extract<
-  Role,
+export type TrainerRoleName = Extract<
+  RoleName,
   "trainerYouth" | "trainerFromCadet" | "trainerGTeam" | "trainerJoggers"
 >;
 
-export interface Person extends StrapiModel {
+export type Role = StrapiEntry<{
+  name: RoleName;
+}>;
+
+export type Person = StrapiEntry<{
   name: string;
   phoneMobile: string | null;
   phoneLandLine: string | null;
   email: string | null;
-  profilePhoto: File | null;
+  profilePhoto: StrapiFile;
   addressStreet: string | null;
   addressZip: string | null;
   addressPlace: string | null;
-  roles: Role[];
+  roles: { data: Role[] };
   titleAsManagement: string | null;
   titleAsPartyManagement: string | null;
   titleAsConfidant: string | null;
@@ -46,37 +42,37 @@ export interface Person extends StrapiModel {
   isProminentForTrainerFromCadet: boolean;
   isProminentForTrainerGTeam: boolean;
   isProminentForTrainerJoggers: boolean;
-}
+}>;
 
-export interface BlogArticle extends StrapiModel {
+export type BlogArticle = StrapiEntry<{
   title: string;
   content: string;
   location: string | null;
-  coverPhoto: File | null;
+  coverPhoto: StrapiFile;
   date: string;
-  links: BlogArticleLink[] | null;
-}
+  links: { data: BlogArticleLink[] | null };
+}>;
 
-export interface BlogArticleLink extends StrapiModel {
+export type BlogArticleLink = StrapiEntry<{
   text: string;
   link: string;
-}
+}>;
 
-export interface TitleWithContent extends StrapiModel {
+export type TitleWithContent = StrapiEntry<{
   title: string;
   content: string;
-}
+}>;
 
-export interface Sponsor extends StrapiModel {
+export type Sponsor = StrapiEntry<{
   link: string;
-  picture: File;
+  picture: StrapiFile;
   name: string;
   addressStreet: string | null;
   addressZip: string | null;
   addressPlace: string | null;
-}
+}>;
 
-export interface UpcomingContest extends StrapiModel {
+export type UpcomingContest = StrapiEntry<{
   title: string;
   date: string;
   location: string;
@@ -86,39 +82,39 @@ export interface UpcomingContest extends StrapiModel {
   primaryLinkText: string;
   secondaryLink: string | null;
   secondaryLinkText: string | null;
-}
+}>;
 
-export interface MultimediaLink extends StrapiModel {
+export type MultimediaLink = StrapiEntry<{
   description: string;
   link: string;
-}
+}>;
 
-export interface RegistrationContest extends StrapiModel {
+export type RegistrationContest = StrapiEntry<{
   title: string;
   dateStart: string;
   dateEnd: string | null;
   location: string;
   dateFinalRegistration: string;
   infoLink: string | null;
-}
+}>;
 
-export interface Contest extends StrapiModel {
+export type Contest = StrapiEntry<{
   title: string;
   date: string;
   registrationLink: string | null;
   scheduleLink: string | null;
   websiteLink: string | null;
-}
+}>;
 
-export interface Result extends StrapiModel {
+export type Result = StrapiEntry<{
   title: string;
   date: string;
   link: string | null;
-}
+}>;
 
-export interface FileLink extends StrapiModel {
+export type FileLink = StrapiEntry<{
   description: string;
-  file: File;
+  file: StrapiFile;
   type:
     | "youthPlan"
     | "visionAndOperation"
@@ -126,24 +122,24 @@ export interface FileLink extends StrapiModel {
     | "record"
     | "calendar";
   sortPriority?: number;
-}
+}>;
 
-export interface RegistrationPage extends StrapiModel {
+export type RegistrationPage = StrapiEntry<{
   introText: string;
   privacyStatement: string;
   registrationSubmittedMessage: string;
   registrationSubmittedCloseButtonText: string;
-}
+}>;
 
-export interface TrainingPage extends StrapiModel {
+export type TrainingPage = StrapiEntry<{
   title: string;
   introYouth: string;
   introFromCadet: string;
   introGTeam: string;
   introJoggers: string;
-}
+}>;
 
-export interface Training extends StrapiModel {
+export type Training = StrapiEntry<{
   day:
     | "Maandag"
     | "Dinsdag"
@@ -157,7 +153,7 @@ export interface Training extends StrapiModel {
   place: string;
   type: "youth" | "fromCadet" | "gTeam" | "joggers";
   comment: string | null;
-}
+}>;
 
 export type RegistrationCategory =
   | "Benjamins"
@@ -169,7 +165,7 @@ export type RegistrationCategory =
   | "Seniors"
   | "Masters";
 
-export interface Registration {
+export type Registration = StrapiEntry<{
   event: string;
   name: string;
   email: string;
@@ -180,6 +176,6 @@ export interface Registration {
   discipline: string;
   bestPerformance: string;
   comment: string;
-}
+}>;
 
 export type RegistrationGender = "male" | "female";

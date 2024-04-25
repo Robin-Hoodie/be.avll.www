@@ -1,8 +1,5 @@
 <template>
-  <TitleWithContent
-    :title="youthWorkPage.title"
-    :content="youthWorkPage.content"
-  />
+  <TitleWithContent v-bind="youthWorkPage" />
 </template>
 
 <script setup lang="ts">

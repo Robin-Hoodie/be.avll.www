@@ -1,8 +1,8 @@
 import queryString from "node:querystring";
 import type { HandlerEvent } from "@netlify/functions";
-import { checkBodyField, parseError, ParseError } from "./utils/utils";
+import { parseError, ParseError } from "./utils/utils";
 import {
-  getNatureRunRegistrationWithNatureRun,
+  getNatureRunRegistration,
   getPayment,
   markNatureRunRegistrationAsPaid,
   sendNatureRunRegistrationEmail,
@@ -64,13 +64,14 @@ export async function handler(event: HandlerEvent) {
     }
     const natureRunRegistrationId = payment.metadata
       .natureRunRegistrationId as number;
-    const { natureRunRegistration, natureRun } =
-      await getNatureRunRegistrationWithNatureRun(natureRunRegistrationId);
+    const natureRunRegistration = await getNatureRunRegistration(
+      natureRunRegistrationId
+    );
     // Avoid users refreshing getting multiple emails
-    if (!natureRunRegistration.isPaid) {
+    if (!natureRunRegistration.attributes.isPaid) {
       await Promise.allSettled([
         markNatureRunRegistrationAsPaid(natureRunRegistrationId),
-        sendNatureRunRegistrationEmail(natureRunRegistration, natureRun),
+        sendNatureRunRegistrationEmail(natureRunRegistration),
       ]);
     }
     return {

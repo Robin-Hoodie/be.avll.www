@@ -9,12 +9,14 @@
     </thead>
     <tbody>
       <tr v-for="result in results" :key="result.id">
-        <td>{{ formatDateFull(result.date) }}</td>
-        <td>{{ result.title }}</td>
-        <td v-if="result.link">
-          <ThemedLink :href="result.link" :external="result.link !== null">{{
-            clipLink(result.link, 40)
-          }}</ThemedLink>
+        <td>{{ formatDateFull(result.attributes.date) }}</td>
+        <td>{{ result.attributes.title }}</td>
+        <td v-if="result.attributes.link">
+          <ThemedLink
+            :href="result.attributes.link"
+            :external="result.attributes.link !== null"
+            >{{ clipLink(result.attributes.link, 40) }}</ThemedLink
+          >
         </td>
       </tr>
     </tbody>

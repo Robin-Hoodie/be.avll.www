@@ -1,5 +1,5 @@
 <template>
-  <TitleWithContent :title="gTeamPage.title" :content="gTeamPage.content" />
+  <TitleWithContent v-bind="gTeamPage" />
 </template>
 
 <script setup lang="ts">

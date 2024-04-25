@@ -4,7 +4,6 @@ import { formatDateFull } from "./utils";
 
 interface ShowdownOptionsExtended extends ConverterOptions {
   replaceVarsOptions?: {
-    natureRun: NatureRun;
     natureRunRegistration: NatureRunRegistration;
   };
 }
@@ -12,10 +11,10 @@ interface ShowdownOptionsExtended extends ConverterOptions {
 function parseNatureRunRegistrationDistance(
   natureRunRegistration: NatureRunRegistration
 ) {
-  if (natureRunRegistration.distance === "fiveK") {
+  if (natureRunRegistration.attributes.distance === "fiveK") {
     return "5KM";
   }
-  if (natureRunRegistration.distance === "tenK") {
+  if (natureRunRegistration.attributes.distance === "tenK") {
     return "10KM";
   }
   return "lange afstand";
@@ -34,7 +33,7 @@ function replaceDistance(
 function replaceDate(template: string, natureRun: NatureRun) {
   return template.replace(
     /{{natureRun.date}}/g,
-    formatDateFull(natureRun.date)
+    formatDateFull(natureRun.attributes.date)
   );
 }
 
@@ -44,7 +43,8 @@ showdown.extension("replaceVars", {
     if (options?.replaceVarsOptions) {
       return replaceDate(
         replaceDistance(text, options.replaceVarsOptions.natureRunRegistration),
-        options.replaceVarsOptions.natureRun
+        options.replaceVarsOptions.natureRunRegistration.attributes.natureRun
+          .data!
       );
     }
     return text;
@@ -52,26 +52,28 @@ showdown.extension("replaceVars", {
 });
 
 export function parseNatureRunEmailContent(
-  natureRun: NatureRun,
   natureRunRegistration: NatureRunRegistration
 ) {
   const markdownToHtml = new showdown.Converter({
     simplifiedAutoLink: true,
     extensions: ["replaceVars"],
     replaceVarsOptions: {
-      natureRun,
       natureRunRegistration,
     },
   });
-  return markdownToHtml.makeHtml(natureRun.emailContent);
+  return markdownToHtml.makeHtml(
+    natureRunRegistration.attributes.natureRun.data!.attributes.emailContent
+  );
 }
 
 export function parseNatureRunEmailSubject(
-  natureRun: NatureRun,
   natureRunRegistration: NatureRunRegistration
 ) {
   return replaceDate(
-    replaceDistance(natureRun.emailSubject, natureRunRegistration),
-    natureRun
+    replaceDistance(
+      natureRunRegistration.attributes.natureRun.data!.attributes.emailSubject,
+      natureRunRegistration
+    ),
+    natureRunRegistration.attributes.natureRun.data!
   );
 }

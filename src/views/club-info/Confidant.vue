@@ -1,9 +1,6 @@
 <template>
-  <TitleWithContent
-    :title="confidantPage.title"
-    :content="confidantPage.content"
-  />
-  <PersonDetailsList :people="confidants" active-role="confidant" />
+  <TitleWithContent v-bind="confidantPage" />
+  <PersonDetailsList :people="confidants" active-role-name="confidant" />
 </template>
 
 <script setup lang="ts">

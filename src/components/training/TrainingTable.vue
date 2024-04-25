@@ -11,11 +11,11 @@
     <tbody>
       <tr v-for="training in trainings" :key="training.id">
         <td>
-          {{ training.day }}
+          {{ training.attributes.day }}
         </td>
         <td>{{ formatStartEndTime(training) }}</td>
-        <td>{{ training.place }}</td>
-        <td>{{ training.comment }}</td>
+        <td>{{ training.attributes.place }}</td>
+        <td>{{ training.attributes.comment }}</td>
       </tr>
     </tbody>
   </VTable>
@@ -27,6 +27,9 @@ import { Training } from "@/types";
 defineProps<{ trainings: Training[] }>();
 
 function formatStartEndTime(training: Training) {
-  return `${training.startTime.slice(0, 5)} - ${training.endTime.slice(0, 5)}`;
+  return `${training.attributes.startTime.slice(
+    0,
+    5
+  )} - ${training.attributes.endTime.slice(0, 5)}`;
 }
 </script>

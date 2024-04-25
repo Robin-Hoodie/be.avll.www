@@ -2,7 +2,7 @@
 
 export type WithId<T> = T & { id: number };
 
-export interface NatureRunRegistration {
+export interface NatureRunRegistrationRaw {
   firstName: string;
   lastName: string;
   email: string;
@@ -24,6 +24,11 @@ export interface NatureRunRegistration {
   clubName: string | null;
   bibNumber: string | null;
   mollieId: string | null;
+  natureRun: { data: NatureRun | null };
+}
+export interface NatureRunRegistration {
+  id: number;
+  attributes: NatureRunRegistrationRaw;
 }
 
 export type NatureRunRegistrationGender = "male" | "female" | "unidentified";
@@ -32,14 +37,16 @@ export type TShirtSize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
 
 export interface NatureRun {
   id: number;
-  title: string;
-  basePrice: number;
-  memberDiscount: number;
-  tShirtPrice: number | null;
-  registrationStartDate: string;
-  registrationEndDate: string;
-  date: string;
-  isPK: boolean;
-  emailSubject: string;
-  emailContent: string;
+  attributes: {
+    title: string;
+    basePrice: number;
+    memberDiscount: number;
+    tShirtPrice: number | null;
+    registrationStartDate: string;
+    registrationEndDate: string;
+    date: string;
+    isPK: boolean;
+    emailSubject: string;
+    emailContent: string;
+  };
 }

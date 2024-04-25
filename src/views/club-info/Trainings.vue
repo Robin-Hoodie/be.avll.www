@@ -1,5 +1,5 @@
 <template>
-  <PageHeader>{{ trainingPage.title }}</PageHeader>
+  <PageHeader>{{ trainingPage.attributes.title }}</PageHeader>
   <TrainingsPerType :trainings="trainings" :training-page="trainingPage" />
 </template>
 

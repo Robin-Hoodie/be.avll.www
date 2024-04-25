@@ -5,19 +5,21 @@ import type {
   NatureRun,
 } from "@/types";
 import { axiosInstanceNetlifyFunctions } from "./axios";
-import { IS_PRODUCTION } from "@/env";
 
 export function sendRegistrationEmails(
-  natureRunRegistration: WithRequired<Registration, "gender" | "category">
+  registration: WithRequired<
+    Registration["attributes"],
+    "birthYear" | "gender" | "category"
+  >
 ) {
   return axiosInstanceNetlifyFunctions.post(
     "/send-registration-emails",
-    natureRunRegistration
+    registration
   );
 }
 
 export async function handleNatureRunRegistration(body: {
-  natureRunRegistration: WithRequired<
+  natureRunRegistrationRaw: WithRequired<
     NatureRunRegistration,
     "gender" | "distance"
   >;

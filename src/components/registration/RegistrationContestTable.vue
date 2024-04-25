@@ -12,17 +12,19 @@
     <tbody>
       <tr v-for="contest in registrationContests" :key="contest.id">
         <td>
-          {{ contest.title }}
+          {{ contest.attributes.title }}
         </td>
         <td>{{ formatDate(contest) }}</td>
         <td>
-          {{ contest.location }}
+          {{ contest.attributes.location }}
         </td>
         <td>
-          {{ formatDateFull(contest.dateFinalRegistration) }}
+          {{ formatDateFull(contest.attributes.dateFinalRegistration) }}
         </td>
-        <td v-if="contest.infoLink">
-          <ThemedLink :href="contest.infoLink" external>Info</ThemedLink>
+        <td v-if="contest.attributes.infoLink">
+          <ThemedLink :href="contest.attributes.infoLink" external
+            >Info</ThemedLink
+          >
         </td>
       </tr>
     </tbody>
@@ -37,11 +39,11 @@ import ThemedLink from "../ThemedLink.vue";
 defineProps<{ registrationContests: RegistrationContest[] }>();
 
 function formatDate(contest: RegistrationContest) {
-  if (contest.dateEnd) {
-    return `${formatDateFull(contest.dateStart)} - ${formatDateFull(
-      contest.dateEnd
+  if (contest.attributes.dateEnd) {
+    return `${formatDateFull(contest.attributes.dateStart)} - ${formatDateFull(
+      contest.attributes.dateEnd
     )}`;
   }
-  return formatDateFull(contest.dateStart);
+  return formatDateFull(contest.attributes.dateStart);
 }
 </script>

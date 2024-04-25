@@ -1,7 +1,9 @@
 <template>
   <VList>
     <VListItem v-for="link in links" :key="link.id">
-      <ThemedLink :href="link.link" external>{{ link.description }}</ThemedLink>
+      <ThemedLink :href="link.attributes.link" external>{{
+        link.attributes.description
+      }}</ThemedLink>
     </VListItem>
   </VList>
 </template>

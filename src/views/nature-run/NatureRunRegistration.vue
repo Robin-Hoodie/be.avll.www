@@ -1,5 +1,5 @@
 <template>
-  <PageHeader v-if="natureRun">{{ natureRun.title }}</PageHeader>
+  <PageHeader v-if="natureRun">{{ natureRun.attributes.title }}</PageHeader>
   <RegistrationForm
     v-if="natureRun"
     v-bind="natureRun"
@@ -19,7 +19,7 @@ import { NatureRun, NatureRunRegistration, WithRequired } from "@/types";
 const natureRun = await getNatureRun();
 
 async function handleSubmit(natureRunRegistrationAndNatureRun: {
-  natureRunRegistration: WithRequired<
+  natureRunRegistrationRaw: WithRequired<
     NatureRunRegistration,
     "gender" | "distance" | "birthYear"
   >;

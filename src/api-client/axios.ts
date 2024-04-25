@@ -1,16 +1,15 @@
 import axios, { AxiosResponse } from "axios";
 import { BASE_URL_CONTENT } from "@/env";
-import {
-  StrapiCollectionResponse,
-  StrapiSingleResponse,
-  StrapiFile,
-} from "@/types";
+import { StrapiEntry, StrapiFile, WithRequired } from "@/types";
 
-function isFileAttribute(value: unknown): value is StrapiFile {
+function isFileAttribute(
+  value: unknown
+): value is WithRequired<StrapiFile, "data"> {
   return (
     typeof value === "object" &&
     value !== null &&
     "data" in value &&
+    value.data !== null &&
     !Array.isArray(value.data)
   );
 }
@@ -19,61 +18,53 @@ function isRichContentAttribute(value: unknown): value is string {
   return typeof value === "string" && value.includes("\n");
 }
 
-function processAttributes(attributes: Record<string, unknown>) {
-  return Object.entries(attributes).reduce(
-    (processedAttributesAcc, [key, value]) => {
-      if (isFileAttribute(value)) {
-        if (value.data === null) {
+function fixRichContentNewLines(strapiEntry: StrapiEntry) {
+  return {
+    id: strapiEntry.id,
+    attributes: Object.entries(strapiEntry.attributes).reduce(
+      (attributesAcc, [key, value]) => {
+        // Prefix URL with BASE_URL_CONTENT
+        if (isFileAttribute(value)) {
           return {
-            ...processedAttributesAcc,
-            [key]: null,
+            ...attributesAcc,
+            [key]: {
+              data: {
+                ...value.data,
+                attributes: {
+                  ...value.data.attributes,
+                  url: `${BASE_URL_CONTENT}${value.data.attributes.url}`,
+                },
+              },
+            },
           };
         }
-        const { url, ...imageAttributes } = value.data.attributes;
-        return {
-          ...processedAttributesAcc,
-          [key]: {
-            ...imageAttributes,
-            url: `${BASE_URL_CONTENT}${url}`,
-          },
-        };
-      }
-      if (isRichContentAttribute(value)) {
-        return {
-          ...processedAttributesAcc,
-          [key]: value.replace(/\n/g, "&nbsp; \n"),
-        };
-      }
 
-      return {
-        ...processedAttributesAcc,
-        [key]: value,
-      };
-    },
-    {}
-  );
+        // Fix newlines
+        if (isRichContentAttribute(value)) {
+          return {
+            ...attributesAcc,
+            [key]: value.replace(/\n/g, "&nbsp; \n"),
+          };
+        }
+
+        return {
+          ...attributesAcc,
+          [key]: value,
+        };
+      },
+      {}
+    ),
+  };
 }
 
 function responseTransformerStrapi(response: string) {
   const { data } = JSON.parse(response) as
-    | StrapiCollectionResponse
-    | StrapiSingleResponse;
+    | { data: StrapiEntry }
+    | { data: StrapiEntry[] };
   if (Array.isArray(data)) {
-    return data.map((element) => {
-      const { id, attributes } = element;
-      const processedAttributes = processAttributes(attributes);
-      return {
-        id,
-        ...processedAttributes,
-      };
-    });
+    return data.map(fixRichContentNewLines);
   }
-  const { id, attributes } = data;
-  const processedAttributes = processAttributes(attributes);
-  return {
-    id,
-    ...processedAttributes,
-  };
+  return fixRichContentNewLines(data);
 }
 
 function extractData(response: AxiosResponse) {

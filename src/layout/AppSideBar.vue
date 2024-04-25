@@ -13,51 +13,58 @@
         >
           <VListItemTitle
             class="font-weight-bold mb-1"
-            :title="upcomingContest.title"
+            :title="upcomingContest.attributes.title"
           >
-            {{ upcomingContest.title }}
+            {{ upcomingContest.attributes.title }}
           </VListItemTitle>
           <VListItemSubtitle class="mb-2">
             <div class="d-flex align-center">
               <VIcon color="primary">mdi-clock</VIcon>
               <span class="ml-1">{{
-                formatDateFull(upcomingContest.date)
+                formatDateFull(upcomingContest.attributes.date)
               }}</span>
             </div>
             <div class="d-flex align-center">
               <VIcon color="primary">mdi-map-marker-outline</VIcon>
-              <span class="ml-1">{{ upcomingContest.location }}</span>
+              <span class="ml-1">{{
+                upcomingContest.attributes.location
+              }}</span>
             </div>
           </VListItemSubtitle>
 
           <div
-            v-if="upcomingContest.dateFinalRegistration"
+            v-if="upcomingContest.attributes.dateFinalRegistration"
             class="text-body-2 mb-1"
           >
             Registratie tot
-            {{ formatDateFull(upcomingContest.dateFinalRegistration) }}
+            {{
+              formatDateFull(upcomingContest.attributes.dateFinalRegistration)
+            }}
           </div>
-          <div v-if="upcomingContest.registrationByClub" class="text-body-2">
+          <div
+            v-if="upcomingContest.attributes.registrationByClub"
+            class="text-body-2"
+          >
             Registratie door club
           </div>
           <VBtn
             variant="outlined"
             color="primary"
             block
-            :href="upcomingContest.primaryLink"
+            :href="upcomingContest.attributes.primaryLink"
             class="mt-2"
           >
-            {{ upcomingContest.primaryLinkText }}
+            {{ upcomingContest.attributes.primaryLinkText }}
           </VBtn>
           <VBtn
-            v-if="upcomingContest.secondaryLink"
+            v-if="upcomingContest.attributes.secondaryLink"
             variant="outlined"
             color="primary"
             block
-            :href="upcomingContest.secondaryLink"
+            :href="upcomingContest.attributes.secondaryLink"
             class="mt-2"
           >
-            {{ upcomingContest.secondaryLinkText }}
+            {{ upcomingContest.attributes.secondaryLinkText }}
           </VBtn>
         </VListItem>
       </VList>

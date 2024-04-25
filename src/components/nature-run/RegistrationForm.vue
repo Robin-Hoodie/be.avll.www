@@ -143,7 +143,7 @@
             />
           </VRadioGroup>
         </VCol>
-        <VCol v-if="isPK" :cols="2" :sm="12">
+        <VCol v-if="attributes.isPK" :cols="2" :sm="12">
           <VCheckbox
             color="primary"
             v-model="registration.runsWithPK"
@@ -207,9 +207,12 @@
                 <div>Voor akkoord</div>
                 <div class="text-subtitle-2">
                   Met mijn deelname ga ik akkoord met de
-                  <ThemedLink :href="privacyLink.file.url">{{
-                    privacyLink.description
-                  }}</ThemedLink>
+                  <ThemedLink
+                    v-if="privacyLink.attributes.file.data"
+                    :href="privacyLink.attributes.file.data.attributes.url"
+                    >{{ privacyLink.attributes.description }}</ThemedLink
+                  >
+                  <span v-else>privacy verklaring</span>
                   zoals in het algemeen reglement vermeld is!
                 </div>
               </RequiredLabel>
@@ -270,7 +273,7 @@ const emit = defineEmits<{
   (
     event: "submit",
     natureRunRegistrationAndNatureRun: {
-      natureRunRegistration: WithRequired<
+      natureRunRegistrationRaw: WithRequired<
         NatureRunRegistration,
         "gender" | "distance" | "birthYear"
       >;
@@ -306,20 +309,20 @@ const registration = ref<NatureRunRegistration>({
 const [privacyLink] = await getFileLinks(["privacyStatement"]);
 
 const withTShirt = computed(() => {
-  return typeof natureRun.tShirtPrice === "number";
+  return typeof natureRun.attributes.tShirtPrice === "number";
 });
 
 const price = computed(() => {
   if (registration.value.isMember) {
     return registration.value.withTShirt
-      ? natureRun.basePrice +
-          (natureRun.tShirtPrice ?? 0) -
-          natureRun.memberDiscount
-      : natureRun.basePrice - natureRun.memberDiscount;
+      ? natureRun.attributes.basePrice +
+          (natureRun.attributes.tShirtPrice ?? 0) -
+          natureRun.attributes.memberDiscount
+      : natureRun.attributes.basePrice - natureRun.attributes.memberDiscount;
   }
   return registration.value.withTShirt
-    ? natureRun.basePrice + (natureRun.tShirtPrice ?? 0)
-    : natureRun.basePrice;
+    ? natureRun.attributes.basePrice + (natureRun.attributes.tShirtPrice ?? 0)
+    : natureRun.attributes.basePrice;
 });
 
 const priceFormatted = computed(() => `€${price.value.toFixed(2)}`);
@@ -345,7 +348,7 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
       "gender" | "distance" | "birthYear"
     >;
     emit("submit", {
-      natureRunRegistration: natureRunRegistrationFinal,
+      natureRunRegistrationRaw: natureRunRegistrationFinal,
       natureRun: natureRun,
     });
   }

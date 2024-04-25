@@ -6,7 +6,8 @@
           :person="person"
           :is-prominent="getIsProminent(person)"
           :title="getTitle(person)"
-      /></VCol>
+        />
+      </VCol>
     </VRow>
   </VContainer>
 </template>
@@ -14,10 +15,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useDisplay } from "vuetify";
-import { Person, Role } from "@/types";
+import { Person, RoleName } from "@/types";
 import PersonDetails from "@/components/person/PersonDetails.vue";
 
-const props = defineProps<{ people: Person[]; activeRole: Role }>();
+const props = defineProps<{ people: Person[]; activeRoleName: RoleName }>();
 
 const peopleSorted = computed(() =>
   props.people.slice().sort((person1, person2) => {
@@ -40,8 +41,8 @@ const cols = computed(() => {
 });
 
 function getIsProminent(person: Person) {
-  return person[
-    `isProminentFor${props.activeRole[0].toUpperCase()}${props.activeRole.slice(
+  return person.attributes[
+    `isProminentFor${props.activeRoleName[0].toUpperCase()}${props.activeRoleName.slice(
       1
     )}` as
       | "isProminentForManagement"
@@ -55,8 +56,8 @@ function getIsProminent(person: Person) {
 }
 
 function getTitle(person: Person) {
-  return person[
-    `titleAs${props.activeRole[0].toUpperCase()}${props.activeRole.slice(
+  return person.attributes[
+    `titleAs${props.activeRoleName[0].toUpperCase()}${props.activeRoleName.slice(
       1
     )}` as
       | "titleAsManagement"

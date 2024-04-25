@@ -1,3 +1,5 @@
+import { StrapiEntry } from "./strapi";
+
 export interface NatureRunRegistration {
   firstName: string;
   lastName: string;
@@ -26,8 +28,7 @@ export type NatureRunRegistrationGender = "male" | "female" | "unidentified";
 export type NatureRunRegistrationDistance = "fiveK" | "tenK" | "long";
 export type TShirtSize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
 
-export interface NatureRun {
-  id: number;
+export type NatureRun = StrapiEntry<{
   title: string;
   basePrice: number;
   memberDiscount: number;
@@ -38,4 +39,4 @@ export interface NatureRun {
   isPK: boolean;
   emailSubject: string;
   emailContent: string;
-}
+}>;

@@ -60,14 +60,14 @@ const dayToSortFactor = {
 };
 
 export function sortTrainings(trainingOne: Training, trainingTwo: Training) {
-  const trainingOneDaySortFactor = dayToSortFactor[trainingOne.day];
-  const trainingTwoDaySortFactor = dayToSortFactor[trainingTwo.day];
+  const trainingOneDaySortFactor = dayToSortFactor[trainingOne.attributes.day];
+  const trainingTwoDaySortFactor = dayToSortFactor[trainingTwo.attributes.day];
 
   const daySortDifference = trainingOneDaySortFactor - trainingTwoDaySortFactor;
 
   if (daySortDifference === 0) {
-    const trainingOneStartTime = dayjs(trainingOne.startTime, "HH:mm");
-    const trainingTwoStartTime = dayjs(trainingTwo.startTime, "HH:mm");
+    const trainingOneStartTime = dayjs(trainingOne.attributes.startTime, "HH:mm");
+    const trainingTwoStartTime = dayjs(trainingTwo.attributes.startTime, "HH:mm");
     return trainingOneStartTime.diff(trainingTwoStartTime, "minute");
   }
 

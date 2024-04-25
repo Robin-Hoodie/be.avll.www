@@ -1,13 +1,13 @@
 <template>
   <PageHeader>Inschrijvingen</PageHeader>
   <VueMarkdown
-    :source="registrationPage.introText"
+    :source="registrationPage.attributes.introText"
     :options="{ break: true, linkify: true }"
     class="text-body-1 mb-2"
   />
 
   <VueMarkdown
-    :source="registrationPage.privacyStatement"
+    :source="registrationPage.attributes.privacyStatement"
     :options="{ break: true, linkify: true }"
     class="text-body-1 mb-2"
   />

@@ -78,10 +78,10 @@
     <VBtn type="submit" color="primary" class="mt-2">Registreren</VBtn>
   </VForm>
   <VSnackbar v-model="isFormSubmittedMessageVisible">
-    {{ registrationSubmittedMessage }}
+    {{ attributes.registrationSubmittedMessage }}
     <template #actions>
       <VBtn variant="text" @click="closeFormSubmittedMessage">{{
-        registrationSubmittedCloseButtonText
+        attributes.registrationSubmittedCloseButtonText
       }}</VBtn>
     </template>
   </VSnackbar>
@@ -127,7 +127,7 @@ function getInitialRegistration() {
   };
 }
 
-const registration = ref<Registration>(getInitialRegistration());
+const registration = ref<Registration["attributes"]>(getInitialRegistration());
 
 const isFormSubmittedMessageVisible = ref(false);
 
@@ -146,7 +146,7 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
   if (valid) {
     await sendRegistrationEmails(
       registration.value as WithRequired<
-        Registration,
+        Registration["attributes"],
         "gender" | "category" | "birthYear"
       >
     );

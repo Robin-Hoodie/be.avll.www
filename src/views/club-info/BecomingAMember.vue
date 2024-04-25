@@ -1,7 +1,6 @@
 <template>
   <TitleWithContent
-    :title="becomingAMemberPage.title"
-    :content="becomingAMemberPage.content"
+    v-bind="becomingAMemberPage"
   />
 </template>
 

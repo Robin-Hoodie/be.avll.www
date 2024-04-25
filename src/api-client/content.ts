@@ -8,12 +8,9 @@ import {
   Result,
   RegistrationPage,
   Training,
-  StrapiEntry,
-  Role,
   FileLink,
   RegistrationContest,
   TrainingPage,
-  BlogArticleLink,
   MultimediaLink,
   NatureRun,
 } from "@/types";
@@ -23,29 +20,11 @@ import dayjs from "dayjs";
 
 const STRAPI_DATE_FORMAT = "YYYY-MM-DD";
 
-interface PersonRaw extends Omit<Person, "roles"> {
-  roles: {
-    data: Array<StrapiEntry<{ name: string }>>;
-  };
-}
-
-interface BlogArticleRaw extends Omit<BlogArticle, "links"> {
-  links: {
-    data: Array<StrapiEntry<BlogArticleLink>>;
-  };
-}
-
 export async function getPeople(): Promise<Person[]> {
   const query = qs.stringify({
     populate: ["profilePhoto", "roles"],
   });
-  const peopleRaw = await axiosInstanceContent.get<PersonRaw[], PersonRaw[]>(
-    `/people?${query}`
-  );
-  return peopleRaw.map((person) => ({
-    ...person,
-    roles: person.roles.data.map((role) => role.attributes.name as Role),
-  }));
+  return axiosInstanceContent.get<Person[], Person[]>(`/people?${query}`);
 }
 
 export function getWelcomePage() {
@@ -120,32 +99,18 @@ export async function getBlogArticles() {
     sort: "date:desc",
   });
 
-  const blogArticlesRaw = await axiosInstanceContent.get<
-    BlogArticleRaw[],
-    BlogArticleRaw[]
-  >(`/blog-articles?${query}`);
-  return blogArticlesRaw.map((blogArticleRaw) => ({
-    ...blogArticleRaw,
-    links: blogArticleRaw.links
-      ? blogArticleRaw.links.data.map((linkRaw) => linkRaw.attributes)
-      : null,
-  }));
+  return axiosInstanceContent.get<BlogArticle[], BlogArticle[]>(
+    `/blog-articles?${query}`
+  );
 }
 
 export async function getBlogArticle(id: string) {
   const query = qs.stringify({
     populate: ["coverPhoto", "links"],
   });
-  const blogArticleRaw = await axiosInstanceContent.get<
-    BlogArticleRaw,
-    BlogArticleRaw
-  >(`/blog-articles/${id}?${query}`);
-  return {
-    ...blogArticleRaw,
-    links: blogArticleRaw.links
-      ? blogArticleRaw.links.data.map((linkRaw) => linkRaw.attributes)
-      : null,
-  };
+  return axiosInstanceContent.get<BlogArticle, BlogArticle>(
+    `/blog-articles/${id}?${query}`
+  );
 }
 
 export function getSponsors() {
@@ -240,7 +205,9 @@ export function getPerformanceFeePage() {
   );
 }
 
-export async function getFileLinks(types: Array<FileLink["type"]>) {
+export async function getFileLinks(
+  types: Array<FileLink["attributes"]["type"]>
+) {
   const query = qs.stringify({
     populate: "file",
     filters: {
@@ -249,7 +216,7 @@ export async function getFileLinks(types: Array<FileLink["type"]>) {
       },
     },
   });
-  return await axiosInstanceContent.get<FileLink[], FileLink[]>(
+  return axiosInstanceContent.get<FileLink[], FileLink[]>(
     `/file-links?${query}`
   );
 }
@@ -274,6 +241,7 @@ export async function getNatureRun() {
     >(`/nature-runs?${query}`);
     return natureRun;
   } catch (error) {
+    // in case there is no nature run
     return null;
   }
 }

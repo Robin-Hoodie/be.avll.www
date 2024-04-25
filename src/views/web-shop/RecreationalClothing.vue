@@ -1,8 +1,5 @@
 <template>
-  <TitleWithContent
-    :title="recreationalClothingPage.title"
-    :content="recreationalClothingPage.content"
-  />
+  <TitleWithContent v-bind="recreationalClothingPage" />
 </template>
 
 <script setup lang="ts">

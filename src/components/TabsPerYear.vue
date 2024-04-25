@@ -15,7 +15,7 @@
   </VWindow>
 </template>
 
-<script lang="ts" setup generic="T extends {date: string}">
+<script lang="ts" setup generic="T extends { attributes: { date: string }}">
 import { ref } from "vue";
 import dayjs from "dayjs";
 
@@ -23,7 +23,7 @@ const props = defineProps<{ list: T[] }>();
 
 const listPerYear = props.list.reduce<Record<number, T[]>>(
   (listPerYearAcc, item) => {
-    const year = dayjs(item.date).year();
+    const year = dayjs(item.attributes.date).year();
     const listForYear = listPerYearAcc[year] || [];
     return {
       ...listPerYearAcc,

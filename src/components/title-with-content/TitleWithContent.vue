@@ -1,7 +1,7 @@
 <template>
-  <PageHeader>{{ title }}</PageHeader>
+  <PageHeader>{{ attributes.title }}</PageHeader>
   <VueMarkdown
-    :source="content"
+    :source="attributes.content"
     :options="{ breaks: true, linkify: true, html: true }"
   />
 </template>
@@ -11,5 +11,5 @@ import { TitleWithContent } from "@/types";
 import PageHeader from "@/components/PageHeader.vue";
 import VueMarkdown from "vue-markdown-render";
 
-defineProps<Pick<TitleWithContent, "title" | "content">>();
+defineProps<TitleWithContent>();
 </script>

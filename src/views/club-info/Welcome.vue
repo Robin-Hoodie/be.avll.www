@@ -1,5 +1,5 @@
 <template>
-  <TitleWithContent :title="welcomePage.title" :content="welcomePage.content" />
+  <TitleWithContent v-bind="welcomePage" />
 </template>
 
 <script lang="ts" setup>

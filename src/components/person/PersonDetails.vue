@@ -9,53 +9,59 @@
         <VIcon size="x-small">mdi-account-tie</VIcon>
       </VAvatar>
       <span>
-        {{ person.name }}
+        {{ person.attributes.name }}
       </span>
     </VCardTitle>
     <VCardSubtitle v-if="title" :title="title">
       {{ title }}
     </VCardSubtitle>
     <VCardText class="d-flex">
-      <div class="mr-4" v-if="person.profilePhoto">
+      <div class="mr-4" v-if="person.attributes.profilePhoto.data">
         <VImg
-          :src="person.profilePhoto.url"
-          :height="person.profilePhoto?.height"
-          :width="person.profilePhoto?.width"
+          :src="person.attributes.profilePhoto.data.attributes.url"
+          :height="person.attributes.profilePhoto.data.attributes.height"
+          :width="person.attributes.profilePhoto.data.attributes.width"
         />
       </div>
       <div>
         <div
-          v-if="person.addressStreet || person.addressPlace"
+          v-if="
+            person.attributes.addressStreet || person.attributes.addressPlace
+          "
           class="d-flex align-center"
         >
           <VIcon class="pr-2">mdi-home</VIcon>
           <div>
-            <div v-if="person.addressStreet">
-              {{ person.addressStreet }}
+            <div v-if="person.attributes.addressStreet">
+              {{ person.attributes.addressStreet }}
             </div>
-            <div v-if="person.addressPlace">
-              <span v-if="person.addressZip">{{ person.addressZip }}</span>
+            <div v-if="person.attributes.addressPlace">
+              <span v-if="person.attributes.addressZip">{{
+                person.attributes.addressZip
+              }}</span>
               {{ " " }}
-              <span>{{ person.addressPlace }}</span>
+              <span>{{ person.attributes.addressPlace }}</span>
             </div>
           </div>
         </div>
-        <div v-if="person.phoneMobile">
+        <div v-if="person.attributes.phoneMobile">
           <VIcon class="pr-2">mdi-phone</VIcon>
-          <ThemedLink :href="`tel:${person.phoneMobile}`">
-            {{ formatPhone(person.phoneMobile, "mobile") }}</ThemedLink
+          <ThemedLink :href="`tel:${person.attributes.phoneMobile}`">
+            {{
+              formatPhone(person.attributes.phoneMobile, "mobile")
+            }}</ThemedLink
           >
         </div>
-        <div v-if="person.phoneLandLine">
+        <div v-if="person.attributes.phoneLandLine">
           <VIcon class="pr-2">mdi-phone</VIcon>
-          <ThemedLink :href="`tel:${person.phoneLandLine}`">{{
-            formatPhone(person.phoneLandLine, "home")
+          <ThemedLink :href="`tel:${person.attributes.phoneLandLine}`">{{
+            formatPhone(person.attributes.phoneLandLine, "home")
           }}</ThemedLink>
         </div>
-        <div v-if="person.email">
+        <div v-if="person.attributes.email">
           <VIcon class="pr-2">mdi-email</VIcon>
-          <ThemedLink :href="`mailto:${person.email}`">{{
-            person.email
+          <ThemedLink :href="`mailto:${person.attributes.email}`">{{
+            person.attributes.email
           }}</ThemedLink>
         </div>
       </div>
