@@ -1,7 +1,7 @@
 import type {
   Registration,
   WithRequired,
-  NatureRunRegistration,
+  NatureRunRegistrationRaw,
   NatureRun,
 } from "@/types";
 import { axiosInstanceNetlifyFunctions } from "./axios";
@@ -18,13 +18,12 @@ export function sendRegistrationEmails(
   );
 }
 
-export async function handleNatureRunRegistration(body: {
-  natureRunRegistrationRaw: WithRequired<
-    NatureRunRegistration,
-    "gender" | "distance"
-  >;
-  natureRun: NatureRun;
-}) {
+export async function handleNatureRunRegistration(
+  body: WithRequired<
+    NatureRunRegistrationRaw,
+    "gender" | "distance" | "birthYear"
+  >
+) {
   const { checkoutUrl } = await axiosInstanceNetlifyFunctions.post<
     { checkoutUrl: string },
     { checkoutUrl: string }

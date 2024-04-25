@@ -5,15 +5,10 @@ import {
   createNatureRunRegistration,
   createPayment,
 } from "./utils/nature-run";
-import type { NatureRun, NatureRunRegistrationRaw } from "./types";
-
-interface EventBody {
-  natureRunRegistrationRaw: NatureRunRegistrationRaw;
-  natureRun: NatureRun;
-}
+import type { NatureRunRegistrationRaw } from "./types";
 
 // Don't do thorough check
-function parseRequestBody(body: string | null): EventBody {
+function parseRequestBody(body: string | null): NatureRunRegistrationRaw {
   if (!body) {
     throw new ParseError(400, "Body is required");
   }
@@ -21,8 +16,6 @@ function parseRequestBody(body: string | null): EventBody {
   if (typeof bodyParsed !== "object" || bodyParsed === null) {
     throw new ParseError(400, "Body is required to be an object");
   }
-  checkBodyField(bodyParsed, "natureRunRegistrationRaw");
-  checkBodyField(bodyParsed, "natureRun");
   return bodyParsed;
 }
 
@@ -34,16 +27,12 @@ export async function handler(event: HandlerEvent) {
     };
   }
   try {
-    const { natureRunRegistrationRaw, natureRun } = parseRequestBody(
-      event.body
-    );
+    const natureRunRegistrationRaw = parseRequestBody(event.body);
     const natureRunRegistration = await createNatureRunRegistration(
-      natureRunRegistrationRaw,
-      natureRun
+      natureRunRegistrationRaw
     );
     const { checkoutUrl, mollieId } = await createPayment(
-      natureRunRegistration,
-      natureRun
+      natureRunRegistration
     );
     await addMollieIdToNatureRunRegistration(
       natureRunRegistration.id,

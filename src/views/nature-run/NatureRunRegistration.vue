@@ -14,19 +14,18 @@
 import RegistrationForm from "@/components/nature-run/RegistrationForm.vue";
 import PageHeader from "@/components/PageHeader.vue";
 import { getNatureRun, handleNatureRunRegistration } from "@/api-client";
-import { NatureRun, NatureRunRegistration, WithRequired } from "@/types";
+import { NatureRunRegistrationRaw, WithRequired } from "@/types";
 
 const natureRun = await getNatureRun();
 
-async function handleSubmit(natureRunRegistrationAndNatureRun: {
+async function handleSubmit(
   natureRunRegistrationRaw: WithRequired<
-    NatureRunRegistration,
+    NatureRunRegistrationRaw,
     "gender" | "distance" | "birthYear"
-  >;
-  natureRun: NatureRun;
-}) {
+  >
+) {
   const checkoutUrl = await handleNatureRunRegistration(
-    natureRunRegistrationAndNatureRun
+    natureRunRegistrationRaw
   );
 
   window.location.assign(checkoutUrl);

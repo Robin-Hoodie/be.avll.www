@@ -126,19 +126,17 @@
           </VTextField>
         </VCol>
         <VCol :cols="12" :sm="6">
-          <VRadioGroup
-            v-model="registration.distance"
-            :rules="distanceRules"
-            inline
-          >
+          <VRadioGroup v-model="registration.distance" :rules="distanceRules">
             <template #label>
               <RequiredLabel>Afstand</RequiredLabel>
             </template>
             <VRadio
-              v-for="distance in distanceOptions"
-              :key="distance.value"
-              :label="distance.label"
-              :value="distance.value"
+              v-for="distance in natureRun.attributes.distances.data"
+              :key="distance.id"
+              :label="`${distance.attributes.label}: ${formatPrice(
+                distance.attributes.basePrice
+              )}`"
+              :value="distance.id"
               color="primary"
             />
           </VRadioGroup>
@@ -228,7 +226,8 @@
         </VCol>
         <VDivider />
         <VCol :cols="12" :sm="3">
-          <strong>{{ priceFormatted }}</strong>
+          <strong v-if="priceFormatted">{{ priceFormatted }}</strong>
+          <strong v-else>Kies een afstand om de prijs te zien</strong>
         </VCol>
         <VCol :cols="12" :sm="9">
           <VBtn type="submit" color="primary" class="mt-2">Registreren</VBtn>
@@ -241,9 +240,8 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { SubmitEventPromise } from "vuetify";
-import { NatureRun, NatureRunRegistration, WithRequired } from "@/types";
+import { NatureRun, NatureRunRegistrationRaw, WithRequired } from "@/types";
 import {
-  distanceOptions,
   genderOptions,
   tShirtSizeOptions,
 } from "@/components/nature-run/registration-options";
@@ -272,17 +270,14 @@ const natureRun = defineProps<NatureRun>();
 const emit = defineEmits<{
   (
     event: "submit",
-    natureRunRegistrationAndNatureRun: {
-      natureRunRegistrationRaw: WithRequired<
-        NatureRunRegistration,
-        "gender" | "distance" | "birthYear"
-      >;
-      natureRun: NatureRun;
-    }
+    natureRunRegistrationRaw: WithRequired<
+      NatureRunRegistrationRaw,
+      "gender" | "distance" | "birthYear"
+    >
   ): void;
 }>();
 
-const registration = ref<NatureRunRegistration>({
+const registration = ref<NatureRunRegistrationRaw>({
   firstName: "",
   lastName: "",
   email: "",
@@ -304,6 +299,7 @@ const registration = ref<NatureRunRegistration>({
   bibNumber: "",
   clubName: "",
   mollieId: null,
+  natureRun: natureRun.id,
 });
 
 const [privacyLink] = await getFileLinks(["privacyStatement"]);
@@ -313,19 +309,33 @@ const withTShirt = computed(() => {
 });
 
 const price = computed(() => {
+  const chosenDistance = natureRun.attributes.distances.data.find(
+    (distance) => distance.id === registration.value.distance
+  );
+  if (!chosenDistance) {
+    return null;
+  }
   if (registration.value.isMember) {
     return registration.value.withTShirt
-      ? natureRun.attributes.basePrice +
+      ? chosenDistance.attributes.basePrice +
           (natureRun.attributes.tShirtPrice ?? 0) -
           natureRun.attributes.memberDiscount
-      : natureRun.attributes.basePrice - natureRun.attributes.memberDiscount;
+      : chosenDistance.attributes.basePrice -
+          natureRun.attributes.memberDiscount;
   }
   return registration.value.withTShirt
-    ? natureRun.attributes.basePrice + (natureRun.attributes.tShirtPrice ?? 0)
-    : natureRun.attributes.basePrice;
+    ? chosenDistance.attributes.basePrice +
+        (natureRun.attributes.tShirtPrice ?? 0)
+    : chosenDistance.attributes.basePrice;
 });
 
-const priceFormatted = computed(() => `€${price.value.toFixed(2)}`);
+const priceFormatted = computed(() =>
+  price.value ? formatPrice(price.value) : null
+);
+
+function formatPrice(price: number) {
+  return `€${price.toFixed(2)}`;
+}
 
 async function handleSubmit(eventPromise: SubmitEventPromise) {
   eventPromise.preventDefault();
@@ -344,13 +354,10 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
         ? registration.value.clubName
         : null,
     } as WithRequired<
-      NatureRunRegistration,
+      NatureRunRegistrationRaw,
       "gender" | "distance" | "birthYear"
     >;
-    emit("submit", {
-      natureRunRegistrationRaw: natureRunRegistrationFinal,
-      natureRun: natureRun,
-    });
+    emit("submit", natureRunRegistrationFinal);
   }
 }
 </script>

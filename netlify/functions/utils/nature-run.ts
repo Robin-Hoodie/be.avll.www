@@ -7,7 +7,6 @@ import type {
   NatureRun,
   NatureRunRegistration,
   NatureRunRegistrationRaw,
-  WithId,
 } from "../types";
 import {
   parseNatureRunEmailContent,
@@ -44,7 +43,7 @@ const mollieClient = createMollieClient({
 
 export async function getNatureRunRegistration(id: number) {
   return axiosInstance.get<NatureRunRegistration, NatureRunRegistration>(
-    `/nature-run-registrations/${id}?populate=natureRun`,
+    `/nature-run-registrations/${id}?populate=*`,
     {
       headers: natureRunAuthHeader,
     }
@@ -52,15 +51,13 @@ export async function getNatureRunRegistration(id: number) {
 }
 
 export async function createNatureRunRegistration(
-  natureRunRegistration: NatureRunRegistrationRaw,
-  natureRun: NatureRun
+  natureRunRegistrationRaw: NatureRunRegistrationRaw
 ) {
   return axiosInstance.post<NatureRunRegistration, NatureRunRegistration>(
-    "/nature-run-registrations",
+    "/nature-run-registrations?populate=*",
     {
       data: {
-        ...natureRunRegistration,
-        natureRun: natureRun.id,
+        ...natureRunRegistrationRaw,
       },
     },
     {
@@ -133,24 +130,25 @@ export async function sendNatureRunRegistrationEmail(
   }
 }
 
-async function getPrice(
-  natureRunRegistration: NatureRunRegistration,
-  natureRun: NatureRun
-) {
+async function getPrice(natureRunRegistration: NatureRunRegistration) {
   const priceReduction = natureRunRegistration.attributes.isMember
-    ? -natureRun.attributes.memberDiscount
+    ? -natureRunRegistration.attributes.natureRun.data.attributes.memberDiscount
     : 0;
   const priceIncrease = natureRunRegistration.attributes.withTShirt
-    ? natureRun.attributes.tShirtPrice ?? 0
+    ? natureRunRegistration.attributes.natureRun.data.attributes.tShirtPrice ??
+      0
     : 0;
-  return natureRun.attributes.basePrice + priceIncrease + priceReduction;
+  return (
+    natureRunRegistration.attributes.distance.data.attributes.basePrice +
+    priceIncrease +
+    priceReduction
+  );
 }
 
 export async function createPayment(
-  natureRunRegistration: NatureRunRegistration,
-  natureRun: NatureRun
+  natureRunRegistration: NatureRunRegistration
 ) {
-  const price = await getPrice(natureRunRegistration, natureRun);
+  const price = await getPrice(natureRunRegistration);
   // await is necessary - payments.create does in fact return a promise - typing is wrong
   const paymentResponse = await mollieClient.payments.create({
     amount: {
@@ -158,7 +156,7 @@ export async function createPayment(
       currency: "EUR",
     },
     description: `Betaling voor natuurloop op ${formatDateFull(
-      natureRun.attributes.date
+      natureRunRegistration.attributes.natureRun.data.attributes.date
     )}`,
     redirectUrl: `${SITE_URL}/natuurlopen/succes`,
     // @ts-expect-error

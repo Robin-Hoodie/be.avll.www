@@ -8,25 +8,13 @@ interface ShowdownOptionsExtended extends ConverterOptions {
   };
 }
 
-function parseNatureRunRegistrationDistance(
-  natureRunRegistration: NatureRunRegistration
-) {
-  if (natureRunRegistration.attributes.distance === "fiveK") {
-    return "5KM";
-  }
-  if (natureRunRegistration.attributes.distance === "tenK") {
-    return "10KM";
-  }
-  return "lange afstand";
-}
-
 function replaceDistance(
   template: string,
   natureRunRegistration: NatureRunRegistration
 ) {
   return template.replace(
     /{{natureRunRegistration.distance}}/g,
-    parseNatureRunRegistrationDistance(natureRunRegistration)
+    natureRunRegistration.attributes.distance.data.attributes.label
   );
 }
 
@@ -62,7 +50,7 @@ export function parseNatureRunEmailContent(
     },
   });
   return markdownToHtml.makeHtml(
-    natureRunRegistration.attributes.natureRun.data!.attributes.emailContent
+    natureRunRegistration.attributes.natureRun.data.attributes.emailContent
   );
 }
 
@@ -71,9 +59,9 @@ export function parseNatureRunEmailSubject(
 ) {
   return replaceDate(
     replaceDistance(
-      natureRunRegistration.attributes.natureRun.data!.attributes.emailSubject,
+      natureRunRegistration.attributes.natureRun.data.attributes.emailSubject,
       natureRunRegistration
     ),
-    natureRunRegistration.attributes.natureRun.data!
+    natureRunRegistration.attributes.natureRun.data
   );
 }

@@ -1,8 +1,21 @@
 // Duplicate from client code
 
-export type WithId<T> = T & { id: number };
+export interface StrapiEntry<
+  T extends Record<string, unknown> = Record<string, unknown>
+> {
+  id: number;
+  attributes: T;
+}
 
-export interface NatureRunRegistrationRaw {
+export type NatureRunRegistrationRaw = Omit<
+  NatureRunRegistration["attributes"],
+  "distance" | "natureRun"
+> & {
+  distance: number;
+  natureRun: number;
+};
+
+export type NatureRunRegistration = StrapiEntry<{
   firstName: string;
   lastName: string;
   email: string;
@@ -13,7 +26,7 @@ export interface NatureRunRegistrationRaw {
   gender: NatureRunRegistrationGender | null;
   birthYear: number | null;
   emergencyPhoneNumber: string;
-  distance: NatureRunRegistrationDistance | null;
+  distance: { data: NatureRunRegistrationDistance };
   comment: string;
   withTShirt: boolean;
   tShirtSize: TShirtSize | null;
@@ -24,29 +37,28 @@ export interface NatureRunRegistrationRaw {
   clubName: string | null;
   bibNumber: string | null;
   mollieId: string | null;
-  natureRun: { data: NatureRun | null };
-}
-export interface NatureRunRegistration {
-  id: number;
-  attributes: NatureRunRegistrationRaw;
-}
+  natureRun: { data: NatureRun };
+}>;
+
+export type NatureRunRegistrationDistance = StrapiEntry<{
+  label: "fiveK" | "tenK" | "long";
+  basePrice: number;
+}>;
 
 export type NatureRunRegistrationGender = "male" | "female" | "unidentified";
-export type NatureRunRegistrationDistance = "fiveK" | "tenK" | "long";
 export type TShirtSize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
 
-export interface NatureRun {
-  id: number;
-  attributes: {
-    title: string;
-    basePrice: number;
-    memberDiscount: number;
-    tShirtPrice: number | null;
-    registrationStartDate: string;
-    registrationEndDate: string;
-    date: string;
-    isPK: boolean;
-    emailSubject: string;
-    emailContent: string;
+export type NatureRun = StrapiEntry<{
+  title: string;
+  memberDiscount: number;
+  tShirtPrice: number | null;
+  registrationStartDate: string;
+  registrationEndDate: string;
+  date: string;
+  isPK: boolean;
+  emailSubject: string;
+  emailContent: string;
+  distances: {
+    data: NatureRunRegistrationDistance[];
   };
-}
+}>;

@@ -1,6 +1,6 @@
 import { StrapiEntry } from "./strapi";
 
-export interface NatureRunRegistration {
+export interface NatureRunRegistrationRaw {
   firstName: string;
   lastName: string;
   email: string;
@@ -11,7 +11,7 @@ export interface NatureRunRegistration {
   gender: NatureRunRegistrationGender | null;
   birthYear: number | null;
   emergencyPhoneNumber: string;
-  distance: NatureRunRegistrationDistance | null;
+  distance: number | null;
   comment: string;
   withTShirt: boolean;
   tShirtSize: TShirtSize | null;
@@ -22,15 +22,18 @@ export interface NatureRunRegistration {
   clubName: string | null;
   bibNumber: string | null;
   mollieId: string | null;
+  natureRun: number;
 }
 
 export type NatureRunRegistrationGender = "male" | "female" | "unidentified";
-export type NatureRunRegistrationDistance = "fiveK" | "tenK" | "long";
+type NatureRunRegistrationDistance = StrapiEntry<{
+  label: string;
+  basePrice: number;
+}>;
 export type TShirtSize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";
 
 export type NatureRun = StrapiEntry<{
   title: string;
-  basePrice: number;
   memberDiscount: number;
   tShirtPrice: number | null;
   registrationStartDate: string;
@@ -39,4 +42,7 @@ export type NatureRun = StrapiEntry<{
   isPK: boolean;
   emailSubject: string;
   emailContent: string;
+  distances: {
+    data: NatureRunRegistrationDistance[];
+  };
 }>;
