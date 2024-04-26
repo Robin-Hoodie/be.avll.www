@@ -138,10 +138,11 @@ async function getPrice(natureRunRegistration: NatureRunRegistration) {
     ? natureRunRegistration.attributes.natureRun.data.attributes.tShirtPrice ??
       0
     : 0;
-  return (
+  return Math.max(
     natureRunRegistration.attributes.distance.data.attributes.basePrice +
-    priceIncrease +
-    priceReduction
+      priceIncrease +
+      priceReduction,
+    0
   );
 }
 
@@ -149,29 +150,36 @@ export async function createPayment(
   natureRunRegistration: NatureRunRegistration
 ) {
   const price = await getPrice(natureRunRegistration);
-  // await is necessary - payments.create does in fact return a promise - typing is wrong
-  const paymentResponse = await mollieClient.payments.create({
-    amount: {
-      value: price.toFixed(2),
-      currency: "EUR",
-    },
-    description: `Betaling voor natuurloop op ${formatDateFull(
-      natureRunRegistration.attributes.natureRun.data.attributes.date
-    )}`,
-    redirectUrl: `${SITE_URL}/natuurlopen/succes`,
-    // @ts-expect-error
-    cancelUrl: `${SITE_URL}/natuurlopen/nope`,
-    webhookUrl: `${SITE_URL}/api/handle-nature-run-payment`,
-    metadata: {
-      natureRunRegistrationId: natureRunRegistration.id,
-    },
-    locale: Locale.nl_BE,
-  });
+  const successRedirectUrl = `${SITE_URL}/natuurlopen/succes`;
+  if (price > 0) {
+    // await is necessary - payments.create does in fact return a promise - typing is wrong
+    const paymentResponse = await mollieClient.payments.create({
+      amount: {
+        value: price.toFixed(2),
+        currency: "EUR",
+      },
+      description: `Betaling voor natuurloop op ${formatDateFull(
+        natureRunRegistration.attributes.natureRun.data.attributes.date
+      )}`,
+      redirectUrl: successRedirectUrl,
+      // @ts-expect-error
+      cancelUrl: `${SITE_URL}/natuurlopen/nope`,
+      webhookUrl: `${SITE_URL}/api/handle-nature-run-payment`,
+      metadata: {
+        natureRunRegistrationId: natureRunRegistration.id,
+      },
+      locale: Locale.nl_BE,
+    });
+    return {
+      // @ts-expect-error See https://github.com/mollie/mollie-api-node/issues/332
+      redirectUrl: paymentResponse.getCheckoutUrl(),
+      // @ts-expect-error ID is defined on paymentResponse, but doesn't seem to be added to types
+      mollieId: paymentResponse.id,
+    };
+  }
   return {
-    // @ts-expect-error See https://github.com/mollie/mollie-api-node/issues/332
-    checkoutUrl: paymentResponse.getCheckoutUrl(),
-    // @ts-expect-error ID is defined on paymentResponse, but doesn't seem to be added to types
-    mollieId: paymentResponse.id,
+    redirectUrl: successRedirectUrl,
+    mollieId: null,
   };
 }
 

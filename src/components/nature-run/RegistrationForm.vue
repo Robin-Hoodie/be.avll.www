@@ -316,25 +316,31 @@ const price = computed(() => {
     return null;
   }
   if (registration.value.isMember) {
-    return registration.value.withTShirt
-      ? chosenDistance.attributes.basePrice +
-          (natureRun.attributes.tShirtPrice ?? 0) -
-          natureRun.attributes.memberDiscount
-      : chosenDistance.attributes.basePrice -
-          natureRun.attributes.memberDiscount;
+    return Math.max(
+      registration.value.withTShirt
+        ? chosenDistance.attributes.basePrice +
+            (natureRun.attributes.tShirtPrice ?? 0) -
+            natureRun.attributes.memberDiscount
+        : chosenDistance.attributes.basePrice -
+            natureRun.attributes.memberDiscount,
+      0
+    );
   }
-  return registration.value.withTShirt
-    ? chosenDistance.attributes.basePrice +
-        (natureRun.attributes.tShirtPrice ?? 0)
-    : chosenDistance.attributes.basePrice;
+  return Math.max(
+    registration.value.withTShirt
+      ? chosenDistance.attributes.basePrice +
+          (natureRun.attributes.tShirtPrice ?? 0)
+      : chosenDistance.attributes.basePrice,
+    0
+  );
 });
 
 const priceFormatted = computed(() =>
-  price.value ? formatPrice(price.value) : null
+  typeof price.value === "number" ? formatPrice(price.value) : null
 );
 
 function formatPrice(price: number) {
-  return `€${price.toFixed(2)}`;
+  return price === 0 ? "Gratis" : `€${price.toFixed(2)}`;
 }
 
 async function handleSubmit(eventPromise: SubmitEventPromise) {

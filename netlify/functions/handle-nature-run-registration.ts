@@ -4,6 +4,7 @@ import {
   addMollieIdToNatureRunRegistration,
   createNatureRunRegistration,
   createPayment,
+  sendNatureRunRegistrationEmail,
 } from "./utils/nature-run";
 import type { NatureRunRegistrationRaw } from "./types";
 
@@ -31,17 +32,21 @@ export async function handler(event: HandlerEvent) {
     const natureRunRegistration = await createNatureRunRegistration(
       natureRunRegistrationRaw
     );
-    const { checkoutUrl, mollieId } = await createPayment(
+    const { redirectUrl, mollieId } = await createPayment(
       natureRunRegistration
     );
-    await addMollieIdToNatureRunRegistration(
-      natureRunRegistration.id,
-      mollieId
-    );
+    if (mollieId) {
+      await addMollieIdToNatureRunRegistration(
+        natureRunRegistration.id,
+        mollieId
+      );
+    } else {
+      await sendNatureRunRegistrationEmail(natureRunRegistration);
+    }
     return {
       statusCode: 200,
       body: JSON.stringify({
-        checkoutUrl,
+        redirectUrl,
       }),
     };
   } catch (error) {

@@ -2,7 +2,6 @@ import type {
   Registration,
   WithRequired,
   NatureRunRegistrationRaw,
-  NatureRun,
 } from "@/types";
 import { axiosInstanceNetlifyFunctions } from "./axios";
 
@@ -24,9 +23,9 @@ export async function handleNatureRunRegistration(
     "gender" | "distance" | "birthYear"
   >
 ) {
-  const { checkoutUrl } = await axiosInstanceNetlifyFunctions.post<
-    { checkoutUrl: string },
-    { checkoutUrl: string }
+  const { redirectUrl } = await axiosInstanceNetlifyFunctions.post<
+    { redirectUrl: string },
+    { redirectUrl: string }
   >("/handle-nature-run-registration", body);
-  return checkoutUrl;
+  return redirectUrl;
 }
