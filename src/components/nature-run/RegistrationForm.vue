@@ -4,10 +4,7 @@
       <VRow>
         <VCol :cols="12">
           <h2>Persoonlijke informatie</h2>
-          <p>
-            Gelieve een juist adres in te geven, dit zal ook gebruikt worden om
-            je eventuele T-Shirt naar toe te sturen.
-          </p>
+          <p>Gelieve een juist adres in te geven</p>
         </VCol>
         <VCol :cols="12" :sm="6">
           <VTextField
