@@ -17,11 +17,8 @@ const REGISTRATION_MAIL_NATURE_RUN_REPLY_TO = defineEnvVariable(
   "REGISTRATION_MAIL_NATURE_RUN_REPLY_TO",
   true
 );
-const NODE_ENV = defineEnvVariable("NODE_ENV");
-const SITE_URL =
-  NODE_ENV === "development"
-    ? defineEnvVariable("NGROK_URL")
-    : defineEnvVariable("URL");
+// NGROK_URL is only defined in local dev mode
+const SITE_URL = process.env.NGROK_URL || defineEnvVariable("URL");
 
 const natureRunAuthHeader = {
   Authorization: `Bearer ${NATURE_RUN_API_KEY}`,
