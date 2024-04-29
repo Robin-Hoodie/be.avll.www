@@ -3,11 +3,7 @@ import sendGridMail from "@sendgrid/mail";
 import createMollieClient, { Locale } from "@mollie/api-client";
 import { defineEnvVariable } from "./env";
 import { formatDateFull, parseError } from "./utils";
-import type {
-  NatureRun,
-  NatureRunRegistration,
-  NatureRunRegistrationRaw,
-} from "../types";
+import type { NatureRunRegistration, NatureRunRegistrationRaw } from "../types";
 import {
   parseNatureRunEmailContent,
   parseNatureRunEmailSubject,
@@ -21,10 +17,9 @@ const REGISTRATION_MAIL_NATURE_RUN_REPLY_TO = defineEnvVariable(
   "REGISTRATION_MAIL_NATURE_RUN_REPLY_TO",
   true
 );
+const CONTEXT = defineEnvVariable("CONTEXT");
 const SITE_URL =
-  process.env.NODE_ENV === "production"
-    ? defineEnvVariable("URL")
-    : defineEnvVariable("NGROK_URL");
+  CONTEXT === "dev" ? defineEnvVariable("NGROK_URL") : defineEnvVariable("URL");
 
 const natureRunAuthHeader = {
   Authorization: `Bearer ${NATURE_RUN_API_KEY}`,
