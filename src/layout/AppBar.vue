@@ -10,16 +10,18 @@
         ><VImg src="/logo.jpg" height="64" width="64" />
       </RouterLink>
     </VAppBarTitle>
-    <template v-if="!smAndDown" #append>
-      <component
-        :is="getAppBarLinkComponent(link)"
-        v-for="link in links"
-        :key="link.title"
-        v-bind="link"
-        class="mx-1"
-      />
+    <template #append>
+      <template v-if="!smAndDown">
+        <component
+          :is="getAppBarLinkComponent(link)"
+          v-for="link in links"
+          :key="link.title"
+          v-bind="link"
+          class="mx-1"
+        />
+      </template>
 
-      <VDivider vertical inset />
+      <VDivider v-if="!smAndDown" vertical inset />
       <a
         href="https://www.facebook.com/AVLyraLierse"
         target="_blank"
