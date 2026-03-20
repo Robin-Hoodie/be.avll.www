@@ -6,17 +6,21 @@
     @submit="handleSubmit"
   />
   <div v-else>
-    Er is momenteel geen natuurloop waar u zich voor kan registreren
+    {{ noNatureRunMessage }}
   </div>
 </template>
 
 <script setup lang="ts">
 import RegistrationForm from "@/components/nature-run/RegistrationForm.vue";
 import PageHeader from "@/components/PageHeader.vue";
-import { getNatureRun, handleNatureRunRegistration } from "@/api-client";
-import { NatureRunRegistrationRaw, WithRequired } from "@/types";
+import {getNatureRun, getNoNatureRunMessage, handleNatureRunRegistration} from "@/api-client";
+import {NatureRunRegistrationRaw, WithRequired} from "@/types";
 
 const natureRun = await getNatureRun();
+let noNatureRunMessage = '';
+if (!natureRun) {
+  noNatureRunMessage = await getNoNatureRunMessage();
+}
 
 async function handleSubmit(
   natureRunRegistrationRaw: WithRequired<

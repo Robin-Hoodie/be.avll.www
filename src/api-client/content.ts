@@ -12,10 +12,10 @@ import {
   RegistrationContest,
   TrainingPage,
   MultimediaLink,
-  NatureRun,
+  NatureRun, StrapiEntry,
 } from "@/types";
 import qs from "qs";
-import { axiosInstanceContent } from "./axios";
+import {axiosInstanceContent} from "./axios";
 import dayjs from "dayjs";
 
 const STRAPI_DATE_FORMAT = "YYYY-MM-DD";
@@ -244,4 +244,11 @@ export async function getNatureRun() {
     // in case there is no nature run
     return null;
   }
+}
+
+export async function getNoNatureRunMessage() {
+  const { attributes: { message }} = await axiosInstanceContent.get<StrapiEntry<{ message: string }>, StrapiEntry<{ message: string }>>(
+    "/no-nature-run-message"
+  );
+  return message;
 }
