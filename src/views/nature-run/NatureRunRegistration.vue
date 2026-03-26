@@ -5,9 +5,11 @@
     v-bind="natureRun"
     @submit="handleSubmit"
   />
-  <div v-else>
-    {{ noNatureRunMessage }}
-  </div>
+  <VueMarkdown
+    v-else
+    :source="noNatureRunMessage"
+    :options="{ breaks: true, linkify: true, html: true }"
+  />
 </template>
 
 <script setup lang="ts">
@@ -15,6 +17,7 @@ import RegistrationForm from "@/components/nature-run/RegistrationForm.vue";
 import PageHeader from "@/components/PageHeader.vue";
 import {getNatureRun, getNoNatureRunMessage, handleNatureRunRegistration} from "@/api-client";
 import {NatureRunRegistrationRaw, WithRequired} from "@/types";
+import VueMarkdown from "vue-markdown-render";
 
 const natureRun = await getNatureRun();
 let noNatureRunMessage = '';
