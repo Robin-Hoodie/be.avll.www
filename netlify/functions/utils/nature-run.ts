@@ -50,7 +50,9 @@ export async function getNatureRunRegistration(id: number) {
 }
 
 export async function createNatureRunRegistration(
-  natureRunRegistrationRaw: NatureRunRegistrationRaw
+  natureRunRegistrationRaw: Omit<NatureRunRegistrationRaw, "couponCode"> & {
+    couponCode?: string;
+  }
 ) {
   return axiosInstance.post<NatureRunRegistration, NatureRunRegistration>(
     "/nature-run-registrations?populate=*",

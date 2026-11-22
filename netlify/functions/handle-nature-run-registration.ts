@@ -43,7 +43,8 @@ export async function handler(event: HandlerEvent) {
       // Never trust these values from the client
       isPaid: false,
       mollieId: null,
-      couponCode: validCouponCode?.attributes.code ?? null,
+      // Only sent when used, so registrations without a code don't depend on the Strapi field existing
+      ...(validCouponCode ? { couponCode: validCouponCode.attributes.code } : {}),
     });
     if (validCouponCode) {
       await markCouponCodeAsUsed(validCouponCode.id);
