@@ -1,9 +1,14 @@
 import axios from "axios";
+import qs from "qs";
 import sendGridMail from "@sendgrid/mail";
 import createMollieClient, { Locale } from "@mollie/api-client";
 import { defineEnvVariable } from "./env";
-import { formatDateFull, parseError } from "./utils";
-import type { NatureRunRegistration, NatureRunRegistrationRaw } from "../types";
+import { formatDateFull, parseError, ParseError } from "./utils";
+import type {
+  NatureRunCouponCode,
+  NatureRunRegistration,
+  NatureRunRegistrationRaw,
+} from "../types";
 import {
   parseNatureRunEmailContent,
   parseNatureRunEmailSubject,
@@ -124,7 +129,59 @@ export async function sendNatureRunRegistrationEmail(
   }
 }
 
+/**
+ * Looks up an unused coupon code (case-insensitive) that is either linked to the given nature run
+ * or not linked to any nature run.
+ * Returns null when no coupon code was entered, throws a 422 when the entered code is not valid.
+ */
+export async function getValidCouponCode(
+  couponCode: unknown,
+  natureRunId: number
+) {
+  if (typeof couponCode !== "string" || couponCode.trim() === "") {
+    return null;
+  }
+  const query = qs.stringify({
+    filters: {
+      code: { $eqi: couponCode.trim() },
+      isUsed: { $eq: false },
+      $or: [
+        { natureRun: { id: { $eq: natureRunId } } },
+        { natureRun: { id: { $null: true } } },
+      ],
+    },
+  });
+  const [validCouponCode] = await axiosInstance.get<
+    NatureRunCouponCode[],
+    NatureRunCouponCode[]
+  >(`/nature-run-coupon-codes?${query}`, {
+    headers: natureRunAuthHeader,
+  });
+  if (!validCouponCode) {
+    throw new ParseError(422, "Deze kortingscode is ongeldig of al gebruikt");
+  }
+  return validCouponCode;
+}
+
+export function markCouponCodeAsUsed(id: number) {
+  return axiosInstance.put(
+    `/nature-run-coupon-codes/${id}`,
+    {
+      data: {
+        isUsed: true,
+      },
+    },
+    {
+      headers: natureRunAuthHeader,
+    }
+  );
+}
+
 async function getPrice(natureRunRegistration: NatureRunRegistration) {
+  // The coupon code is only stored on the registration after it has been validated
+  if (natureRunRegistration.attributes.couponCode) {
+    return 0;
+  }
   const priceReduction = natureRunRegistration.attributes.isMember
     ? -natureRunRegistration.attributes.natureRun.data.attributes.memberDiscount
     : 0;

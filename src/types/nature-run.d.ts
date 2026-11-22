@@ -22,6 +22,7 @@ export interface NatureRunRegistrationRaw {
   clubName: string | null;
   bibNumber: string | null;
   mollieId: string | null;
+  couponCode: string | null;
   natureRun: number;
 }
 
