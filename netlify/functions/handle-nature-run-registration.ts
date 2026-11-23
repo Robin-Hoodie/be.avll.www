@@ -1,11 +1,9 @@
 import type { HandlerEvent } from "@netlify/functions";
-import { parseError, ParseError } from "./utils/utils";
+import { checkBodyField, parseError, ParseError } from "./utils/utils";
 import {
   addMollieIdToNatureRunRegistration,
   createNatureRunRegistration,
   createPayment,
-  getValidCouponCode,
-  markCouponCodeAsUsed,
   sendNatureRunRegistrationEmail,
 } from "./utils/nature-run";
 import type { NatureRunRegistrationRaw } from "./types";
@@ -30,25 +28,10 @@ export async function handler(event: HandlerEvent) {
     };
   }
   try {
-    const { couponCode, ...natureRunRegistrationRaw } = parseRequestBody(
-      event.body
+    const natureRunRegistrationRaw = parseRequestBody(event.body);
+    const natureRunRegistration = await createNatureRunRegistration(
+      natureRunRegistrationRaw
     );
-    // Validate before creating the registration, so an invalid code doesn't leave a registration behind
-    const validCouponCode = await getValidCouponCode(
-      couponCode,
-      natureRunRegistrationRaw.natureRun
-    );
-    const natureRunRegistration = await createNatureRunRegistration({
-      ...natureRunRegistrationRaw,
-      // Never trust these values from the client
-      isPaid: false,
-      mollieId: null,
-      // Only sent when used, so registrations without a code don't depend on the Strapi field existing
-      ...(validCouponCode ? { couponCode: validCouponCode.attributes.code } : {}),
-    });
-    if (validCouponCode) {
-      await markCouponCodeAsUsed(validCouponCode.id);
-    }
     const { redirectUrl, mollieId } = await createPayment(
       natureRunRegistration
     );
