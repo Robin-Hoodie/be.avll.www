@@ -37,7 +37,13 @@ export type NatureRunRegistration = StrapiEntry<{
   clubName: string | null;
   bibNumber: string | null;
   mollieId: string | null;
+  couponCode: string | null;
   natureRun: { data: NatureRun };
+}>;
+
+export type NatureRunCouponCode = StrapiEntry<{
+  code: string;
+  isUsed: boolean;
 }>;
 
 export type NatureRunRegistrationDistance = StrapiEntry<{

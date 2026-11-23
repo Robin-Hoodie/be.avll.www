@@ -221,13 +221,23 @@
             label="Lid van AV Lyra-Lierse"
           />
         </VCol>
+        <VCol :cols="12" :sm="6">
+          <VTextField
+            v-model="registration.couponCode"
+            label="Kortingscode"
+            :errorMessages="couponCodeErrorMessages"
+          />
+        </VCol>
         <VDivider />
         <VCol :cols="12" :sm="3">
-          <strong v-if="priceFormatted">{{ priceFormatted }}</strong>
+          <strong v-if="hasCouponCode">Gratis met een geldige kortingscode</strong>
+          <strong v-else-if="priceFormatted">{{ priceFormatted }}</strong>
           <strong v-else>Kies een afstand om de prijs te zien</strong>
         </VCol>
         <VCol :cols="12" :sm="9">
-          <VBtn type="submit" color="primary" class="mt-2">Registreren</VBtn>
+          <VBtn type="submit" color="primary" class="mt-2" :loading="isSubmitting"
+            >Registreren</VBtn
+          >
         </VCol>
       </VRow>
     </VContainer>
@@ -263,7 +273,9 @@ import { getFileLinks } from "@/api-client";
 import ThemedLink from "../ThemedLink.vue";
 import { computed } from "vue";
 
-const natureRun = defineProps<NatureRun>();
+const natureRun = defineProps<
+  NatureRun & { couponCodeError?: string | null; isSubmitting?: boolean }
+>();
 const emit = defineEmits<{
   (
     event: "submit",
@@ -296,8 +308,22 @@ const registration = ref<NatureRunRegistrationRaw>({
   bibNumber: "",
   clubName: "",
   mollieId: null,
+  couponCode: "",
   natureRun: natureRun.id,
 });
+
+const hasCouponCode = computed(
+  () => !!registration.value.couponCode?.trim()
+);
+
+// The code the server rejected, so its error disappears as soon as the code is changed
+const submittedCouponCode = ref<string | null>(null);
+const couponCodeErrorMessages = computed(() =>
+  natureRun.couponCodeError &&
+  registration.value.couponCode === submittedCouponCode.value
+    ? [natureRun.couponCodeError]
+    : []
+);
 
 const [privacyLink] = await getFileLinks(["privacyStatement"]);
 
@@ -356,10 +382,12 @@ async function handleSubmit(eventPromise: SubmitEventPromise) {
       clubName: registration.value.runsWithPK
         ? registration.value.clubName
         : null,
+      couponCode: registration.value.couponCode?.trim() || null,
     } as WithRequired<
       NatureRunRegistrationRaw,
       "gender" | "distance" | "birthYear"
     >;
+    submittedCouponCode.value = registration.value.couponCode;
     emit("submit", natureRunRegistrationFinal);
   }
 }
